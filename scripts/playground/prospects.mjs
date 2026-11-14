@@ -118,6 +118,22 @@ const mail = await php(`echo json_encode([
 ]);`);
 check(mail === '[true,false]', 'FluentCRM still skips the prospect, and now emails the customer', mail);
 
+// Timeline events: lifecycle tags and support tickets land on the contact once FluentCRM's Event Tracking is on.
+// Turned on the way FluentCRM's settings screen does it, which also makes its table.
+await php(`
+    wp_set_current_user(1);
+    $r = new WP_REST_Request('POST', '/fluent-crm/v2/setting/experiments');
+    $r->set_body_params(['event_tracking' => 'yes'] + (array) get_option('_fluentcrm_experimental_settings', []));
+    rest_do_request($r);
+`);
+const events = await php(`
+    $c = \\FluentCrm\\App\\Models\\Subscriber::where('email', '${till.email}')->first();
+    $c->attachTags([AnyPress_CRM::tag_id('Store', 'Active')]);
+    do_action('fluent_support/ticket_created', (object) ['title' => 'Change my opening hours'], (object) ['email' => '${till.email}']);
+    echo json_encode(\\FluentCrm\\App\\Models\\EventTracker::where('subscriber_id', $c->id)->orderBy('id')->get(['event_key', 'title', 'value'])->toArray());
+`);
+check(events.includes('"title":"Store: Active"') && events.includes('"title":"Support Ticket Opened"') && events.includes('Change my opening hours'), 'a plan going Active and a support ticket show on the contact timeline', events);
+
 const log = await php(`echo @file_get_contents('/tmp/debug.log') ?: '';`);
 const errors = log.split('\n').filter((l) => /PHP (Fatal|Warning|Parse)/.test(l) && /anypress/i.test(l));
 check(!errors.length, 'no PHP warnings from AnyPress code', errors.join('\n'));

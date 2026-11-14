@@ -451,13 +451,13 @@
     "day": 4,
     "subject": "Earn on every merchant you send",
     "preheader": "30% of the first payment.",
-    "body": "<p>Hi {{contact.first_name|there}},</p><p>As an AnyPress affiliate you earn 30% of the first payment of each merchant who buys through your link. You keep your merchants; we build and run their website.</p><p><a href=\"https://anypress.io/affiliates\"><strong>How the affiliate programme works</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
+    "body": "<p>Hi {{contact.first_name|there}},</p><p>As an AnyPress affiliate you earn 30% of the first payment of each merchant who buys through your link. You keep your merchants; we build and run their website.</p><p><a href=\"https://anypress.io/affiliates\"><strong>How the affiliate program works</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
    },
    {
     "day": 10,
     "subject": "What a merchant gets",
     "preheader": "A real shop, not a page.",
-    "body": "<p>Hi {{contact.first_name|there}},</p><p>Products with photos and stock, online checkout, gift cards, coupons, customer accounts and order emails. The merchant changes it all in WordPress, and we keep it fast and safe.</p><p><a href=\"https://anypress.io/try\"><strong>Try a store demo</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
+    "body": "<p>Hi {{contact.first_name|there}},</p><p>Products with photos, online checkout, gift cards, coupons, customer accounts and order emails. The merchant changes it all in WordPress, and we keep it fast and safe.</p><p><a href=\"https://anypress.io/try\"><strong>Try a store demo</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
    },
    {
     "day": 18,
@@ -482,13 +482,13 @@
     "day": 4,
     "subject": "Earn on every customer you send",
     "preheader": "30% of the first payment.",
-    "body": "<p>Hi {{contact.first_name|there}},</p><p>As an AnyPress affiliate you earn 30% of the first payment of each business that buys through your link. You keep your customer; we look after their website.</p><p><a href=\"https://anypress.io/affiliates\"><strong>How the affiliate programme works</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
+    "body": "<p>Hi {{contact.first_name|there}},</p><p>As an AnyPress affiliate you earn 30% of the first payment of each business that buys through your link. You keep your customer; we look after their website.</p><p><a href=\"https://anypress.io/affiliates\"><strong>How the affiliate program works</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
    },
    {
     "day": 10,
     "subject": "What a salon or studio gets",
     "preheader": "Pages, forms and online booking.",
-    "body": "<p>Hi {{contact.first_name|there}},</p><p>A website with their services, prices, photos, contact forms and email list, plus FluentBooking for businesses that want booking built in. They change it all in WordPress.</p><p><a href=\"https://anypress.io/try\"><strong>Try a bookings demo</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
+    "body": "<p>Hi {{contact.first_name|there}},</p><p>A website with their services, prices, photos, contact forms and email list, with FluentBooking built in so customers can book online. They change it all in WordPress.</p><p><a href=\"https://anypress.io/try\"><strong>Try a bookings demo</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
    },
    {
     "day": 18,
@@ -538,7 +538,7 @@
     "day": 0,
     "subject": "A ready website for every student",
     "preheader": "Teach WordPress, skip the setup.",
-    "body": "<p>Hi {{contact.first_name|there}},</p><p>Half of a beginner class goes on hosting, plugins and settings. With AnyPress, each student starts on a website that is already set up with the Fluent plugins, so the lesson can be about building the business.</p><p><a href=\"https://anypress.io/try\"><strong>Try a demo site</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
+    "body": "<p>Hi {{contact.first_name|there}},</p><p>Beginner classes lose a lot of time to hosting, plugins and settings. With AnyPress, each student starts on a website that is already set up with the Fluent plugins, so the lesson can be about building the business.</p><p><a href=\"https://anypress.io/try\"><strong>Try a demo site</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
    },
    {
     "day": 4,
@@ -550,11 +550,11 @@
     "day": 10,
     "subject": "Earn when your members buy",
     "preheader": "30% of the first payment.",
-    "body": "<p>Hi {{contact.first_name|there}},</p><p>As an affiliate you earn 30% of the first payment of each member who buys through your link. Members who build sites for clients can also become sellers with their own storefront.</p><p><a href=\"https://anypress.io/affiliates\"><strong>How the affiliate programme works</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
+    "body": "<p>Hi {{contact.first_name|there}},</p><p>As an affiliate you earn 30% of the first payment of each member who buys through your link. Members who build sites for clients can also become sellers with their own storefront.</p><p><a href=\"https://anypress.io/affiliates\"><strong>How the affiliate program works</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
    },
    {
     "day": 18,
-    "subject": "Let’s talk",
+    "subject": "Tell us about your members",
     "preheader": "Reply and we’ll set it up.",
     "body": "<p>Hi {{contact.first_name|there}},</p><p>If you run a course, a community or a channel, reply to this email and tell us about it. We can set you up as an affiliate and talk about what would help your members.</p><p><a href=\"https://anypress.io/affiliates\"><strong>Become an affiliate</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
    }
@@ -575,7 +575,7 @@
     "day": 4,
     "subject": "Send the ones who want it done for them",
     "preheader": "30% of the first payment.",
-    "body": "<p>Hi {{contact.first_name|there}},</p><p>As an affiliate you earn 30% of the first payment of each customer who buys through your link, for the customers your plans aren’t meant for.</p><p><a href=\"https://anypress.io/affiliates\"><strong>How the affiliate programme works</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
+    "body": "<p>Hi {{contact.first_name|there}},</p><p>As an affiliate you earn 30% of the first payment of each customer who buys through your link, for the customers your plans aren’t meant for.</p><p><a href=\"https://anypress.io/affiliates\"><strong>How the affiliate program works</strong></a></p><p>The AnyPress team<br>Questions? Just reply, or write to <a href=\"mailto:support@anypress.io\">support@anypress.io</a>.</p>"
    },
    {
     "day": 10,

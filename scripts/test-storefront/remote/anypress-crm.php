@@ -95,6 +95,10 @@ final class AnyPress_CRM
         add_action('fluent_cart/order_paid_done', [self::class, 'on_order_paid'], 20, 1);
 
         add_action('rest_api_init', [self::class, 'routes']);
+        // Contact timeline events (FluentCRM's Event Tracking; nothing is recorded while it is off).
+        add_action('anypress_tenant_ready', [self::class, 'event_website_ready'], 20, 1);
+        add_action('anypress_tenant_restored', [self::class, 'event_website_restored'], 20, 1);
+        add_action('fluent_support/ticket_created', [self::class, 'event_ticket_opened'], 20, 2);
         // A lead who confirms the double opt-in email starts their group's nurture series then.
         add_action('fluentcrm_subscriber_status_to_subscribed', [self::class, 'start_nurture'], 20, 1);
         add_action('anypress_crm_daily', [self::class, 'remove_stale_interest']);
@@ -171,6 +175,7 @@ final class AnyPress_CRM
             if (!preg_match('/^(.+): (Interested|Active|Past)$/', $title, $m) || !in_array($m[1], self::offerings(), true)) {
                 continue;
             }
+            self::event($contact, 'lifecycle', $title);
             if ($m[2] === 'Interested') {
                 if (self::has($contact, $m[1], 'Active')) {
                     self::remove($contact, $m[1], ['Interested']); // already a customer of it
@@ -185,6 +190,53 @@ final class AnyPress_CRM
                 }
             }
         }
+    }
+
+    // ---- Timeline events ---------------------------------------------------------------------------------------
+
+    /**
+     * One event on the contact's FluentCRM timeline, through FluentCRM's own tracker. $who is a contact or an email.
+     * Repeats of the same title add to its count. Does nothing while Event Tracking is off or without a contact.
+     */
+    private static function event($who, $key, $title, $value = '')
+    {
+        $data = ['provider' => 'anypress', 'event_key' => $key, 'title' => $title, 'value' => (string) $value];
+        if ($who instanceof \FluentCrm\App\Models\Subscriber) {
+            $data['subscriber'] = $who;
+        } elseif (is_email((string) $who)) {
+            $data['email'] = (string) $who;
+        } else {
+            return;
+        }
+        do_action('fluent_crm/track_event_activity', $data, true);
+    }
+
+    private static function subscription_email($subscription_id)
+    {
+        if (!class_exists('\AnyPressHost\Commerce\Commerce')) {
+            return '';
+        }
+        try {
+            return (string) \AnyPressHost\Commerce\Commerce::require_adapter()->get_customer_email($subscription_id);
+        } catch (\Throwable $e) {
+            return '';
+        }
+    }
+
+    public static function event_website_ready($subscription_id)
+    {
+        self::event(self::subscription_email($subscription_id), 'website', 'Website Ready', 'Subscription #' . (int) $subscription_id);
+    }
+
+    public static function event_website_restored($subscription_id)
+    {
+        self::event(self::subscription_email($subscription_id), 'website', 'Website Restored', 'Subscription #' . (int) $subscription_id);
+    }
+
+    public static function event_ticket_opened($ticket, $customer)
+    {
+        $email = is_object($customer) ? (string) ($customer->email ?? '') : '';
+        self::event($email, 'support', 'Support Ticket Opened', is_object($ticket) ? (string) ($ticket->title ?? '') : '');
     }
 
     // ---- Contacts --------------------------------------------------------------------------------------------
