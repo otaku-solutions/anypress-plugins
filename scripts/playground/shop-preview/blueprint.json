@@ -64,7 +64,7 @@
       "filesTree": {
         "resource": "git:directory",
         "url": "https://github.com/otaku-solutions/anypress-plugins",
-        "ref": "494e63a82d661e40940db38b6064c9ddf3cbb486",
+        "ref": "b43c1a69b51d35ece6c87bae5414c2e6eeb73e3f",
         "refType": "commit",
         "path": "scripts/test-storefront/remote/design"
       },
@@ -82,7 +82,7 @@
       "filesTree": {
         "resource": "git:directory",
         "url": "https://github.com/otaku-solutions/anypress-plugins",
-        "ref": "494e63a82d661e40940db38b6064c9ddf3cbb486",
+        "ref": "b43c1a69b51d35ece6c87bae5414c2e6eeb73e3f",
         "refType": "commit",
         "path": "scripts/playground/shop-preview"
       }
