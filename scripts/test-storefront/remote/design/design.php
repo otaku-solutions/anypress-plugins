@@ -1000,7 +1000,12 @@ if ( post_type_exists( 'docs' ) && taxonomy_exists( 'doc_category' ) ) {
 			continue;
 		}
 		$parent = get_term_by( 'name', $parent_name, 'doc_category' );
-		$parent = $parent ? (int) $parent->term_id : (int) ( wp_insert_term( $parent_name, 'doc_category', array( 'slug' => sanitize_title( str_replace( 'I ', '', $parent_name ) ) ) )['term_id'] ?? 0 );
+		if ( $parent ) {
+			$parent = (int) $parent->term_id;
+		} else {
+			$made   = wp_insert_term( $parent_name, 'doc_category', array( 'slug' => sanitize_title( str_replace( 'I ', '', $parent_name ) ) ) );
+			$parent = is_wp_error( $made ) ? 0 : (int) $made['term_id'];
+		}
 		if ( ! $parent ) {
 			continue;
 		}
@@ -1025,7 +1030,7 @@ if ( post_type_exists( 'docs' ) && taxonomy_exists( 'doc_category' ) ) {
 		array( 'video-guides', 'Watch', 'Video Guides', 'Short videos filmed on the real screens, with captions.' ),
 	) as $i => list( $slug, $time, $title, $lead ) ) {
 		$doc = get_page_by_path( $slug, OBJECT, 'docs' );
-		if ( ! $doc ) {
+		if ( ! $doc || 'publish' !== get_post_status( $doc ) ) {
 			continue;
 		}
 		$ap_start_cards[] = ap_card(
@@ -1042,7 +1047,7 @@ if ( post_type_exists( 'docs' ) && taxonomy_exists( 'doc_category' ) ) {
 	$ap_popular = array();
 	foreach ( array( 'sign-in-and-open-your-sites-editor' => 'Sign In', 'use-your-own-domain' => 'Use Your Own Domain', 'cancel-your-plan' => 'Cancel Your Plan', 'backups-and-getting-your-site-back' => 'Backups' ) as $slug => $label ) {
 		$doc = get_page_by_path( $slug, OBJECT, 'docs' );
-		if ( $doc ) {
+		if ( $doc && 'publish' === get_post_status( $doc ) ) {
 			$ap_popular[] = '<a class="anypress-chip" href="' . esc_url( get_permalink( $doc ) ) . '">' . ap_e( $label ) . '</a>';
 		}
 	}
@@ -1087,7 +1092,7 @@ if ( post_type_exists( 'docs' ) && taxonomy_exists( 'doc_category' ) ) {
 			'large'
 		) . "\n\n"
 		. ( $ap_start_cards ? ap_band( ap_h( ap_e( 'Start Here' ), 2 ) . "\n\n" . ap_p( ap_e( 'New to AnyPress? These three take about five minutes together.' ), array( 'textColor' => 'secondary' ) ) . "\n\n" . ap_grid( $ap_start_cards, '16rem', 'medium', 3 ), '', 'start', 'x-large', 'x-large' ) . "\n\n" : '' )
-		. ap_band( ap_h( ap_e( 'Find Your Help Pages' ), 2 ) . "\n\n" . ap_p( ap_e( 'Pick the one that sounds like you. Each page sits under the people it’s written for.' ), array( 'textColor' => 'secondary' ) ) . "\n\n" . $ap_paths_grid, 'tint', 'topics', 'x-large', 'x-large', array( 'className' => 'anypress-docs' ) ) . "\n\n"
+		. ap_band( ap_h( ap_e( 'Find Your Help Pages' ), 2 ) . "\n\n" . ap_p( ap_e( 'Pick the one that sounds like you. Each page sits under the people it’s written for.' ), array( 'textColor' => 'secondary' ) ) . "\n\n" . $ap_paths_grid, '', 'topics', 'x-large', 'x-large', array( 'className' => 'is-style-section-tint anypress-docs' ) ) . "\n\n"
 		. ap_band(
 			ap_columns(
 				array(
@@ -1110,7 +1115,7 @@ if ( post_type_exists( 'docs' ) && taxonomy_exists( 'doc_category' ) ) {
 	$ap_docs_sidebar = '<!-- wp:betterdocs/sidebar {"blockId":"anypress-docs-sidebar","sidebar_layout":"layout-1","enableNestedSubcategory":true} /-->';
 	$ap_docs_layout  = static fn( $middle, $right = '' ) => '<!-- wp:template-part {"slug":"header","tagName":"header"} /-->' . "\n\n"
 		. '<!-- wp:group {"tagName":"main","align":"full","className":"anypress-doc","style":{"spacing":{"margin":{"top":"0"},"padding":' . wp_json_encode( ap_pad( 'large', 'x-large', 'medium', 'medium' ) ) . '}},"layout":{"type":"constrained","contentSize":"80rem"}} -->' . "\n"
-		. '<main class="wp-block-group alignfull anypress-doc" style="margin-top:0;' . ap_css_spacing( ap_pad( 'large', 'x-large', 'medium', 'medium' ) ) . '">'
+		. '<main class="wp-block-group alignfull anypress-doc" style="margin-top:0;' . ap_css_spacing( array( 'padding' => ap_pad( 'large', 'x-large', 'medium', 'medium' ) ) ) . '">'
 		. ap_group(
 			ap_group( $ap_docs_sidebar, array( 'className' => 'anypress-doc-side' ) ) . "\n\n"
 			. ap_group( $middle, array( 'className' => 'anypress-doc-main', 'layout' => array( 'type' => 'default' ) ) )
