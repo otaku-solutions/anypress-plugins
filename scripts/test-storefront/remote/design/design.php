@@ -871,6 +871,24 @@ if ( $ap_affiliates && ! $ap_brand['whiteLabel'] && 'percentage' === ( $ap_ref['
 		'join-band'
 	);
 	ap_page( 'affiliates', 'Affiliates', $ap_aff, 'page-no-title', $ap_affiliates->ID );
+} elseif ( $ap_affiliates && ! $ap_brand['whiteLabel'] && $ap_ref && str_contains( $ap_affiliates->post_content, 'anypress-aff-hero' ) ) {
+	// The rate is no longer a percentage: the page this step wrote would quote an old rate, so it goes back to a short
+	// line and the portal. A page someone wrote by hand (without the hero) is left alone.
+	ap_page(
+		'affiliates',
+		'Affiliates',
+		ap_band(
+			ap_h( ap_e( 'Affiliates' ), 1, array( 'fontSize' => 'x-large' ) ) . "\n\n"
+			. ap_p( 'Sign up below, or sign in to see your link and earnings. <a href="https://anypress.io/affiliates#terms">Program terms</a>.', array( 'textColor' => 'secondary' ) ) . "\n\n"
+			. ap_group( '<!-- wp:fluent-affiliate/portal {"layout":"modern","align":"wide"} /-->', array( 'className' => 'anypress-affiliate-portal', 'layout' => array( 'type' => 'constrained', 'contentSize' => '60rem' ) ) ),
+			'',
+			'join-band',
+			'large',
+			'xx-large'
+		),
+		'page-no-title',
+		$ap_affiliates->ID
+	);
 }
 
 // ---------------------------------------------------------------------------------------------------------- plan pages
