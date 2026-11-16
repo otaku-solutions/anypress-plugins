@@ -744,6 +744,153 @@ ap_wrap_store_page( (int) $ap_settings->get( 'checkout_page_id' ), 'Checkout', '
 ap_wrap_store_page( (int) $ap_settings->get( 'customer_profile_page_id' ), 'Your account', 'Open your websites, change your plan and get your invoices.', ap_help_band() );
 ap_wrap_store_page( (int) $ap_settings->get( 'receipt_page_id' ), 'Thank you', 'Your website is being set up. We’ll email you as soon as it’s ready, usually in a few minutes.' );
 
+// Affiliates -------------------------------------------------------------------------------------------------
+// AnyPress's own affiliate program (affiliate.php makes the page and FluentAffiliate's settings). The page says what
+// one sale pays, how joining works and what the affiliate dashboard shows, then FluentAffiliate's own portal block:
+// its sign-in and sign-up forms for visitors, the dashboard for affiliates. The rate and cookie come from
+// FluentAffiliate's settings and the examples from the plan prices, so they can't drift. The full terms stay on
+// anypress.io. A seller's storefront keeps its own page.
+$ap_affiliates = get_page_by_path( 'affiliates' );
+$ap_ref = class_exists( '\FluentAffiliate\App\Helper\Utility' ) ? \FluentAffiliate\App\Helper\Utility::getReferralSettings( false ) : array();
+// The words speak of a percentage, so a fixed-amount rate keeps the page as it is.
+if ( $ap_affiliates && ! $ap_brand['whiteLabel'] && 'percentage' === ( $ap_ref['rate_type'] ?? '' ) ) {
+	$ap_rate   = (float) $ap_ref['rate'];
+	$ap_cookie = (int) $ap_ref['cookie_duration'];
+	$ap_pct    = rtrim( rtrim( number_format( $ap_rate, 2 ), '0' ), '.' ) . '%';
+	$ap_terms  = 'https://anypress.io/affiliates';
+	$ap_join   = get_permalink( $ap_affiliates ) . '?fa_form=register#join';
+
+	// The program at a glance. What one sale pays, plan by plan, is on anypress.io (one home per page).
+	$ap_earn_card = ap_card(
+		ap_p( ap_e( 'The program at a glance' ), array( 'className' => 'is-style-hand' ) ) . "\n\n"
+		. ap_p( '<strong>' . ap_e( $ap_pct ) . '</strong>', array( 'className' => 'anypress-price' ) ) . "\n\n"
+		. ap_p( ap_e( 'of every new customer’s first payment, on every plan and size' ), array( 'textColor' => 'secondary' ) ) . "\n\n"
+		. ap_list(
+			array(
+				'<strong>Free to join</strong>, no plan of your own needed',
+				'<strong>' . $ap_cookie . '-day cookie</strong>, so later buyers still count',
+				'<strong>Paid monthly by PayPal</strong> once you’ve earned $50',
+				'<strong>A live dashboard</strong> with your link, visits and sales',
+			)
+		) . "\n\n"
+		. ap_p( '<a href="' . esc_url( $ap_terms ) . '">See what one sale pays, plan by plan</a>', array( 'fontSize' => 'small' ) ),
+		'sketch',
+		'medium',
+		'anypress-earn-card'
+	);
+
+	$ap_aff_steps = ap_steps(
+		array(
+			array( 'note', 'Apply in a minute', 'Fill in the form below with your name, email and PayPal address. We read every application ourselves and usually approve it within a day.' ),
+			array( 'key', 'Share your link', "Your dashboard gives you your link. Put it on your site, in your videos and newsletters, or send it to a client. Anyone who buys within $ap_cookie days counts as yours." ),
+			array( 'website', 'They get a site, set up for them', 'They pick a plan and start with 7 days free. A few minutes after they pay, their site is ready, with everything switched on.' ),
+			array( 'piggy', 'You get paid every month', "You earn $ap_pct of their first payment, monthly or yearly. It goes to your PayPal at the start of each month, once you’ve earned \$50." ),
+		)
+	);
+
+	$ap_dash = array();
+	foreach (
+		array(
+			array( 'key', 'Your link, ready to copy', 'Copy your link to the shop’s home page, or make one for any page, like a plan you recommend.' ),
+			array( 'open', 'Every visit and sale', 'See who clicked your link and which visits turned into sales, as they happen.' ),
+			array( 'piggy', 'What you’ve earned', 'Your earnings so far, what’s waiting to be paid and what’s already in your PayPal.' ),
+			array( 'card', 'Your payouts', 'Every payout we’ve sent you, and the PayPal address they go to, which you can change.' ),
+		) as list( $ap_drawing, $ap_title, $ap_body )
+	) {
+		$ap_dash[] = ap_card(
+			ap_img( ap_asset( "$ap_drawing.svg" ), '', '64px' ) . "\n\n" . ap_h( ap_e( $ap_title ), 3, array( 'fontSize' => 'medium' ) ) . "\n\n" . ap_p( ap_e( $ap_body ), array( 'textColor' => 'secondary' ) ),
+			'card-line',
+			'medium'
+		);
+	}
+
+	$ap_aff_faq = array(
+		array( 'Who can join?', 'Anyone with a PayPal account. You don’t need an AnyPress plan of your own, and there’s nothing to pay.' ),
+		array( 'How long does approval take?', 'Usually less than a day. We email you as soon as you’re in, and your link is waiting in your dashboard.' ),
+		array( 'What counts as a sale?', "Any plan or email pack someone buys within $ap_cookie days of clicking your link. If they click another affiliate’s link after yours, the later link gets the sale." ),
+		array( 'Do I earn on renewals?', "No. You earn $ap_pct of the first payment, after any discount and before tax. A yearly plan’s first payment is the whole year, so it pays the most." ),
+		array( 'What if the customer asks for a refund?', 'Then the commission on that sale is cancelled. Each commission waits 30 days, the length of our money-back guarantee, before it can be paid.' ),
+		array( 'Can I use my own link?', 'No. Your own purchases don’t earn commission.' ),
+		array( 'Where are the full terms?', 'On the program page at anypress.io/affiliates, with what you can and can’t do and how we give notice of changes.' ),
+	);
+
+	$ap_aff = ap_band(
+		ap_columns(
+			array(
+				array(
+					ap_p( ap_e( 'AnyPress affiliate program' ), array( 'className' => 'is-style-hand' ) ) . "\n\n"
+					. ap_h( 'Recommend AnyPress. <mark style="background-color:var(--wp--preset--color--primary-alt)" class="has-inline-color">Earn ' . ap_e( $ap_pct ) . ' of every first payment.</mark>', 1, array( 'fontSize' => 'xx-large' ) ) . "\n\n"
+					. ap_p( ap_e( "People already ask you where to make a website. Send them to a site that’s set up for them and looked after, with everything included. You get $ap_pct of what they pay up front, on every plan." ), array( 'textColor' => 'secondary', 'fontSize' => 'medium' ) ) . "\n\n"
+					. ap_buttons( array( array( 'Join the program', $ap_join ), array( 'Sign in to your dashboard', '#join', 'outline' ) ) ),
+					'56%',
+				),
+				array( $ap_earn_card, '44%' ),
+			),
+			array( 'verticalAlignment' => 'center', 'className' => 'anypress-aff-hero', 'style' => array( 'spacing' => array( 'blockGap' => array( 'left' => 'var:preset|spacing|x-large' ) ) ) )
+		),
+		'',
+		'',
+		'x-large',
+		'xx-large'
+	) . "\n\n"
+	. ap_band( ap_head( 'How it works', 'You share a link. We do the rest.' ) . "\n\n" . ap_grid( $ap_aff_steps, '15.5rem', 'large', 4, 'anypress-steps anypress-aff-grid' ), 'brand-soft', 'how' ) . "\n\n"
+	. ap_band( ap_head( 'Your affiliate dashboard', 'Everything about your sales, in one place', 'Once you’re approved, this page opens your dashboard. No spreadsheets, and no asking us for numbers.' ) . "\n\n" . ap_grid( $ap_dash, '15.5rem', 'medium', 4, 'anypress-aff-grid' ), '', 'dashboard' ) . "\n\n"
+	. ap_band(
+		ap_columns(
+			array(
+				array(
+					ap_p( ap_e( 'Who it’s for' ), array( 'className' => 'is-style-hand' ) ) . "\n\n"
+					. ap_h( ap_e( 'Easy to recommend, because there’s nothing for them to set up' ), 2, array( 'fontSize' => 'x-large' ) ) . "\n\n"
+					. ap_p( ap_e( 'Web designers, bloggers and video makers, coaches and teachers, and anyone people ask about websites. You point them somewhere that won’t leave them stuck with plugins, updates and backups.' ), array( 'textColor' => 'secondary' ) ),
+					'48%',
+				),
+				array(
+					ap_list(
+						array(
+							'<strong>Set up for them.</strong> Pages, tools, secure connection and nightly backups are switched on before they sign in.',
+							'<strong>Everything included.</strong> No add-ons to buy and no cut of their sales.',
+							'<strong>Safe to try.</strong> 7 days free, then a 30-day money-back guarantee on the first payment.',
+							'<strong>Real WordPress.</strong> Their site is theirs to change, and help is an email away.',
+						)
+					) . "\n\n"
+					. ap_p( 'Want words and pictures to share? The <a href="' . esc_url( "$ap_terms/kit" ) . '">affiliate kit</a> has them.', array( 'textColor' => 'secondary', 'fontSize' => 'small' ) ),
+					'52%',
+				),
+			),
+			array( 'verticalAlignment' => 'center', 'style' => array( 'spacing' => array( 'blockGap' => array( 'left' => 'var:preset|spacing|x-large' ) ) ) )
+		),
+		'tint',
+		'who'
+	) . "\n\n"
+	. ap_faq( $ap_data, $ap_aff_faq ) . "\n\n"
+	. ap_band(
+		ap_head( 'Join or sign in', 'Start earning today', 'New here? Choose Register Now to apply. Already an affiliate? Sign in to see your link and earnings.', 'join' ) . "\n\n"
+		. ap_group( '<!-- wp:fluent-affiliate/portal {"layout":"modern","align":"wide"} /-->', array( 'className' => 'anypress-affiliate-portal', 'layout' => array( 'type' => 'constrained', 'contentSize' => '60rem' ) ) ) . "\n\n"
+		. ap_p( 'By joining you agree to the <a href="' . esc_url( "$ap_terms#terms" ) . '">program terms</a>.', array( 'align' => 'center', 'textColor' => 'secondary', 'fontSize' => 'small' ) ),
+		'tint',
+		'join-band'
+	);
+	ap_page( 'affiliates', 'Affiliates', $ap_aff, 'page-no-title', $ap_affiliates->ID );
+} elseif ( $ap_affiliates && ! $ap_brand['whiteLabel'] && $ap_ref && str_contains( $ap_affiliates->post_content, 'anypress-aff-hero' ) ) {
+	// The rate is no longer a percentage: the page this step wrote would quote an old rate, so it goes back to a short
+	// line and the portal. A page someone wrote by hand (without the hero) is left alone.
+	ap_page(
+		'affiliates',
+		'Affiliates',
+		ap_band(
+			ap_h( ap_e( 'Affiliates' ), 1, array( 'fontSize' => 'x-large' ) ) . "\n\n"
+			. ap_p( 'Sign up below, or sign in to see your link and earnings. <a href="https://anypress.io/affiliates#terms">Program terms</a>.', array( 'textColor' => 'secondary' ) ) . "\n\n"
+			. ap_group( '<!-- wp:fluent-affiliate/portal {"layout":"modern","align":"wide"} /-->', array( 'className' => 'anypress-affiliate-portal', 'layout' => array( 'type' => 'constrained', 'contentSize' => '60rem' ) ) ),
+			'',
+			'join-band',
+			'large',
+			'xx-large'
+		),
+		'page-no-title',
+		$ap_affiliates->ID
+	);
+}
+
 // ---------------------------------------------------------------------------------------------------------- plan pages
 // The full list, as on the website's page for each kind of site: its groups, then what is looked after on every site.
 $ap_can = static function ( $type ) use ( $ap_data ) {

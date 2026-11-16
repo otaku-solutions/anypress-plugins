@@ -3,7 +3,7 @@
   "meta": {
     "title": "AnyPress shop: the new design",
     "author": "otaku-solutions",
-    "description": "A copy of shop.anypress.io on the AnyPress theme with its new design: home, plans, plan pages, checkout, account and help pages, with the shop's plans and prices."
+    "description": "A copy of shop.anypress.io on the AnyPress theme with its new design: home, plans, plan pages, checkout, account, affiliate and help pages, with the shop's plans and prices."
   },
   "landingPage": "/",
   "preferredVersions": {
@@ -45,21 +45,357 @@
       }
     },
     {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "wordpress.org/plugins",
+        "slug": "fluent-affiliate"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
       "step": "mkdir",
       "path": "/wordpress/wp-content/anypress-design"
     },
     {
-      "step": "writeFiles",
-      "writeToPath": "/wordpress/wp-content/anypress-design",
-      "filesTree": {
-        "resource": "git:directory",
-        "url": "https://github.com/otaku-solutions/anypress-plugins",
-        "ref": "494e63a82d661e40940db38b6064c9ddf3cbb486",
-        "refType": "commit",
-        "path": "scripts/test-storefront/remote/design"
-      },
-      "progress": {
-        "caption": "Fetching the shop's design"
+      "step": "mkdir",
+      "path": "/wordpress/wp-content/anypress-design/drawings"
+    },
+    {
+      "step": "mkdir",
+      "path": "/wordpress/wp-content/anypress-design/fonts"
+    },
+    {
+      "step": "mkdir",
+      "path": "/wordpress/wp-content/anypress-design/images"
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/anypress-shop.php",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/anypress-shop.php"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/design.php",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/design.php"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/backup.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/backup.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/bookings.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/bookings.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/card.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/card.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/courses.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/courses.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/domain.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/domain.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/email.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/email.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/everything.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/everything.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/hero.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/hero.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/key.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/key.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/lifebuoy.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/lifebuoy.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/lock.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/lock.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/mailbox.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/mailbox.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/note.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/note.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/open.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/open.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/paint.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/paint.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/pick.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/pick.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/piggy.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/piggy.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/question.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/question.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/sell.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/sell.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/server.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/server.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/sizes.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/sizes.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/store.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/store.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/thirty.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/thirty.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/tools.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/tools.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/drawings/website.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/drawings/website.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/emails.php",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/emails.php"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/fonts/caveat.woff2",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/fonts/caveat.woff2"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/fonts/hanken-grotesk.woff2",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/fonts/hanken-grotesk.woff2"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/images/bookings.jpg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/images/bookings.jpg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/images/courses.jpg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/images/courses.jpg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/images/email-pack.jpg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/images/email-pack.jpg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/images/everything.jpg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/images/everything.jpg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/images/logo-dark.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/images/logo-dark.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/images/logo-email.png",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/images/logo-email.png"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/images/logo.svg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/images/logo.svg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/images/store.jpg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/images/store.jpg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/images/website.jpg",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/images/website.jpg"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/shop.css",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/shop.css"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-design/shop.json",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/test-storefront/remote/design/shop.json"
       }
     },
     {
@@ -67,14 +403,27 @@
       "path": "/wordpress/wp-content/anypress-preview"
     },
     {
-      "step": "writeFiles",
-      "writeToPath": "/wordpress/wp-content/anypress-preview",
-      "filesTree": {
-        "resource": "git:directory",
-        "url": "https://github.com/otaku-solutions/anypress-plugins",
-        "ref": "494e63a82d661e40940db38b6064c9ddf3cbb486",
-        "refType": "commit",
-        "path": "scripts/playground/shop-preview"
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-preview/blueprint.json",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/playground/shop-preview/blueprint.json"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-preview/seed.php",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/playground/shop-preview/seed.php"
+      }
+    },
+    {
+      "step": "writeFile",
+      "path": "/wordpress/wp-content/anypress-preview/sqlite-json.php",
+      "data": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/fcbdd15b117d9224e748bcd4592fb4d8aa5b1b1c/scripts/playground/shop-preview/sqlite-json.php"
       }
     },
     {
