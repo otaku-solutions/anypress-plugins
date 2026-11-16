@@ -37,7 +37,7 @@ const BLOCKS = resolve(ROOT, 'scripts/playground/preview-zips/anypress-blocks.zi
 // WordPress's MCP Adapter, as the store template ships it: installed, off until the owner turns it on.
 const MCP_ADAPTER = 'https://downloads.wordpress.org/plugin/mcp-adapter.0.7.1.zip';
 const STARTER_PAGES_URL =
-    'https://raw.githubusercontent.com/hamchowderr/waas-provisioning-api/main/templates/anypress-store/mu-plugins/anypress-patterns.php';
+    'https://raw.githubusercontent.com/otaku-solutions/anypress-api/main/templates/anypress-store/mu-plugins/anypress-patterns.php';
 // A throwaway key for this test site only; real stores get theirs from the API as ANYPRESS_SITE_KEY.
 const SITE_KEY = randomBytes(24).toString('hex');
 // Stands in for a signed-in user on the abilities checks: requests carrying it act as that user.

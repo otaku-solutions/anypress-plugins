@@ -37,7 +37,7 @@ On an AnyPress website the switches are already built in, and this plugin does n
 
 = Source code =
 
-All the code is plain, readable PHP. The source, with its tests, is at https://github.com/hamchowderr/waas-plugins (the switches live in packages/anypress-client and are copied into this plugin by scripts/build-move.sh).
+All the code is plain, readable PHP. The source, with its tests, is at https://github.com/otaku-solutions/anypress-plugins (the switches live in packages/anypress-client and are copied into this plugin by scripts/build-move.sh).
 
 == External services ==
 

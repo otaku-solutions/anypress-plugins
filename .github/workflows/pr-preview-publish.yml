@@ -24,7 +24,7 @@ jobs:
           "steps": [
             { "step": "login", "username": "admin" },
             { "step": "installTheme",
-              "themeData": { "resource": "url", "url": "https://raw.githubusercontent.com/hamchowderr/waas-plugins/main/scripts/playground/preview-zips/anypress.zip" },
+              "themeData": { "resource": "url", "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/main/scripts/playground/preview-zips/anypress.zip" },
               "options": { "activate": true } },
             { "step": "installPlugin",
               "pluginData": { "resource": "wordpress.org/plugins", "slug": "fluent-cart" },

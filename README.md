@@ -2,7 +2,7 @@
 
 WordPress plugins for selling websites as a service: **AnyPress Host** runs on the storefront and creates, suspends and restores each customer's website through the AnyPress API; **AnyPress Client** runs on the template and on every customer website (one-click login, plan roles); **AnyPress Payments** adds card payments to FluentCart.
 
-They are the WordPress side of [AnyPress](https://anypress.io) and are open source (GPL-3.0): the [AnyPress API](https://github.com/hamchowderr/waas-provisioning-api) builds and runs the stores, and the [dashboard](https://github.com/hamchowderr/waas-dashboard) manages them. To run the whole platform yourself, see the API's [self-hosting guide](https://github.com/hamchowderr/waas-provisioning-api/blob/main/docs/self-hosting.md).
+They are the WordPress side of [AnyPress](https://anypress.io) and are open source (GPL-3.0): the [AnyPress API](https://github.com/otaku-solutions/anypress-api) builds and runs the stores, and the [dashboard](https://github.com/otaku-solutions/anypress-dashboard) manages them. To run the whole platform yourself, see the API's [self-hosting guide](https://github.com/otaku-solutions/anypress-api/blob/main/docs/self-hosting.md).
 
 How the three plugins work and fit together, with diagrams: [docs/architecture](docs/architecture/README.md).
 
@@ -33,7 +33,7 @@ How the three plugins work and fit together, with diagrams: [docs/architecture](
 
 ## Getting Started
 
-You need a WordPress site to sell from (the **storefront**: WordPress 6.4 or newer, PHP 8.1 or newer) and a running AnyPress API (to run one, see the [self-hosting guide](https://github.com/hamchowderr/waas-provisioning-api/blob/main/docs/self-hosting.md)). The API's operator gives you an **API key** and **API secret** for your storefront.
+You need a WordPress site to sell from (the **storefront**: WordPress 6.4 or newer, PHP 8.1 or newer) and a running AnyPress API (to run one, see the [self-hosting guide](https://github.com/otaku-solutions/anypress-api/blob/main/docs/self-hosting.md)). The API's operator gives you an **API key** and **API secret** for your storefront.
 
 1. **Install a cart.** FluentCart 1.7 or newer (recommended), or WooCommerce with WP Swings' free Subscriptions for WooCommerce or the paid WooCommerce Subscriptions.
 2. **Install AnyPress Host** on the storefront (and **AnyPress Payments** if you want Authorize.Net card payments on FluentCart). Build the zips with Composer installed: `scripts/release/build.sh anypress-host <version> dist`, and `scripts/release/build.sh anypress-payments <version> dist` for AnyPress Payments. Upload them under **Plugins → Add New → Upload Plugin**.
@@ -43,7 +43,7 @@ You need a WordPress site to sell from (the **storefront**: WordPress 6.4 or new
 6. **Run cron every minute.** Websites are created in the background; on a quiet site WordPress's own cron waits for the next visitor. Define `DISABLE_WP_CRON` and run `wp action-scheduler run` and `wp cron event run --due-now` every minute from a real cron job. AnyPress Host starts each new website's build as soon as checkout ends (a signed request the storefront sends itself), so cron is the fallback; the storefront must be able to reach its own address over HTTPS.
 7. **Test it.** Buy the product: checkout asks for a website name, and a few minutes after payment the customer finds the website, with a one-click login, under **My website**.
 
-**AnyPress Client** is not installed on the storefront. It goes into the template the customers' websites are made from, and comes with every website. The AnyPress API's [`templates/starter-fluentcart`](https://github.com/hamchowderr/waas-provisioning-api/tree/main/templates/starter-fluentcart) builds a starter template with it.
+**AnyPress Client** is not installed on the storefront. It goes into the template the customers' websites are made from, and comes with every website. The AnyPress API's [`templates/starter-fluentcart`](https://github.com/otaku-solutions/anypress-api/tree/main/templates/starter-fluentcart) builds a starter template with it.
 
 ## Storefront Cart
 
