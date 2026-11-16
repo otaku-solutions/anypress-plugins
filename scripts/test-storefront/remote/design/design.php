@@ -983,8 +983,94 @@ $ap_single     = '<!-- wp:template-part {"slug":"header","tagName":"header"} /--
 	. '<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->';
 ap_template( 'wp_template', 'single-fluent-products', 'Single Product', $ap_single );
 
-// The help pages' home (BetterDocs): a heading and its search, the topics, the questions, then the way to a person.
-if ( post_type_exists( 'docs' ) ) {
+// Help pages (BetterDocs). People pick by who they are: three parent topics (Own a Website, Sell Websites, Automate or
+// Build) hold the shop's topics, so each help page is listed under the people it's written for. Getting Started is
+// shown on its own as Start Here. Only the shop's own topics move; a storefront with other topics keeps them as they are.
+if ( post_type_exists( 'docs' ) && taxonomy_exists( 'doc_category' ) ) {
+	$ap_doc_topics = array(
+		'I Own a Website'     => array( 'your-website' => 'Your Website', 'plans-and-billing' => 'Plans and Billing' ),
+		'I Sell Websites'     => array( 'selling-websites' => 'Selling Websites', 'affiliates-program' => 'Affiliates' ),
+		'I Automate or Build' => array( 'automation' => 'No-Code Tools', 'developers' => 'AI and Code' ),
+	);
+	$ap_doc_paths = array();
+	$ap_order     = 1;
+	foreach ( $ap_doc_topics as $parent_name => $children ) {
+		$found = array_filter( array_map( static fn( $slug ) => get_term_by( 'slug', $slug, 'doc_category' ), array_keys( $children ) ) );
+		if ( ! $found ) {
+			continue;
+		}
+		$parent = get_term_by( 'name', $parent_name, 'doc_category' );
+		if ( $parent ) {
+			$parent = (int) $parent->term_id;
+		} else {
+			$made   = wp_insert_term( $parent_name, 'doc_category', array( 'slug' => sanitize_title( str_replace( 'I ', '', $parent_name ) ) ) );
+			$parent = is_wp_error( $made ) ? 0 : (int) $made['term_id'];
+		}
+		if ( ! $parent ) {
+			continue;
+		}
+		update_term_meta( $parent, 'doc_category_order', $ap_order++ );
+		$ap_doc_paths[] = $parent;
+		$sub_order      = 1;
+		foreach ( $found as $term ) {
+			wp_update_term( $term->term_id, 'doc_category', array( 'parent' => $parent, 'name' => $children[ $term->slug ] ) );
+			update_term_meta( $term->term_id, 'doc_category_order', $sub_order++ );
+		}
+	}
+	$ap_start = get_term_by( 'slug', 'getting-started', 'doc_category' );
+	if ( $ap_start ) {
+		wp_update_term( $ap_start->term_id, 'doc_category', array( 'name' => 'Start Here' ) );
+	}
+
+	// Start Here: the Getting Started pages as three cards, in reading order.
+	$ap_start_cards = array();
+	foreach ( array(
+		array( 'welcome-to-anypress', 'Two minutes', 'Welcome to AnyPress', 'What you have, where you sign in, and which help pages are yours.' ),
+		array( 'sign-in-and-open-your-sites-editor', 'One minute', 'Sign In and Open Your Site', 'Your account, then one click into your site’s WordPress. No second password.' ),
+		array( 'video-guides', 'Watch', 'Video Guides', 'Short videos filmed on the real screens, with captions.' ),
+	) as $i => list( $slug, $time, $title, $lead ) ) {
+		$doc = get_page_by_path( $slug, OBJECT, 'docs' );
+		if ( ! $doc || 'publish' !== get_post_status( $doc ) ) {
+			continue;
+		}
+		$ap_start_cards[] = ap_card(
+			ap_p( ap_e( ( $i + 1 ) . ' · ' . $time ), array( 'className' => 'anypress-kicker' ) ) . "\n\n"
+			. ap_h( '<a href="' . esc_url( get_permalink( $doc ) ) . '">' . ap_e( $title ) . '</a>', 3, array( 'fontSize' => 'medium' ) ) . "\n\n"
+			. ap_p( ap_e( $lead ), array( 'textColor' => 'secondary', 'fontSize' => 'small' ) ),
+			'card-line',
+			'medium',
+			'anypress-start-card'
+		);
+	}
+
+	// The questions people ask most, each ending in the page that answers it in full.
+	$ap_popular = array();
+	foreach ( array( 'sign-in-and-open-your-sites-editor' => 'Sign In', 'use-your-own-domain' => 'Use Your Own Domain', 'cancel-your-plan' => 'Cancel Your Plan', 'backups-and-getting-your-site-back' => 'Backups' ) as $slug => $label ) {
+		$doc = get_page_by_path( $slug, OBJECT, 'docs' );
+		if ( $doc && 'publish' === get_post_status( $doc ) ) {
+			$ap_popular[] = '<a class="anypress-chip" href="' . esc_url( get_permalink( $doc ) ) . '">' . ap_e( $label ) . '</a>';
+		}
+	}
+
+	$ap_paths_grid = $ap_doc_paths
+		? '<!-- wp:betterdocs/categorygrid ' . wp_json_encode(
+			array(
+				'blockId'                 => 'anypress-docs-paths',
+				'excludeCategories'       => $ap_start ? wp_json_encode( array( array( 'value' => (int) $ap_start->term_id, 'label' => 'Start Here' ) ) ) : '', // BetterDocs reads a JSON list of picks.
+				'enableNestedSubcategory' => true,
+				'gridPerPage'             => 3,
+				'postsPerPage'            => 20,
+				'postPerSubcategory'      => 20,
+				'showButton'              => false,
+				'showCount'               => false,
+				'colRange'                => 3,
+				'TABcolRange'             => 1,
+				'MOBcolRange'             => 1,
+				'gridSpaceRange'          => 16,
+			)
+		) . ' /-->'
+		: '<!-- wp:betterdocs/categorygrid {"blockId":"anypress-docs-topics"} /-->';
+
 	ap_template(
 		'wp_template',
 		'archive-docs',
@@ -994,21 +1080,79 @@ if ( post_type_exists( 'docs' ) ) {
 		. '<main class="wp-block-group" style="margin-top:0">'
 		. ap_band(
 			ap_group(
-				ap_p( ap_e( 'We’re here to help' ), array( 'align' => 'center', 'className' => 'is-style-hand' ) ) . "\n\n"
-				. ap_h( ap_e( 'Help pages' ), 1, array( 'textAlign' => 'center', 'fontSize' => 'xx-large' ) ) . "\n\n"
-				. ap_p( ap_e( 'Short answers about your website, your plan and selling websites. Search, or pick a topic.' ), array( 'align' => 'center', 'textColor' => 'secondary', 'fontSize' => 'medium' ) ) . "\n\n"
-				. '<!-- wp:betterdocs/searchbox {"blockId":"anypress-docs-search"} /-->',
-				array( 'layout' => array( 'type' => 'constrained', 'contentSize' => '44rem' ) )
+				ap_p( ap_e( 'We’re here to help' ), array( 'className' => 'is-style-hand' ) ) . "\n\n"
+				. ap_h( ap_e( 'How Can We Help?' ), 1, array( 'fontSize' => 'xx-large' ) ) . "\n\n"
+				. '<!-- wp:betterdocs/searchbox {"blockId":"anypress-docs-search","placeholderText":"Search, e.g. domain, cancel, backups"} /-->'
+				. ( $ap_popular ? "\n\n" . ap_p( '<span>' . ap_e( 'People often look for' ) . '</span> ' . implode( ' ', $ap_popular ), array(), 'anypress-chips' ) : '' ),
+				array( 'className' => 'anypress-docs-hero', 'layout' => array( 'type' => 'constrained', 'contentSize' => '72rem', 'justifyContent' => 'left' ) )
 			),
 			'tint',
 			'',
 			'x-large',
-			'x-large'
+			'large'
 		) . "\n\n"
-		. ap_band( '<!-- wp:betterdocs/categorygrid {"blockId":"anypress-docs-topics"} /-->' . "\n\n" . '<!-- wp:betterdocs/faq {"blockId":"anypress-docs-faq"} /-->', '', 'topics', 'x-large', 'x-large', array( 'className' => 'anypress-docs', 'layout' => array( 'type' => 'constrained', 'contentSize' => '72rem' ) ) )
+		. ( $ap_start_cards ? ap_band( ap_h( ap_e( 'Start Here' ), 2 ) . "\n\n" . ap_p( ap_e( 'New to AnyPress? These three take about five minutes together.' ), array( 'textColor' => 'secondary' ) ) . "\n\n" . ap_grid( $ap_start_cards, '16rem', 'medium', 3 ), '', 'start', 'x-large', 'x-large' ) . "\n\n" : '' )
+		. ap_band( ap_h( ap_e( 'Find Your Help Pages' ), 2 ) . "\n\n" . ap_p( ap_e( 'Pick the one that sounds like you. Each page sits under the people it’s written for.' ), array( 'textColor' => 'secondary' ) ) . "\n\n" . $ap_paths_grid, '', 'topics', 'x-large', 'x-large', array( 'className' => 'is-style-section-tint anypress-docs' ) ) . "\n\n"
+		. ap_band(
+			ap_columns(
+				array(
+					array( ap_h( ap_e( 'Quick Answers' ), 2 ) . "\n\n" . ap_p( ap_e( 'The questions we get most, answered in a line or two.' ), array( 'textColor' => 'secondary' ) ), '38%' ),
+					array( '<!-- wp:betterdocs/faq {"blockId":"anypress-docs-faq","faqSectionText":""} /-->', '62%' ),
+				)
+			),
+			'',
+			'questions',
+			'x-large',
+			'x-large',
+			array( 'className' => 'anypress-docs' )
+		)
 		. "\n\n" . ap_help_band()
 		. "</main>\n<!-- /wp:group -->\n\n"
 		. '<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->'
+	);
+
+	// Every help page and topic page: all topics on the left, the page in the middle, "On This Page" on the right.
+	$ap_docs_sidebar = '<!-- wp:betterdocs/sidebar {"blockId":"anypress-docs-sidebar","sidebar_layout":"layout-1","enableNestedSubcategory":true} /-->';
+	$ap_docs_layout  = static fn( $middle, $right = '' ) => '<!-- wp:template-part {"slug":"header","tagName":"header"} /-->' . "\n\n"
+		. '<!-- wp:group {"tagName":"main","align":"full","className":"anypress-doc","style":{"spacing":{"margin":{"top":"0"},"padding":' . wp_json_encode( ap_pad( 'large', 'x-large', 'medium', 'medium' ) ) . '}},"layout":{"type":"constrained","contentSize":"80rem"}} -->' . "\n"
+		. '<main class="wp-block-group alignfull anypress-doc" style="margin-top:0;' . ap_css_spacing( array( 'padding' => ap_pad( 'large', 'x-large', 'medium', 'medium' ) ) ) . '">'
+		. ap_group(
+			ap_group( $ap_docs_sidebar, array( 'className' => 'anypress-doc-side' ) ) . "\n\n"
+			. ap_group( $middle, array( 'className' => 'anypress-doc-main', 'layout' => array( 'type' => 'default' ) ) )
+			. ( $right ? "\n\n" . ap_group( $right, array( 'className' => 'anypress-doc-toc' ) ) : '' ),
+			array( 'className' => 'anypress-doc-grid' . ( $right ? ' has-toc' : '' ), 'layout' => array( 'type' => 'default' ) )
+		)
+		. "</main>\n<!-- /wp:group -->\n\n"
+		. '<!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->';
+
+	ap_template(
+		'wp_template',
+		'single-docs',
+		'Single Doc',
+		$ap_docs_layout(
+			'<!-- wp:betterdocs/breadcrumb {"blockId":"anypress-doc-crumbs"} /-->' . "\n\n"
+			. '<!-- wp:post-title {"level":1,"fontSize":"x-large"} /-->' . "\n\n"
+			. '<!-- wp:post-excerpt {"className":"anypress-doc-lede","textColor":"secondary","fontSize":"medium"} /-->' . "\n\n"
+			. '<!-- wp:betterdocs/reading-time {"blockId":"anypress-doc-time"} /-->' . "\n\n"
+			. '<!-- wp:betterdocs/single-doc-content {"blockId":"anypress-doc-content"} /-->' . "\n\n"
+			. ap_group(
+				'<!-- wp:betterdocs/reactions {"blockId":"anypress-doc-reactions","reaction_text":"Did this answer your question?"} /-->' . "\n\n"
+				. '<!-- wp:betterdocs/doc-navigation {"blockId":"anypress-doc-nav"} /-->',
+				array( 'className' => 'anypress-doc-after' )
+			),
+			'<!-- wp:betterdocs/table-of-contents {"blockId":"anypress-doc-toc","toc_title_text":"On This Page"} /-->'
+		)
+	);
+	ap_template(
+		'wp_template',
+		'taxonomy-doc_category',
+		'Docs Topic',
+		$ap_docs_layout(
+			'<!-- wp:betterdocs/breadcrumb {"blockId":"anypress-topic-crumbs"} /-->' . "\n\n"
+			. '<!-- wp:query-title {"type":"archive","showPrefix":false,"level":1,"fontSize":"x-large"} /-->' . "\n\n"
+			. '<!-- wp:term-description {"textColor":"secondary","fontSize":"medium"} /-->' . "\n\n"
+			. '<!-- wp:betterdocs/archive-doc-list {"blockId":"anypress-topic-list","nested_subcategory":true} /-->'
+		)
 	);
 }
 
