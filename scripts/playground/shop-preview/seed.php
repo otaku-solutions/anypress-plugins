@@ -86,22 +86,27 @@ if ( ! empty( $res['created'][0]['id'] ) ) {
 
 // Help pages: the live shop's categories, with a few of its articles' titles.
 if ( taxonomy_exists( 'doc_category' ) ) {
+	// Category slug => name, then each page's slug => title, summary (the live shop's own).
 	$docs = array(
-		'Getting Started'   => array( 'Welcome to AnyPress', 'Sign in and open your site’s editor' ),
-		'Plans and billing' => array( 'Plans, sizes and prices', 'Cancel your plan', 'Refunds' ),
-		'Your website'      => array( 'Use your own domain', 'Send email from your own domain', 'Backups and getting your site back', 'Move a WordPress site to AnyPress' ),
-		'Selling websites'  => array( 'Your first day as a reseller', 'Reseller accounts', 'Add your team' ),
-		'Affiliates'        => array( 'How the affiliate program works' ),
-		'Automation'        => array( 'Use AnyPress in Zapier', 'Use AnyPress in Make', 'Use AnyPress in n8n' ),
-		'Developers'        => array( 'API quickstart', 'Run AnyPress yourself' ),
+		'getting-started|Getting Started'     => array( 'welcome-to-anypress' => array( 'Welcome to AnyPress', 'What AnyPress is, where to sign in, and where to find help.' ), 'sign-in-and-open-your-sites-editor' => array( 'Sign in and open your site’s editor', 'Sign in to your account and open your site’s WordPress dashboard with one click, no second password.' ), 'video-guides' => array( 'Video guides', 'Short videos of AnyPress in use.' ) ),
+		'plans-and-billing|Plans and billing' => array( 'plans-sizes-and-prices' => array( 'Plans, sizes and prices', 'The five kinds of site, the three sizes, and what each costs.' ), 'cancel-your-plan' => array( 'Cancel your plan', 'Cancel from your account.' ) ),
+		'your-website|Your website'           => array( 'use-your-own-domain' => array( 'Use your own domain', 'Point your own domain at your site.' ), 'send-email-from-your-own-domain' => array( 'Send email from your own domain', 'Receipts and password resets from your own domain.' ), 'backups-and-getting-your-site-back' => array( 'Backups and getting your site back', 'Every site is backed up each night.' ), 'move-a-wordpress-site-to-anypress' => array( 'Move a WordPress site to AnyPress', 'Bring an existing WordPress site over.' ) ),
+		'selling-websites|Selling websites'   => array( 'your-first-day-as-a-seller' => array( 'Your first day as a seller', 'From approval to your first sale.' ), 'your-first-day-as-a-reseller' => array( 'Your first day as a reseller', 'Your team, storefronts, bill and partner keys.' ), 'reseller-accounts' => array( 'Reseller accounts', 'Several storefronts under one login.' ), 'add-your-team' => array( 'Add your team', 'Invite people to your dashboard.' ) ),
+		'affiliates-program|Affiliates'       => array( 'how-the-affiliate-program-works' => array( 'How the affiliate program works', 'Recommend AnyPress and earn.' ) ),
+		'automation|Automation'               => array( 'use-anypress-in-zapier' => array( 'Use AnyPress in Zapier', 'Sites from a Zap.' ), 'use-anypress-in-make' => array( 'Use AnyPress in Make', 'Sites from a scenario.' ), 'use-anypress-in-n8n' => array( 'Use AnyPress in n8n', 'Sites from a workflow.' ) ),
+		'developers|Developers'               => array( 'api-quickstart' => array( 'API quickstart', 'Your first site from code in three calls.' ), 'run-anypress-yourself' => array( 'Run AnyPress yourself', 'The same AnyPress on a server you choose.' ) ),
 	);
-	foreach ( $docs as $category => $titles ) {
-		$term = wp_insert_term( $category, 'doc_category' );
+	foreach ( $docs as $category => $pages ) {
+		list( $slug, $name ) = explode( '|', $category );
+		$term                = wp_insert_term( $name, 'doc_category', array( 'slug' => $slug ) );
 		if ( ! is_wp_error( $term ) ) {
 			update_term_meta( (int) $term['term_id'], 'doc_category_order', count( get_terms( array( 'taxonomy' => 'doc_category', 'hide_empty' => false, 'fields' => 'ids' ) ) ) );
 		}
-		foreach ( $titles as $title ) {
-			$doc = wp_insert_post( array( 'post_type' => 'docs', 'post_status' => 'publish', 'post_title' => $title, 'post_content' => '<!-- wp:paragraph --><p>The live help page has the full article. This preview only shows how help pages look.</p><!-- /wp:paragraph -->' ) );
+		foreach ( $pages as $page_slug => list( $title, $summary ) ) {
+			$body = '<!-- wp:paragraph --><p>The live help page has the full article. This preview only shows how help pages look.</p><!-- /wp:paragraph -->'
+				. '<!-- wp:heading --><h2 class="wp-block-heading">First Step</h2><!-- /wp:heading --><!-- wp:list {"ordered":true} --><ol class="wp-block-list"><!-- wp:list-item --><li>Open your account.</li><!-- /wp:list-item --><!-- wp:list-item --><li>Choose the site.</li><!-- /wp:list-item --></ol><!-- /wp:list -->'
+				. '<!-- wp:heading --><h2 class="wp-block-heading">Next Step</h2><!-- /wp:heading --><!-- wp:paragraph --><p>Then follow the page.</p><!-- /wp:paragraph -->';
+			$doc  = wp_insert_post( array( 'post_type' => 'docs', 'post_status' => 'publish', 'post_name' => $page_slug, 'post_title' => $title, 'post_excerpt' => $summary, 'post_content' => $body ) );
 			if ( ! is_wp_error( $term ) ) {
 				wp_set_object_terms( $doc, (int) $term['term_id'], 'doc_category' );
 			}
