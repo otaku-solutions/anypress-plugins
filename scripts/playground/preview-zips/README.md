@@ -9,4 +9,4 @@ whole repositories.
 - `anypress-blocks.zip`: AnyPress Blocks 0.4.3, its release zip
 - `anypress-client.zip`: AnyPress Client, this repository's `main`
 - `anypress-host.zip`: AnyPress Host, built from `packages/anypress-host` without tests (Composer autoloader only), for `admin-preview/blueprint.json`
-- `fluent-toolkit.zip`: FluentKit 2.1.4, the copy the AnyPress store template ships (`waas-provisioning-api/templates/anypress-store/plugins`, same checksum)
+- `fluent-toolkit.zip`: FluentKit 2.1.4, the copy the AnyPress store template ships (`anypress-api/templates/anypress-store/plugins`, same checksum)

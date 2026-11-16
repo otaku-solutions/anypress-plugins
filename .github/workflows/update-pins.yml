@@ -13,6 +13,6 @@ permissions:
 
 jobs:
   pins:
-    uses: hamchowderr/waas-provisioning-api/.github/workflows/pins.yml@main
+    uses: otaku-solutions/anypress-api/.github/workflows/pins.yml@main
     with:
       ci-workflow: code-checks.yml tests.yml

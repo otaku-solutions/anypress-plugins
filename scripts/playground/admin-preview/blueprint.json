@@ -11,7 +11,7 @@
       "step": "installTheme",
       "themeData": {
         "resource": "url",
-        "url": "https://raw.githubusercontent.com/hamchowderr/waas-plugins/main/scripts/playground/preview-zips/anypress.zip"
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/main/scripts/playground/preview-zips/anypress.zip"
       },
       "options": {
         "activate": true
@@ -31,7 +31,7 @@
       "step": "installPlugin",
       "pluginData": {
         "resource": "url",
-        "url": "https://raw.githubusercontent.com/hamchowderr/waas-plugins/697e626475d5975f6deb7bf86d83f3ada685a553/scripts/playground/preview-zips/fluent-toolkit.zip"
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/697e626475d5975f6deb7bf86d83f3ada685a553/scripts/playground/preview-zips/fluent-toolkit.zip"
       },
       "options": {
         "activate": true,
@@ -42,7 +42,7 @@
       "step": "installPlugin",
       "pluginData": {
         "resource": "url",
-        "url": "https://raw.githubusercontent.com/hamchowderr/waas-plugins/697e626475d5975f6deb7bf86d83f3ada685a553/scripts/playground/preview-zips/anypress-host.zip"
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/697e626475d5975f6deb7bf86d83f3ada685a553/scripts/playground/preview-zips/anypress-host.zip"
       },
       "options": {
         "activate": true,
@@ -54,7 +54,7 @@
       "path": "/wordpress/wp-content/mu-plugins/anypress-admin-preview.php",
       "data": {
         "resource": "url",
-        "url": "https://raw.githubusercontent.com/hamchowderr/waas-plugins/697e626475d5975f6deb7bf86d83f3ada685a553/scripts/playground/admin-preview/seed.php"
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/697e626475d5975f6deb7bf86d83f3ada685a553/scripts/playground/admin-preview/seed.php"
       }
     },
     {
@@ -68,7 +68,7 @@
   "meta": {
     "title": "AnyPress Host: the AnyPress admin pages",
     "description": "A ready-made storefront selling websites: connected by AnyPress, its website plans made in FluentCart on first sign-in, sample customers and websites in every state, FluentKit's unified layout on.",
-    "author": "hamchowderr"
+    "author": "otaku-solutions"
   },
   "constants": {
     "ANYPRESS_API_BASE_URL": "https://api.anypress.io",

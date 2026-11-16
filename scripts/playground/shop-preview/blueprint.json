@@ -2,7 +2,7 @@
   "$schema": "https://playground.wordpress.net/blueprint-schema.json",
   "meta": {
     "title": "AnyPress shop: the new design",
-    "author": "hamchowderr",
+    "author": "otaku-solutions",
     "description": "A copy of shop.anypress.io on the AnyPress theme with its new design: home, plans, plan pages, checkout, account and help pages, with the shop's plans and prices."
   },
   "landingPage": "/",
@@ -18,7 +18,7 @@
       "step": "installTheme",
       "themeData": {
         "resource": "url",
-        "url": "https://raw.githubusercontent.com/hamchowderr/waas-plugins/main/scripts/playground/preview-zips/anypress.zip"
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/main/scripts/playground/preview-zips/anypress.zip"
       },
       "options": {
         "activate": true
@@ -53,7 +53,7 @@
       "writeToPath": "/wordpress/wp-content/anypress-design",
       "filesTree": {
         "resource": "git:directory",
-        "url": "https://github.com/hamchowderr/waas-plugins",
+        "url": "https://github.com/otaku-solutions/anypress-plugins",
         "ref": "494e63a82d661e40940db38b6064c9ddf3cbb486",
         "refType": "commit",
         "path": "scripts/test-storefront/remote/design"
@@ -71,7 +71,7 @@
       "writeToPath": "/wordpress/wp-content/anypress-preview",
       "filesTree": {
         "resource": "git:directory",
-        "url": "https://github.com/hamchowderr/waas-plugins",
+        "url": "https://github.com/otaku-solutions/anypress-plugins",
         "ref": "494e63a82d661e40940db38b6064c9ddf3cbb486",
         "refType": "commit",
         "path": "scripts/playground/shop-preview"

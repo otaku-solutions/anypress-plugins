@@ -11,7 +11,7 @@
       "step": "installTheme",
       "themeData": {
         "resource": "url",
-        "url": "https://raw.githubusercontent.com/hamchowderr/waas-plugins/main/scripts/playground/preview-zips/anypress.zip"
+        "url": "https://raw.githubusercontent.com/otaku-solutions/anypress-plugins/main/scripts/playground/preview-zips/anypress.zip"
       },
       "options": {
         "activate": true
@@ -28,7 +28,7 @@
       "step": "installPlugin",
       "pluginData": {
         "resource": "git:directory",
-        "url": "https://github.com/hamchowderr/waas-plugins",
+        "url": "https://github.com/otaku-solutions/anypress-plugins",
         "ref": "13170a1f6a734c62ab31ef2dc81142960adada80",
         "refType": "commit",
         "path": "packages/anypress-host"
@@ -73,6 +73,6 @@
   "meta": {
     "title": "AnyPress Host: the customer account page",
     "description": "FluentCart customer portal with three sample websites (ready, being set up, name taken), signed in as their owner.",
-    "author": "hamchowderr"
+    "author": "otaku-solutions"
   }
 }

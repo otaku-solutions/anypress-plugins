@@ -25,7 +25,7 @@ const org = [...list('PLUGINS'), ...list('OFF_PLUGINS').filter(([s]) => s === 'l
 const steps = [
     { step: 'installTheme', themeData: { resource: 'literal', name: 'anypress.zip', contents: readFileSync(resolve(HERE, 'preview-zips/anypress.zip')) }, options: { activate: true } },
     ...org.map(([slug, version]) => ({ step: 'installPlugin', pluginData: { resource: 'url', url: `https://downloads.wordpress.org/plugin/${slug}.${version}.zip` } })),
-    { step: 'installPlugin', pluginData: { resource: 'url', url: `https://github.com/hamchowderr/anypress-blocks/releases/download/v${build.match(/BLOCKS_VERSION=\$\{BLOCKS_VERSION:-([0-9.]+)\}/)[1]}/anypress-blocks.zip` } },
+    { step: 'installPlugin', pluginData: { resource: 'url', url: `https://github.com/otaku-solutions/anypress-blocks/releases/download/v${build.match(/BLOCKS_VERSION=\$\{BLOCKS_VERSION:-([0-9.]+)\}/)[1]}/anypress-blocks.zip` } },
     // The vendored plugins the template ships (VENDORED in build.sh), from its plugins/ folder.
     ...list('VENDORED').map(([slug, version]) => ({ step: 'installPlugin', pluginData: { resource: 'literal', name: `${slug}.zip`, contents: readFileSync(`${API}/templates/anypress-store/plugins/${slug}-${version}.zip`) } })),
 ];

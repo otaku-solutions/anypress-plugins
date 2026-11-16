@@ -23,7 +23,7 @@ class BrandTest extends TestCase
     private function plugins(): array
     {
         return [
-            self::FILE => ['Name' => 'AnyPress Client', 'Title' => 'AnyPress Client', 'Author' => 'Otaku Solutions', 'AuthorName' => 'Otaku Solutions', 'AuthorURI' => 'https://otakusolutions.io', 'PluginURI' => 'https://github.com/hamchowderr/waas-plugins', 'Description' => 'Runs on each AnyPress website.'],
+            self::FILE => ['Name' => 'AnyPress Client', 'Title' => 'AnyPress Client', 'Author' => 'Otaku Solutions', 'AuthorName' => 'Otaku Solutions', 'AuthorURI' => 'https://otakusolutions.io', 'PluginURI' => 'https://github.com/otaku-solutions/anypress-plugins', 'Description' => 'Runs on each AnyPress website.'],
             'other/other.php' => ['Name' => 'Other'],
         ];
     }
