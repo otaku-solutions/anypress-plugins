@@ -2,7 +2,7 @@
 /**
  * Plugin Name: AnyPress shop
  * Description: The shop's block styles (sketch panels, tick lists, size table) and two small shortcodes for the plan pages (the size switcher and the way back to the plans), and the AnyPress logo and support address in AnyPress Host's emails. Installed by the shop's `design` step.
- * Version: 1.4.0
+ * Version: 1.4.1
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -203,7 +203,8 @@ add_filter(
 add_action(
 	'wp_head',
 	static function () {
-		if ( ! is_singular() || ! has_shortcode( (string) get_post_field( 'post_content', get_queried_object_id() ), 'fluent_affiliate_portal' ) ) {
+		$content = (string) get_post_field( 'post_content', get_queried_object_id() );
+		if ( ! is_singular() || ( ! has_shortcode( $content, 'fluent_affiliate_portal' ) && ! has_block( 'fluent-affiliate/portal', $content ) ) ) {
 			return;
 		}
 		wp_print_inline_script_tag(

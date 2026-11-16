@@ -751,31 +751,33 @@ ap_wrap_store_page( (int) $ap_settings->get( 'receipt_page_id' ), 'Thank you', '
 // FluentAffiliate's settings and the examples from the plan prices, so they can't drift. The full terms stay on
 // anypress.io. A seller's storefront keeps its own page.
 $ap_affiliates = get_page_by_path( 'affiliates' );
-if ( $ap_affiliates && ! $ap_brand['whiteLabel'] && class_exists( '\FluentAffiliate\App\Helper\Utility' ) ) {
-	$ap_ref    = \FluentAffiliate\App\Helper\Utility::getReferralSettings( false );
+$ap_ref = class_exists( '\FluentAffiliate\App\Helper\Utility' ) ? \FluentAffiliate\App\Helper\Utility::getReferralSettings( false ) : array();
+// The words speak of a percentage, so a fixed-amount rate keeps the page as it is.
+if ( $ap_affiliates && ! $ap_brand['whiteLabel'] && 'percentage' === ( $ap_ref['rate_type'] ?? '' ) ) {
 	$ap_rate   = (float) $ap_ref['rate'];
 	$ap_cookie = (int) $ap_ref['cookie_duration'];
 	$ap_pct    = rtrim( rtrim( number_format( $ap_rate, 2 ), '0' ), '.' ) . '%';
 	$ap_terms  = 'https://anypress.io/affiliates';
 	$ap_join   = get_permalink( $ap_affiliates ) . '?fa_form=register#join';
 
-	// One sale each: what they pay up front and the commission on it.
-	$ap_rows = '';
-	foreach ( array( array( 'website', 'monthly' ), array( 'store', 'monthly' ), array( 'everything', 'monthly' ), array( 'store', 'yearly' ), array( 'everything', 'yearly' ) ) as list( $ap_kind, $ap_every ) ) {
-		$ap_paid = $ap_plans[ $ap_kind ]['small'][ $ap_every ] ?? 0;
-		if ( ! $ap_paid || 'percentage' !== $ap_ref['rate_type'] ) {
-			continue;
-		}
-		$ap_rows .= '<tr><td>' . ap_e( $ap_type_by_id[ $ap_kind ]['short'] . ', ' . $ap_every ) . '</td><td>' . ap_money( $ap_paid ) . '</td><td><strong>' . ap_money( (int) round( $ap_paid * $ap_rate / 100 ) ) . '</strong></td></tr>';
-	}
-	$ap_earn_card = $ap_rows ? ap_card(
-		ap_p( ap_e( 'What one sale pays you' ), array( 'className' => 'is-style-hand' ) ) . "\n\n"
-		. "<!-- wp:table {\"hasFixedLayout\":false,\"className\":\"is-style-compare anypress-earn\"} -->\n<figure class=\"wp-block-table is-style-compare anypress-earn\"><table><thead><tr><th>Small plan</th><th>They pay</th><th>You earn</th></tr></thead><tbody>$ap_rows</tbody></table></figure>\n<!-- /wp:table -->\n\n"
-		. ap_p( ap_e( 'Bigger sizes pay more: Medium is twice these, Large four times.' ), array( 'textColor' => 'secondary', 'fontSize' => 'small' ) ),
+	// The program at a glance. What one sale pays, plan by plan, is on anypress.io (one home per page).
+	$ap_earn_card = ap_card(
+		ap_p( ap_e( 'The program at a glance' ), array( 'className' => 'is-style-hand' ) ) . "\n\n"
+		. ap_p( '<strong>' . ap_e( $ap_pct ) . '</strong>', array( 'className' => 'anypress-price' ) ) . "\n\n"
+		. ap_p( ap_e( 'of every new customer’s first payment, on every plan and size' ), array( 'textColor' => 'secondary' ) ) . "\n\n"
+		. ap_list(
+			array(
+				'<strong>Free to join</strong>, no plan of your own needed',
+				'<strong>' . $ap_cookie . '-day cookie</strong>, so later buyers still count',
+				'<strong>Paid monthly by PayPal</strong> once you’ve earned $50',
+				'<strong>A live dashboard</strong> with your link, visits and sales',
+			)
+		) . "\n\n"
+		. ap_p( '<a href="' . esc_url( $ap_terms ) . '">See what one sale pays, plan by plan</a>', array( 'fontSize' => 'small' ) ),
 		'sketch',
 		'medium',
 		'anypress-earn-card'
-	) : '';
+	);
 
 	$ap_aff_steps = ap_steps(
 		array(
@@ -819,8 +821,7 @@ if ( $ap_affiliates && ! $ap_brand['whiteLabel'] && class_exists( '\FluentAffili
 					ap_p( ap_e( 'AnyPress affiliate program' ), array( 'className' => 'is-style-hand' ) ) . "\n\n"
 					. ap_h( 'Recommend AnyPress. <mark style="background-color:var(--wp--preset--color--primary-alt)" class="has-inline-color">Earn ' . ap_e( $ap_pct ) . ' of every first payment.</mark>', 1, array( 'fontSize' => 'xx-large' ) ) . "\n\n"
 					. ap_p( ap_e( "People already ask you where to make a website. Send them to a site that’s set up for them and looked after, with everything included. You get $ap_pct of what they pay up front, on every plan." ), array( 'textColor' => 'secondary', 'fontSize' => 'medium' ) ) . "\n\n"
-					. ap_buttons( array( array( 'Join the program', $ap_join ), array( 'Sign in to your dashboard', '#join', 'outline' ) ) ) . "\n\n"
-					. ap_list( array( 'Free to join', "$ap_cookie-day cookie", 'Paid monthly by PayPal' ), 'is-style-ticks anypress-inline-ticks' ),
+					. ap_buttons( array( array( 'Join the program', $ap_join ), array( 'Sign in to your dashboard', '#join', 'outline' ) ) ),
 					'56%',
 				),
 				array( $ap_earn_card, '44%' ),
