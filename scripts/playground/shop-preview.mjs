@@ -34,6 +34,7 @@ const cli = await runCLI({
                 : { step: 'installTheme', themeData: { resource: 'literal', name: 'anypress.zip', contents: readFileSync(THEME_ZIP) }, options: { activate: true } },
             { step: 'installPlugin', pluginData: { resource: 'wordpress.org/plugins', slug: 'fluent-cart' }, options: { activate: true } },
             { step: 'installPlugin', pluginData: { resource: 'wordpress.org/plugins', slug: 'betterdocs' }, options: { activate: true } },
+            { step: 'installPlugin', pluginData: { resource: 'wordpress.org/plugins', slug: 'fluent-affiliate' }, options: { activate: true } },
             { step: 'mkdir', path: '/wordpress/wp-content/mu-plugins' },
             { step: 'cp', fromPath: '/wordpress/wp-content/anypress-design/anypress-shop.php', toPath: '/wordpress/wp-content/mu-plugins/anypress-shop.php' },
             { step: 'cp', fromPath: '/wordpress/wp-content/anypress-preview/sqlite-json.php', toPath: '/wordpress/wp-content/mu-plugins/0-sqlite-json.php' },
@@ -67,7 +68,7 @@ writeFileSync(resolve(HERE, 'shots/shop/content.json'), dump.text);
 const { chromium } = createRequire(import.meta.url)('playwright');
 const out = resolve(HERE, 'shots/shop');
 mkdirSync(out, { recursive: true });
-const pages = { home: '/', plans: '/shop/', plan: '/item/website-small/', pack: '/item/email-pack-10000/', cart: '/cart/', checkout: '/checkout/', account: '/account/', docs: '/docs/', terms: '/terms/' };
+const pages = { home: '/', plans: '/shop/', plan: '/item/website-small/', pack: '/item/email-pack-10000/', cart: '/cart/', checkout: '/checkout/', account: '/account/', docs: '/docs/', affiliates: '/affiliates/', terms: '/terms/' };
 const browser = await chromium.launch();
 for (const [name, width, height] of [['desk', 1440, 900], ['phone', 390, 844]]) {
     const page = await browser.newPage({ viewport: { width, height } });

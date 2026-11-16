@@ -3,7 +3,7 @@
   "meta": {
     "title": "AnyPress shop: the new design",
     "author": "otaku-solutions",
-    "description": "A copy of shop.anypress.io on the AnyPress theme with its new design: home, plans, plan pages, checkout, account and help pages, with the shop's plans and prices."
+    "description": "A copy of shop.anypress.io on the AnyPress theme with its new design: home, plans, plan pages, checkout, account, affiliate and help pages, with the shop's plans and prices."
   },
   "landingPage": "/",
   "preferredVersions": {
@@ -39,6 +39,16 @@
       "pluginData": {
         "resource": "wordpress.org/plugins",
         "slug": "betterdocs"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "wordpress.org/plugins",
+        "slug": "fluent-affiliate"
       },
       "options": {
         "activate": true
