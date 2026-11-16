@@ -3,7 +3,7 @@
   "pins": [
     {
       "name": "AnyPress theme (Playground previews)",
-      "source": "github:hamchowderr/anypress-theme",
+      "source": "github:otaku-solutions/anypress-theme",
       "asset": "anypress.zip",
       "download": "scripts/playground/preview-zips/anypress.zip",
       "places": [
@@ -15,7 +15,7 @@
     },
     {
       "name": "AnyPress Blocks (Playground previews)",
-      "source": "github:hamchowderr/anypress-blocks",
+      "source": "github:otaku-solutions/anypress-blocks",
       "asset": "anypress-blocks.zip",
       "download": "scripts/playground/preview-zips/anypress-blocks.zip",
       "places": [
@@ -27,7 +27,7 @@
     },
     {
       "name": "AnyPress theme (shop design)",
-      "source": "github:hamchowderr/anypress-theme",
+      "source": "github:otaku-solutions/anypress-theme",
       "asset": "anypress.zip",
       "places": [
         {

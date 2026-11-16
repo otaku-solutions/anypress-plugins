@@ -33,7 +33,7 @@ case "${1:-}" in
     done
     # FluentToolkit (FluentHub) isn't on wordpress.org: the copy the AnyPress store template keeps, checked by SHA-256.
     if [ -n "${SHOP_PLUGINS:-}" ] && ! $WP plugin is-installed fluent-toolkit; then
-      curl -fsSL -o /tmp/ftk.zip https://raw.githubusercontent.com/hamchowderr/waas-provisioning-api/main/templates/anypress-store/plugins/fluent-toolkit-2.1.3.zip
+      curl -fsSL -o /tmp/ftk.zip https://raw.githubusercontent.com/otaku-solutions/anypress-api/main/templates/anypress-store/plugins/fluent-toolkit-2.1.3.zip
       echo "e501b6f0abf9bf5db30c4f60b31702b3ffda217de0c85db408ff4ce210f51123  /tmp/ftk.zip" | sha256sum -c --quiet
       $WP plugin install /tmp/ftk.zip && rm -f /tmp/ftk.zip
     fi
@@ -90,13 +90,13 @@ case "${1:-}" in
     THEME_VERSION=0.23.2
     THEME_SHA256=ceaf0473e3811f6ea54b885f829b30836717cf03c53a6d4d892f8a98310156df
     if [ "$($WP theme get anypress --field=version 2>/dev/null)" != "$THEME_VERSION" ]; then
-      curl -fsSL -o /tmp/anypress.zip "https://github.com/hamchowderr/anypress-theme/releases/download/v$THEME_VERSION/anypress.zip"
+      curl -fsSL -o /tmp/anypress.zip "https://github.com/otaku-solutions/anypress-theme/releases/download/v$THEME_VERSION/anypress.zip"
       echo "$THEME_SHA256  /tmp/anypress.zip" | sha256sum -c --quiet || { echo "AnyPress theme checksum mismatch"; exit 1; }
       $WP theme install /tmp/anypress.zip --force
     fi
     $WP theme activate anypress
     rm -rf /tmp/design && mkdir -p /tmp/design
-    curl -fsSL "https://codeload.github.com/hamchowderr/waas-plugins/tar.gz/${DESIGN_REF:-main}" \
+    curl -fsSL "https://codeload.github.com/otaku-solutions/anypress-plugins/tar.gz/${DESIGN_REF:-main}" \
       | tar -xz -C /tmp/design --strip-components=5 --wildcards '*/scripts/test-storefront/remote/design'
     mkdir -p /var/www/html/wp-content/mu-plugins && cp /tmp/design/anypress-shop.php /var/www/html/wp-content/mu-plugins/
     chown 33:33 /var/www/html/wp-content/mu-plugins/anypress-shop.php

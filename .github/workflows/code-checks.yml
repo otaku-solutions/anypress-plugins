@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - uses: hamchowderr/waas-provisioning-api/.github/pins@main
+      - uses: otaku-solutions/anypress-api/.github/pins@main
   coding-standards:
     # WordPress Coding Standards (security, database, translation, best practice), PSR-12 layout and
     # PHP 8.1 compatibility, from phpcs.xml.dist. Errors fail the check; warnings are listed.
