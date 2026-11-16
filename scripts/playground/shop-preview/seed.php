@@ -114,6 +114,11 @@ foreach ( array( 'terms' => 'Terms of Service', 'privacy' => 'Privacy Policy', '
 	wp_insert_post( array( 'post_type' => 'page', 'post_status' => 'publish', 'post_name' => $slug, 'post_title' => $title, 'post_content' => '<!-- wp:paragraph --><p>The live shop has the full page. This preview only shows how a plain page looks.</p><!-- /wp:paragraph -->' ) );
 }
 
+// The affiliate program's settings as the live shop has them (affiliate.php), so the Affiliates page shows its rate.
+if ( class_exists( '\FluentAffiliate\App\Helper\Utility' ) ) {
+	\FluentAffiliate\App\Helper\Utility::updateReferralSettings( array( 'rate_type' => 'percentage', 'rate' => 30, 'cookie_duration' => 30, 'dashboard_page_id' => get_page_by_path( 'affiliates' )->ID ) );
+}
+
 require "$design/design.php";
 flush_rewrite_rules();
 echo 'plans: ' . count( $made ) . "\n";
