@@ -36,6 +36,8 @@ const THEME = resolve(ROOT, 'scripts/playground/preview-zips/anypress.zip');
 const BLOCKS = resolve(ROOT, 'scripts/playground/preview-zips/anypress-blocks.zip');
 // WordPress's MCP Adapter, as the store template ships it: installed, off until the owner turns it on.
 const MCP_ADAPTER = 'https://downloads.wordpress.org/plugin/mcp-adapter.0.7.1.zip';
+// AutomatorWP, on every site type: its abilities (create an automation, run actions) are tools of the site's MCP server too.
+const AUTOMATORWP = 'https://downloads.wordpress.org/plugin/automatorwp.6.1.2.zip';
 const STARTER_PAGES_URL =
     'https://raw.githubusercontent.com/otaku-solutions/anypress-api/main/templates/anypress-store/mu-plugins/anypress-patterns.php';
 // A throwaway key for this test site only; real stores get theirs from the API as ANYPRESS_SITE_KEY.
@@ -62,6 +64,7 @@ const blueprint = {
         { step: 'activatePlugin', pluginPath: 'anypress-client/anypress-client.php' },
         { step: 'installPlugin', pluginData: { resource: 'literal', name: 'anypress-blocks.zip', contents: readFileSync(BLOCKS) }, options: { activate: true } },
         { step: 'installPlugin', pluginData: { resource: 'url', url: MCP_ADAPTER }, options: { activate: false } },
+        { step: 'installPlugin', pluginData: { resource: 'url', url: AUTOMATORWP }, options: { activate: true } },
         { step: 'writeFile', path: '/wordpress/wp-content/mu-plugins/anypress-patterns.php', data: starterPages },
         // The business details a purchase leaves on a store, with the checkout's optional "what does your business do".
         {
@@ -172,6 +175,8 @@ async function ability(name, input, { as = 'admin', method } = {}) {
     return { status: res.status, data };
 }
 const abilities = new Map();
+// AutomatorWP's abilities, which the site's MCP server lists beside AnyPress's.
+const automatorwpAbilities = new Map();
 
 const results = [];
 async function check(name, fn) {
@@ -367,6 +372,17 @@ await check('abilities: listed with all three safety hints', async () => {
     expect(!unsure.length, `missing hints: ${unsure.map((a) => a.name).join(', ')}`);
 });
 
+await check('abilities: AutomatorWP registers its four automation abilities', async () => {
+    const res = await fetch(`${base}/wp-json/wp-abilities/v1/abilities?category=automatorwp&per_page=100`, {
+        headers: { 'x-test-user': `${USER_TOKEN}:admin` },
+    });
+    const list = await res.json();
+    expect(res.status === 200 && Array.isArray(list), `HTTP ${res.status}: ${JSON.stringify(list).slice(0, 300)}`);
+    for (const a of list) automatorwpAbilities.set(a.name, a);
+    const names = list.map((a) => a.name).sort().join(', ');
+    expect(names === 'automatorwp/add-actions, automatorwp/add-triggers, automatorwp/create-automation, automatorwp/run-actions', names);
+});
+
 await check('abilities: refused when signed out, or without the capability', async () => {
     const nobody = await ability('anypress/get-site', undefined, { as: null });
     expect(nobody.status === 401, `signed out: HTTP ${nobody.status}`);
@@ -528,8 +544,11 @@ async function mcpTools(version) {
     const list = await mcp('tools/list', {}, { version });
     expectStatus(list, 200);
     const tools = list.data.result?.tools ?? [];
-    const toolAbilities = [...abilities.values()].filter((a) => a.meta?.mcp?.type !== 'resource').length;
-    expect(tools.length === toolAbilities && toolAbilities > 0, `${tools.length} tools for ${toolAbilities} abilities`);
+    const toolAbilities = [...abilities.values()].filter((a) => a.meta?.mcp?.type !== 'resource').length + automatorwpAbilities.size;
+    expect(tools.length === toolAbilities && automatorwpAbilities.size > 0, `${tools.length} tools for ${toolAbilities} abilities`);
+    for (const name of automatorwpAbilities.keys()) {
+        expect(tools.some((tool) => tool.name.endsWith(name.split('/')[1]) && tool.name.startsWith('automatorwp')), `no tool for ${name} in ${tools.map((tool) => tool.name).join(', ')}`);
+    }
     const getSite = tools.find((tool) => /get-site$/.test(tool.name));
     expect(getSite, `no get-site tool in ${tools.map((tool) => tool.name).join(', ')}`);
     expect(getSite.annotations?.readOnlyHint === true, `get-site annotations ${JSON.stringify(getSite.annotations)}`);
@@ -575,6 +594,31 @@ await check('MCP 2026-07-28: discover, every site ability is a tool, get-site ru
     expectStatus(discover, 200);
     expect(JSON.stringify(discover.data.result ?? {}).includes('AnyPress website'), `discover ${JSON.stringify(discover.data).slice(0, 300)}`);
     await mcpTools('2026-07-28');
+});
+
+await check('MCP: an AI app sets up an AutomatorWP automation, and it starts switched off', async () => {
+    const init = await mcp('initialize', INIT);
+    mcpSession = init.session;
+    const list = await mcp('tools/list');
+    const create = (list.data.result?.tools ?? []).find((tool) => tool.name.startsWith('automatorwp') && tool.name.endsWith('create-automation'));
+    expect(create, 'no create-automation tool');
+    const call = await mcp('tools/call', { name: create.name, arguments: { title: 'Tag new members', type: 'user' } });
+    expectStatus(call, 200);
+    const text = JSON.stringify(call.data.result ?? {});
+    expect(!call.data.result?.isError && text.includes('Tag new members'), `create-automation: ${text.slice(0, 300)}`);
+    const out = await cli.playground.run({
+        code: `<?php
+require '/wordpress/wp-load.php';
+// AutomatorWP's own table API: the newest automation.
+ct_setup_table('automatorwp_automations');
+$found = (new CT_Query(['orderby' => 'id', 'order' => 'DESC', 'items_per_page' => 1]))->get_results();
+ct_reset_setup_table();
+$automation = $found ? automatorwp_get_automation_object($found[0]->id) : null;
+echo json_encode($automation ? ['title' => $automation->title, 'status' => $automation->status] : ['none' => true]);
+`,
+    });
+    const row = JSON.parse(out.text.slice(out.text.indexOf('{')));
+    expect(row?.title === 'Tag new members' && row?.status === 'inactive', `automation saved as ${out.text.slice(0, 200)}`);
 });
 
 await check('MCP: the build guide is a resource the app can read', async () => {

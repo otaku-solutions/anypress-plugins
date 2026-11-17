@@ -212,6 +212,16 @@
       ]
     },
     {
+      "name": "AutomatorWP (Playground tests)",
+      "source": "wordpress-plugin:automatorwp",
+      "places": [
+        {
+          "file": "scripts/playground/smoke.mjs",
+          "match": "automatorwp\\.(?<version>[0-9][0-9.]*[0-9])\\.zip"
+        }
+      ]
+    },
+    {
       "name": "Fluent Support (Playground tests)",
       "source": "wordpress-plugin:fluent-support",
       "places": [
