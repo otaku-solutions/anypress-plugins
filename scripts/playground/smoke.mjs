@@ -558,14 +558,15 @@ async function mcpTools(version) {
 }
 
 await check('MCP: the plan turns the adapter on by itself, with no switch', async () => {
-    // What a store's page load does (RolesManager on init): a store with a plan, here the website site type.
+    // What a store's page load does (RolesManager on init): a store with a plan, here the website site type, whose
+    // plugins include AutomatorWP.
     const out = await cli.playground.run({
         code: `<?php
 require '/wordpress/wp-load.php';
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 putenv('ANYPRESS_IS_TENANT=true');
 wp_mkdir_p(AnyPressClient\\Features\\AdminRolesSettings::ROLES_FILE_DIR_PATH);
-file_put_contents(AnyPressClient\\Features\\AdminRolesSettings::ROLES_FILE_PATH, json_encode(['website' => ['title' => 'Website', 'plugins' => ['anypress-client/anypress-client.php']]]));
+file_put_contents(AnyPressClient\\Features\\AdminRolesSettings::ROLES_FILE_PATH, json_encode(['website' => ['title' => 'Website', 'plugins' => ['anypress-client/anypress-client.php', 'automatorwp/automatorwp.php']]]));
 (new AnyPressClient\\Features\\RolesManager())->activate_enabled_plugins();
 echo json_encode(['active' => is_plugin_active('mcp-adapter/mcp-adapter.php')]);
 `,
