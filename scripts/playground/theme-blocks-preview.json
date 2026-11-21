@@ -44,7 +44,7 @@
       "step": "installPlugin",
       "pluginData": {
         "resource": "url",
-        "url": "https://downloads.wordpress.org/plugin/mcp-adapter.0.7.1.zip"
+        "url": "https://downloads.wordpress.org/plugin/mcp-adapter.0.7.2.zip"
       },
       "options": {
         "activate": false
