@@ -281,6 +281,7 @@ class CleanAdmin
         ?>
         <style>
             .rank-math-unlock-pro-notice, .rank-math-unlock-pro-box, .ff_card_pro, .ff_upgrade_btn_large, .fls_dash_promo, .rank-math-pro-cta, .rank-math-anniversary-wrapper, .fct-congrats-modal,
+            .nt-topbar__plan, .nt-create__tile:has(.nt-pro-badge), .nt-optin.is-help, .nt-help__card, .nt-help__others,
             #wpbody a[href*="/pricing"], #wpbody a[href*="rankmath.com/pro"], #wpbody a[href*="utm_medium=upgrade"] { display: none !important; }
             body.el-popup-parent--hidden { overflow: auto !important; }
         </style>
