@@ -5,6 +5,8 @@
  * answered here instead: an order "builds" a pretend store that is ready a minute later, and backups, domains,
  * packs and care are recorded but nothing is built anywhere. Tools > Pretend API lists what was asked.
  * Price lists are the real ones (a public read). Must-use plugin for shop-staging.anypress.io only.
+ * Pretend stores live in one option, written whole: fine for a test shop clicked by one person at a time, and
+ * Tools > Pretend API clears it if two calls ever cross.
  * Version: 1.0.0
  */
 
