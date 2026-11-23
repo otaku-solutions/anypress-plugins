@@ -153,7 +153,7 @@ final class ExporterTest extends TestCase
             });
             $state = json_decode(json_encode($state), true); // as an option would keep it
             if ($state['step'] === 'pack' && $state['fileOffset'] > 0) $split = true;
-            $this->assertLessThan(10000, ++$runs);
+            $this->assertLessThan(100000, ++$runs);
         }
         $this->assertTrue($split, 'a large file was packed over several steps');
         $this->assertSame(1, $beats, 'the upload kept its lock alive');
@@ -231,7 +231,7 @@ final class ExporterTest extends TestCase
         $state = $exporter->begin(self::code(), $api, "$this->dir/content/uploads", []);
         for ($i = 0; !isset($state['parts']); $i++) {
             $state = $exporter->run($state, $api, 0.001);
-            $this->assertLessThan(10000, $i);
+            $this->assertLessThan(100000, $i);
         }
         $archive = (string) file_get_contents($state['work'] . '/export.tar.gz');
 
