@@ -22,7 +22,9 @@ const ANYPRESS_STAGING_API_READY_AFTER = 60; // seconds until a pretend store is
 /** The API address AnyPress Host uses, without a trailing slash. */
 function anypress_staging_api_base(): string
 {
-    $base = defined('API_BASE_URL') ? (string) API_BASE_URL : (string) get_option('anypress_api_base_url', '');
+    // Resolved exactly as AnyPress Host's ConfigService does, so every call it makes is caught here.
+    $base = defined('ANYPRESS_API_BASE_URL') ? (string) constant('ANYPRESS_API_BASE_URL') : (string) get_option('anypress_api_base_url', '');
+    $base = (string) apply_filters('anypress_settings_api_base_url', $base !== '' ? $base : 'https://api.anypress.io');
     return untrailingslashit($base !== '' ? $base : 'https://api.anypress.io');
 }
 
@@ -104,6 +106,10 @@ add_filter('pre_http_request', function ($pre, $args, $url) {
     $log = is_array($log) ? array_slice($log, -99) : [];
     // Who and what, never secrets: passwords are dropped.
     $logged = is_array($body) ? array_diff_key($body, array_flip(['wordPressUserPassword', 'contact'])) : null;
+    // The owner's details (name, phone, address) ride along in wpOptions; keep only which options were sent.
+    if (isset($logged['wpOptions']) && is_array($logged['wpOptions'])) {
+        $logged['wpOptions'] = array_keys($logged['wpOptions']);
+    }
     $log[] = ['at' => gmdate('c'), 'method' => $method, 'path' => $path, 'query' => $query, 'body' => $logged];
     update_option(ANYPRESS_STAGING_API_LOG, $log, false);
 
@@ -127,7 +133,7 @@ function anypress_staging_api_route(string $method, string $path, array $query, 
         case 'GET /v1/webhooks':
             return anypress_staging_api_answer([]);
         case 'POST /v1/webhooks':
-            return anypress_staging_api_answer(['id' => 'staging', 'url' => $body['url'] ?? '', 'secret' => 'whsec_' . base64_encode('staging')], 201);
+            return anypress_staging_api_answer(['id' => 'staging', 'url' => $body['url'] ?? '', 'secret' => 'whsec_' . base64_encode(random_bytes(32))], 201);
 
         case 'POST /v1/tenants':
             $id = wp_generate_uuid4();
@@ -187,14 +193,18 @@ function anypress_staging_api_route(string $method, string $path, array $query, 
         case 'POST /v1/tenants/site/handoff':
             return anypress_staging_api_answer(['url' => 'https://' . $store['domainName'] . '/wp-admin/']);
         case 'GET /v1/tenants/mail-domain':
-            return anypress_staging_api_answer(['domainName' => $store['mailDomain'] ?? null, 'records' => []]);
+            return anypress_staging_api_answer(['mailDomain' => $store['mailDomain'] ?? null]);
         case 'PUT /v1/tenants/mail-domain':
-            $stores[$external_id]['mailDomain'] = (string) ($body['domainName'] ?? '');
-            break;
+            $stores[$external_id]['mailDomain'] = ['domainName' => (string) ($body['domainName'] ?? ''), 'status' => 'verified', 'dateCreated' => gmdate('c'), 'dateVerified' => gmdate('c'), 'records' => []];
+            anypress_staging_api_save($stores);
+            return anypress_staging_api_answer(['mailDomain' => $stores[$external_id]['mailDomain']]);
         case 'GET /v1/tenants/domains/search':
             return anypress_staging_api_answer([]);
         case 'GET /v1/tenants/domains/available':
-            return anypress_staging_api_answer(['domain' => $query['domain'] ?? '', 'available' => false]);
+            // Free unless a pretend store already has it.
+            $domain = (string) ($query['domain'] ?? '');
+            $taken = in_array($domain, array_column($stores, 'domainName'), true);
+            return anypress_staging_api_answer(['domain' => $domain, 'available' => !$taken]);
     }
 
     anypress_staging_api_save($stores);

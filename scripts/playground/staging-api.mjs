@@ -62,6 +62,10 @@ $out['suspended'] = $api->get_tenant_safe('sub-1')->isSuspended;
 $api->resume_tenant('sub-1');
 $out['resumed'] = $api->get_tenant_safe('sub-1')->isSuspended;
 $out['packs'] = $api->set_storage_packs('sub-1', 2)->storagePacksGb;
+$out['free'] = $api->domain_available('another-bakery.anypress.site');
+$out['taken'] = $api->domain_available('staging-bakery.anypress.site');
+$api->set_mail_domain('sub-1', 'mail.staging-bakery.example');
+$out['mail'] = $api->get_mail_domain('sub-1')->domainName ?? null;
 $api->set_care('sub-1', 'care-plus');
 $api->create_tenant_backup('sub-1');
 $out['backups'] = count($api->get_tenant_backups('sub-1'));
@@ -77,11 +81,21 @@ check(r.done === 1 && r.domain === 'staging-bakery.anypress.site', 'a minute lat
 check(r.head === 200, "its address answers the shop's check");
 check(r.suspended === true && r.resumed === false, 'suspend and resume are recorded');
 check(r.packs === 50, 'storage packs are recorded');
+check(r.free === true && r.taken === false, "an address is free unless a pretend store has it");
+check(r.mail === 'mail.staging-bakery.example', 'a sending domain set through the shop reads back');
 check(r.backups === 1, 'a backup is recorded');
 check(r.all === 1, 'the store list shows it');
 check(r.password_logged === false, 'the call log keeps no password');
 check(r.after_delete === null, 'delete removes it');
 check(!r.leaked, `no call leaves the site${r.leaked ? ': ' + r.leaked.join(', ') : ''}`);
+
+// The Host may be pointed at another API address (setting or filter): the pretend API follows it.
+const o = JSON.parse(await php(staging, `
+add_filter('anypress_settings_api_base_url', fn () => 'https://api.other.example/');
+$api = new ProvisioningApi(new HttpService(new ConfigService()));
+$out['status'] = $api->create_tenant(['name' => 'Other', 'wordpress_username' => 'o', 'wordpress_email' => 'o@anypress.example', 'wordpress_user_role' => 'administrator', 'external_id' => 'sub-2'])->statusCode;
+`));
+check(o.status === 0 && !o.leaked, `a changed API address is caught too${o.leaked ? ': ' + o.leaked.join(', ') : ''}`);
 await staging[Symbol.asyncDispose]?.();
 
 const live = await site('production');
