@@ -86,10 +86,13 @@ ok "anypress-host and anypress-client build and stamp too"
 unzip -p "$work/other-builds/anypress-export.zip" anypress-export/anypress-export.php | grep -q "define('ANYPRESS_EXPORT_VERSION', '9.9.9');" || fail "anypress-export not stamped"
 unzip -p "$work/other-builds/anypress-export.zip" anypress-export/anypress-export.php | grep -q '^Version: 9.9.9$' || fail "anypress-export header not stamped"
 ok "anypress-export builds and stamps too"
-"$here/build.sh" anypress-move 9.9.9 "$work/other-builds" > /dev/null
-unzip -p "$work/other-builds/anypress-move.zip" anypress-move/anypress-move.php | grep -q "define('ANYPRESS_MOVE_VERSION', '9.9.9');" || fail "anypress-move not stamped"
-unzip -l "$work/other-builds/anypress-move.zip" | grep -q 'anypress-move/lib/Moving/CourseImport.php' || fail "anypress-move has no switches in lib/"
-ok "anypress-move builds with its copy of the switches"
+"$here/build.sh" otaku-migration-for-fluent 9.9.9 "$work/other-builds" > /dev/null
+unzip -p "$work/other-builds/otaku-migration-for-fluent.zip" otaku-migration-for-fluent/otaku-migration-for-fluent.php | grep -q "define('OTAKU_MIGRATION_VERSION', '9.9.9');" || fail "otaku-migration-for-fluent not stamped"
+unzip -l "$work/other-builds/otaku-migration-for-fluent.zip" | grep -q 'otaku-migration-for-fluent/lib/Moving/CourseImport.php' || fail "otaku-migration-for-fluent has no switches in lib/"
+unzip -Z1 "$work/other-builds/otaku-migration-for-fluent.zip" | grep -qiE 'Abilities|README\.md$' && fail "otaku-migration-for-fluent carries abilities or its README.md"
+mkdir -p "$work/migration" && unzip -q "$work/other-builds/otaku-migration-for-fluent.zip" -d "$work/migration"
+grep -rqiE 'wp_register_ability|anypress' "$work/migration/otaku-migration-for-fluent/lib" "$work/migration/otaku-migration-for-fluent/src" "$work/migration/otaku-migration-for-fluent/readme.txt" && fail "otaku-migration-for-fluent registers abilities or names AnyPress"
+ok "otaku-migration-for-fluent builds with its copy of the switches, no abilities and no AnyPress names"
 "$here/build.sh" anypress-payments latest "$work/x" 2>/dev/null && fail "accepted a bad version"
 ok "a bad version is refused"
 

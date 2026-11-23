@@ -1,6 +1,6 @@
 // End-to-end test of the forms switch's Gravity Forms source (`wp anypress forms switch` and the check-forms /
 // switch-forms abilities) on WordPress Playground: a website about to move in, with the AnyPress theme, Fluent Forms at
-// the store template's version and AnyPress Client from this checkout (or AnyPress Move, which carries the same code).
+// the store template's version and AnyPress Client from this checkout (or Otaku Migration for Fluent, which carries the same code).
 // It is not set up as a store: on a store, AnyPress Client keeps only the site type's plugins on, so Gravity Forms
 // (needed while its forms are read) is switched off. The forms switch runs on the website before it moves in, as in
 // forms.mjs.
