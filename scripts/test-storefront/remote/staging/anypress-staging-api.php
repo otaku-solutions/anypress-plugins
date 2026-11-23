@@ -198,6 +198,10 @@ function anypress_staging_api_route(string $method, string $path, array $query, 
             $stores[$external_id]['mailDomain'] = ['domainName' => (string) ($body['domainName'] ?? ''), 'status' => 'verified', 'dateCreated' => gmdate('c'), 'dateVerified' => gmdate('c'), 'records' => []];
             anypress_staging_api_save($stores);
             return anypress_staging_api_answer(['mailDomain' => $stores[$external_id]['mailDomain']]);
+        case 'DELETE /v1/tenants/mail-domain':
+            unset($stores[$external_id]['mailDomain']);
+            anypress_staging_api_save($stores);
+            return anypress_staging_api_answer(null, 202);
         case 'GET /v1/tenants/domains/search':
             return anypress_staging_api_answer([]);
         case 'GET /v1/tenants/domains/available':
