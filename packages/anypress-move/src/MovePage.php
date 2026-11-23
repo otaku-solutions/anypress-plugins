@@ -194,7 +194,7 @@ class MovePage
         }
         echo '<div class="wrap"><h1>' . esc_html__('Move to Fluent', 'anypress-move') . '</h1>';
         echo '<p>' . esc_html__('Each switch copies one plugin\'s data into the Fluent plugin that replaces it. Check first: it says what would come across, what can\'t, and anything in the way, and changes nothing. The old plugin and its data are never changed, emails are held while a switch runs, and Undo takes out only what the switch added.', 'anypress-move') . '</p>';
-        echo '<p>' . esc_html__('Take a backup before you switch. Each switch also runs as `wp anypress <switch> switch` and as an ability for AI tools on this site.', 'anypress-move') . '</p>';
+        echo '<p>' . esc_html__('Take a backup before you switch. Each switch also runs from WP-CLI as `wp anypress <switch> switch`.', 'anypress-move') . '</p>';
         foreach ($this->switches() as $key => [$title, $what]) {
             $this->card($key, $title, $what, is_array($last) && $last['switch'] === $key ? $last : null);
         }

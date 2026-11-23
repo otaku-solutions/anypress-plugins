@@ -1,7 +1,7 @@
 // End-to-end test of AnyPress Move, the moving switches as their own plugin for any WordPress site (not an AnyPress
 // store, so no site type: a plain WordPress with the AnyPress theme, FluentCommunity and Tutor LMS from wordpress.org).
-// Tutor LMS makes a course, an enrolment and progress with its own functions and is then switched off. Checks: every
-// switch's abilities and WP-CLI commands are there; the Tools, Move to Fluent page lists every switch; its Check
+// Tutor LMS makes a course, an enrolment and progress with its own functions and is then switched off. Checks: no
+// switch is a WordPress ability; every switch is a WP-CLI command and the course check runs from it; the Tools, Move to Fluent page lists every switch; its Check
 // changes nothing; its Switch makes the FluentCommunity course with the student and progress; its Undo takes it back
 // out; the Tutor LMS data never changes; and with AnyPress Client active, AnyPress Move does nothing.
 //
@@ -12,7 +12,6 @@
 // Needs packages/anypress-move built (scripts/build-move.sh, then composer install in packages/anypress-move),
 // packages/anypress-client/vendor (composer install there), and network access to downloads.wordpress.org.
 
-import { randomBytes } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -30,7 +29,6 @@ const PORT = Number(process.env.PLAYGROUND_PORT || 9408);
 const SERVE = process.argv.includes('--serve');
 const FLUENT_COMMUNITY = process.env.FLUENT_COMMUNITY || '2.12.0';
 const TUTOR = process.env.TUTOR || 'latest-stable';
-const USER_TOKEN = randomBytes(24).toString('hex');
 const SWITCHES = ['forms', 'shop', 'edd', 'crm', 'support', 'affiliate', 'community', 'course', 'circle', 'skool', 'calendly', 'memberpress'];
 
 for (const [path, fix] of [
@@ -54,18 +52,6 @@ const blueprint = {
         { step: 'installTheme', themeData: { resource: 'literal', name: 'anypress.zip', contents: readFileSync(THEME) }, options: { activate: true } },
         { step: 'installPlugin', pluginData: { resource: 'url', url: `https://downloads.wordpress.org/plugin/fluent-community.${FLUENT_COMMUNITY}.zip` }, options: { activate: true } },
         { step: 'installPlugin', pluginData: { resource: 'url', url: `https://downloads.wordpress.org/plugin/tutor.${TUTOR}.zip` }, options: { activate: true } },
-        {
-            step: 'writeFile',
-            path: '/wordpress/wp-content/mu-plugins/move-test.php',
-            data: `<?php
-// Test only: X-Test-User: <token>:<login> signs a REST request in as that user.
-add_filter('determine_current_user', function ($id) {
-    [$token, $login] = array_pad(explode(':', $_SERVER['HTTP_X_TEST_USER'] ?? '', 2), 2, '');
-    $user = hash_equals('${USER_TOKEN}', $token) ? get_user_by('login', $login) : false;
-    return $user ? $user->ID : $id;
-}, 30);
-`,
-        },
         { step: 'activatePlugin', pluginPath: 'anypress-move/anypress-move.php' },
         { step: 'setSiteOptions', options: { blogname: 'Playground Bakery', permalink_structure: '/%postname%/' } },
     ],
@@ -164,15 +150,25 @@ echo json_encode(['course' => $a, 'enrolment' => get_post_status($e), 'version' 
 console.log(`Tutor LMS ${seed.version}: course ${seed.course}, enrolment ${seed.enrolment}`);
 const before = await tutorData();
 
-await check('every switch is there as abilities and WP-CLI commands, without AnyPress Client', async () => {
+await check('no switch is a WordPress ability, and every switch is a WP-CLI command, without AnyPress Client', async () => {
     const state = await php(`$names = array_keys(wp_get_abilities()); echo json_encode(['client' => defined('ANYPRESS_CLIENT_VERSION'), 'move' => class_exists('AnyPressMove\\\\Plugin', false), 'names' => $names]);`);
     expect(!state.client && state.move, short(state));
-    // The EDD switch is the shop switch's --from=edd: it has no abilities or command of its own.
+    const ours = state.names.filter((n) => /^(anypress|otaku-move)\//.test(n));
+    expect(!ours.length, `abilities registered: ${ours.join(', ')}`);
+    // The EDD switch is the shop switch's --from=edd: it has no command of its own.
     const OWN = SWITCHES.filter((k) => k !== 'edd');
-    const missing = OWN.flatMap((k) => [`anypress/check-${k}`, `anypress/switch-${k}`]).filter((n) => !state.names.includes(n));
-    expect(!missing.length, `missing abilities: ${missing.join(', ')}`);
     const help = await wp('wp anypress --help');
     for (const k of OWN) expect(help.includes(k), `no wp anypress ${k}: ${help.slice(0, 600)}`);
+});
+
+await check('the course switch checks from WP-CLI and changes nothing', async () => {
+    const out = await wp('wp anypress course switch --user=admin --from=tutor --dry-run --format=json');
+    const start = out.indexOf('{');
+    expect(start >= 0, out.slice(0, 600));
+    const report = JSON.parse(out.slice(start));
+    expect(report.dry_run === true && report.preflight?.ready === true, short(report));
+    expect(report.preflight.sources.tutor.counts.courses === 1, short(report.preflight.sources.tutor));
+    expect(!(await course()).course, 'a course was made');
 });
 
 await check('Tools, Move to Fluent lists every switch with Check, Switch and Undo', async () => {
@@ -222,8 +218,6 @@ await check('an editor cannot open the page or press its buttons', async () => {
         require_once ABSPATH . 'wp-admin/includes/admin.php'; do_action('admin_menu');
         echo json_encode(['page' => (bool) get_plugin_page_hook('anypress-move', 'tools.php'), 'can' => current_user_can('manage_options')]);`);
     expect(out.page === false && out.can === false, short(out));
-    const res = await fetch(`${base}/wp-json/wp-abilities/v1/abilities/anypress/check-course/run`, { headers: { 'x-test-user': `${USER_TOKEN}:editor` } });
-    expect(res.status === 403, `check-course as an editor: HTTP ${res.status}`);
 });
 
 await check('a switch never turns plugins on: with FluentCommunity off, Check asks for it and it stays off', async () => {

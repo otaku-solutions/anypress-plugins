@@ -16,7 +16,7 @@ Moves a WordPress site's forms, shop, contacts, help desk, affiliates, community
 | Calendly | Calendly (personal access token) | FluentBooking |
 | MemberPress | MemberPress memberships (and, with billing, Stripe subscriptions) | FluentCommunity spaces and courses, FluentCRM tags, FluentCart subscriptions |
 
-Each one has **Check** (says what would come across and changes nothing), **Switch** and **Undo** (takes out only what the switch added). The source plugin is never changed, and email is held while a switch runs. The same switches run as `wp anypress <switch> switch` and as WordPress abilities (`anypress/check-<switch>`, `anypress/switch-<switch>`). With AnyPress Client active, AnyPress Move does nothing.
+Each one has **Check** (says what would come across and changes nothing), **Switch** and **Undo** (takes out only what the switch added). The source plugin is never changed, and email is held while a switch runs. The same switches run as `wp anypress <switch> switch`. The plugin registers no WordPress abilities, so MCP clients and other remote tools can't run the switches. With AnyPress Client active, AnyPress Move does nothing.
 
 ## Building
 

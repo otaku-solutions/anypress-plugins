@@ -671,8 +671,8 @@ jobs:
 
   playground-move:
     # AnyPress Move, the switches as their own plugin for any WordPress site: built from AnyPress Client's switches,
-    # on a plain WordPress with FluentCommunity and Tutor LMS. The Tools page's Check, Switch and Undo, the abilities
-    # and WP-CLI commands, and that it does nothing when AnyPress Client is active.
+    # on a plain WordPress with FluentCommunity and Tutor LMS. The Tools page's Check, Switch and Undo, the WP-CLI
+    # commands, no abilities, and that it does nothing when AnyPress Client is active.
     name: anypress-move on WordPress Playground
     runs-on: ubuntu-latest
     steps:

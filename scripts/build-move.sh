@@ -21,11 +21,12 @@ rm -f "$lib/Crm/HighLevelLink.php"
 # The Brevo and MailerLite importers in FluentCRM's Import screen need AnyPress Client's SDKs (its vendor/); they read
 # online services, so they run on the store itself and AnyPress Move doesn't carry them.
 rm -rf "$lib/Crm/Importers"
+# A wordpress.org plugin may not let remote clients run the switches: AnyPress Move registers no WordPress abilities,
+# so the abilities classes stay in AnyPress Client. The switches run from Tools > Move to Fluent and WP-CLI.
+rm -f "$lib"/*/*Abilities.php
 
 find "$lib" -name '*.php' -print0 | while IFS= read -r -d '' file; do
   sed -i \
-    -e 's/AnyPressClient\\Api\\SiteAbilities/AnyPressMove\\Category/g' \
-    -e 's/\bSiteAbilities::CATEGORY\b/Category::CATEGORY/g' \
     -e 's/AnyPressClient\\/AnyPressMove\\Lib\\/g' \
     -e "s/'anypress-client'/'anypress-move'/g" \
     -e '1a\
@@ -44,6 +45,8 @@ cp "$root/scripts/move/FluentPlugin.php" "$lib/Core/FluentPlugin.php"
 
 left=$(grep -rlE "AnyPressClient|SiteAbilities|'anypress-client'" "$lib" || true)
 [ -z "$left" ] || { echo "Client names left in: $left" >&2; exit 1; }
+abilities=$(grep -rlE "wp_register_ability|wp_abilities_api" "$lib" || true)
+[ -z "$abilities" ] || { echo "AnyPress Move must not register abilities: $abilities" >&2; exit 1; }
 turns_on=$(grep -rlE "activate_plugin|deactivate_plugins" "$lib" || true)
 [ -z "$turns_on" ] || { echo "AnyPress Move must not change other plugins' activation: $turns_on" >&2; exit 1; }
 echo "built $(find "$lib" -name '*.php' | wc -l | tr -d ' ') files into $lib"

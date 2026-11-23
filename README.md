@@ -150,7 +150,7 @@ WooCommerce products keep their AnyPress settings through WooCommerce's product 
 
 ## AnyPress Move
 
-`packages/anypress-move` carries AnyPress Client's moving switches on their own, for any WordPress site: forms, a WooCommerce shop, contacts, help desk, affiliates, a community, LearnDash, Tutor LMS or LifterLMS courses, a Circle community and MemberPress members into the Fluent plugins. **Tools → Move to Fluent** has Check, Switch and Undo for each, and the same switches run as `wp anypress <switch> switch` and as abilities. With AnyPress Client active it does nothing. `scripts/build-move.sh` copies the switches in at build time. More: [packages/anypress-move/README.md](packages/anypress-move/README.md).
+`packages/anypress-move` carries AnyPress Client's moving switches on their own, for any WordPress site: forms, a WooCommerce shop, contacts, help desk, affiliates, a community, LearnDash, Tutor LMS or LifterLMS courses, a Circle community and MemberPress members into the Fluent plugins. **Tools → Move to Fluent** has Check, Switch and Undo for each, and the same switches run as `wp anypress <switch> switch`; it registers no abilities. With AnyPress Client active it does nothing. `scripts/build-move.sh` copies the switches in at build time. More: [packages/anypress-move/README.md](packages/anypress-move/README.md).
 
 ## Account API
 

@@ -29,7 +29,7 @@ Each switch copies one plugin's data into the Fluent plugin that replaces it, us
 
 Open Tools > Move to Fluent. Check says what would come across, what can't, and anything in the way, and changes nothing. Switch runs it. Undo takes out only what the switch added. The old plugin and its data are never changed, and emails are held while a switch runs, so nobody gets a welcome email for a copied account. Take a backup before you switch.
 
-The same switches run from WP-CLI (`wp anypress course switch --dry-run`, `wp anypress forms switch`, and so on) and as WordPress abilities, so AI tools connected through the MCP Adapter can check and run them.
+The same switches run from WP-CLI (`wp anypress course switch --dry-run`, `wp anypress forms switch`, and so on). They run only for an administrator signed in to this site or a WP-CLI user on its server; the plugin registers no WordPress abilities and no REST routes for them.
 
 Install and turn on the Fluent plugin a switch copies into first (and, for the shop, FluentCart's free Migrator add-on). The switches never turn plugins on or off; Check says which one is still off.
 
