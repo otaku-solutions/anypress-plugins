@@ -423,7 +423,7 @@ class SkoolImport extends NativeImport
     protected function lost(string $source): array
     {
         return [
-            __('The classroom (courses, lessons and videos) and the community\'s posts and comments: Skool has no export for them, so they are rebuilt in FluentCommunity. AnyPress can rebuild them for you as part of its one-time move-in help (anypress.io/care).', 'anypress-client'),
+            __('The classroom (courses, lessons and videos) and the community\'s posts and comments: Skool has no export for them, so they are rebuilt in FluentCommunity.', 'anypress-client'),
             __('Payments: Skool\'s paid memberships stay in Skool. Pick a date, and members subscribe again through FluentCart.', 'anypress-client'),
             __('Passwords (members set a new one with "Lost your password?"), profile photos, levels and points, and who invited whom.', 'anypress-client'),
         ];
