@@ -207,7 +207,7 @@ await check('with the file the check counts members, rows without an email, repe
     expect(p.warnings.some((w) => w.includes('2 members have no email') && w.includes('rows 5, 7')), short(p.warnings));
     expect(p.warnings.some((w) => w.includes('1 email is in the file more than once')), short(p.warnings));
     expect(p.warnings.some((w) => w.includes('Invited By, JoinedDate, Tier, LTV')), short(p.warnings));
-    expect(res.data.lost.some((l) => l.includes('classroom') && l.includes('rebuilt') && l.includes('anypress.io/care')), short(res.data.lost));
+    expect(res.data.lost.some((l) => l.includes('classroom') && l.includes('rebuilt')) && !res.data.lost.some((l) => l.includes('anypress.io/care')), short(res.data.lost));
     const now = await state();
     expect(now.spaces.length === 0 && now.users['grace@anypress.example'] === null, short(now));
 });
