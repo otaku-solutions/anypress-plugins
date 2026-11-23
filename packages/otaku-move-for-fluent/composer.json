@@ -1,12 +1,12 @@
 {
-  "name": "otakusolutions/anypress-move",
+  "name": "otakusolutions/otaku-move-for-fluent",
   "description": "Moves a WordPress site's forms, shop, contacts, help desk, affiliates, community, courses and members into the Fluent plugins.",
   "type": "project",
   "license": "GPL-3.0-or-later",
   "autoload": {
     "psr-4": {
-      "AnyPressMove\\Lib\\": "lib/",
-      "AnyPressMove\\": "src/"
+      "OtakuMove\\Lib\\": "lib/",
+      "OtakuMove\\": "src/"
     }
   },
   "authors": [

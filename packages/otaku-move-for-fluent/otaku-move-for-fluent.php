@@ -1,26 +1,26 @@
 <?php
 
 /*
-Plugin Name: AnyPress Move
-Plugin URI: https://anypress.io/move
+Plugin Name: Otaku Move for Fluent
 Description: Moves your site's forms, shop, contacts, help desk, affiliates, community, courses and members into the Fluent plugins, with a check first and an undo after. Under Tools, Move to Fluent.
 Author: Otaku Solutions
-Version: 1.5.0
+Version: 1.6.0
 Author URI: https://otakusolutions.io
 Requires at least: 6.9
 Requires PHP: 8.1
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
-Text Domain: anypress-move
+Text Domain: otaku-move-for-fluent
 */
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-define('ANYPRESS_MOVE_VERSION', '1.5.0');
+define('OTAKU_MOVE_VERSION', '1.6.0');
 
-// AnyPress websites already have every switch in AnyPress Client; this plugin then stays out of the way.
+// Sites hosted by Otaku Solutions already have every switch in their client plugin (it defines this constant);
+// this plugin then stays out of the way.
 add_action('plugins_loaded', static function () {
     if (defined('ANYPRESS_CLIENT_VERSION')) {
         return;
@@ -28,11 +28,11 @@ add_action('plugins_loaded', static function () {
     if (!is_readable(__DIR__ . '/vendor/autoload.php') || !is_dir(__DIR__ . '/lib')) {
         add_action('admin_notices', static function () {
             if (current_user_can('activate_plugins')) {
-                echo '<div class="notice notice-error"><p>' . esc_html__('AnyPress Move is missing some of its files. Install it again from its download.', 'anypress-move') . '</p></div>';
+                echo '<div class="notice notice-error"><p>' . esc_html__('Otaku Move for Fluent is missing some of its files. Install it again from its download.', 'otaku-move-for-fluent') . '</p></div>';
             }
         });
         return;
     }
     require_once __DIR__ . '/vendor/autoload.php';
-    \AnyPressMove\Plugin::start();
+    \OtakuMove\Plugin::start();
 }, 20);

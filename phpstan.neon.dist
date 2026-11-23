@@ -17,8 +17,8 @@ parameters:
         - packages/anypress-payments/anypress-payments.php
         - packages/anypress-export/src
         - packages/anypress-export/anypress-export.php
-        - packages/anypress-move/src
-        - packages/anypress-move/anypress-move.php
+        - packages/otaku-move-for-fluent/src
+        - packages/otaku-move-for-fluent/otaku-move-for-fluent.php
         - packages/anypress-updater/src
     excludePaths:
         analyse:
@@ -27,8 +27,8 @@ parameters:
         # The libraries AnyPress Client ships (the Brevo and MailerLite SDKs and the PSR-7/17/18 parts they use):
         # composer install --no-dev in packages/anypress-client first.
         - packages/anypress-client/vendor
-        # AnyPress Move's copy of AnyPress Client's switches (scripts/build-move.sh), checked as AnyPress Client.
-        - packages/anypress-move/lib
+        # Otaku Move for Fluent's copy of AnyPress Client's switches (scripts/build-move.sh), checked as AnyPress Client.
+        - packages/otaku-move-for-fluent/lib
         - tools/qa/vendor/php-stubs/woocommerce-stubs
         - tools/qa/stubs
     bootstrapFiles:
@@ -48,7 +48,7 @@ parameters:
         # call is guarded with class_exists() or function_exists(). A missing AnyPress class is still reported.
         -
             identifier: class.notFound
-            message: '#(?:class|type|Class|of) \\?(?!AnyPress)[A-Za-z_]+\\?[A-Za-z_\\]*#'
+            message: '#(?:class|type|Class|of) \\?(?!AnyPress|OtakuMove)[A-Za-z_]+\\?[A-Za-z_\\]*#'
         -
             identifier: function.notFound
             message: '#^Function (fluent|Fluent|wpf_|Ninja_Forms|wpforms|wpcf7|WP_CLI\\)#'
@@ -67,7 +67,7 @@ parameters:
         # Constants each plugin's main file defines, so they exist whenever the classes run.
         -
             identifier: constant.notFound
-            message: '#^Constant ANYPRESS_#'
+            message: '#^Constant (ANYPRESS_|OTAKU_MOVE_)#'
 
 services:
     -

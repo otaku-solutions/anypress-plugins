@@ -1,15 +1,15 @@
 <?php
 
-namespace AnyPressMove;
+namespace OtakuMove;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-use AnyPressMove\Lib\Crm\CrmSwitch;
-use AnyPressMove\Lib\Forms\FormsSwitch;
-use AnyPressMove\Lib\Moving\NativeImport;
-use AnyPressMove\Lib\Shop\ShopSwitch;
+use OtakuMove\Lib\Crm\CrmSwitch;
+use OtakuMove\Lib\Forms\FormsSwitch;
+use OtakuMove\Lib\Moving\NativeImport;
+use OtakuMove\Lib\Shop\ShopSwitch;
 use WP_Error;
 
 /**
@@ -19,9 +19,9 @@ use WP_Error;
  */
 class MovePage
 {
-    private const SLUG = 'anypress-move';
-    private const ACTION = 'anypress_move';
-    private const RESULT = 'anypress_move_result_';
+    private const SLUG = 'otaku-move-for-fluent';
+    private const ACTION = 'otaku_move';
+    private const RESULT = 'otaku_move_result_';
 
     private FormsSwitch $forms;
     private ShopSwitch $shop;
@@ -43,7 +43,7 @@ class MovePage
 
     public function menu(): void
     {
-        $hook = add_management_page(__('Move to Fluent', 'anypress-move'), __('Move to Fluent', 'anypress-move'), 'manage_options', self::SLUG, [$this, 'render']);
+        $hook = add_management_page(__('Move to Fluent', 'otaku-move-for-fluent'), __('Move to Fluent', 'otaku-move-for-fluent'), 'manage_options', self::SLUG, [$this, 'render']);
         if ($hook) {
             add_action('admin_enqueue_scripts', function (string $page) use ($hook) {
                 if ($page === $hook) {
@@ -56,30 +56,30 @@ class MovePage
     /** The page's few lines of style and its "are you sure?" prompts, on this page only. */
     private function assets(): void
     {
-        wp_register_style(self::SLUG, false, [], ANYPRESS_MOVE_VERSION);
+        wp_register_style(self::SLUG, false, [], OTAKU_MOVE_VERSION);
         wp_enqueue_style(self::SLUG);
-        wp_add_inline_style(self::SLUG, '.anypress-move-card{max-width:none}.anypress-move-card table{margin:8px 0}.anypress-move-card ul{list-style:disc;margin-left:2em}.anypress-move-card pre{white-space:pre-wrap}');
-        wp_register_script(self::SLUG, false, [], ANYPRESS_MOVE_VERSION, ['in_footer' => true]);
+        wp_add_inline_style(self::SLUG, '.otaku-move-card{max-width:none}.otaku-move-card table{margin:8px 0}.otaku-move-card ul{list-style:disc;margin-left:2em}.otaku-move-card pre{white-space:pre-wrap}');
+        wp_register_script(self::SLUG, false, [], OTAKU_MOVE_VERSION, ['in_footer' => true]);
         wp_enqueue_script(self::SLUG);
-        wp_add_inline_script(self::SLUG, 'document.addEventListener("click",function(e){var b=e.target.closest(".anypress-move-card button[data-ask]");if(b&&!window.confirm(b.dataset.ask)){e.preventDefault();}});');
+        wp_add_inline_script(self::SLUG, 'document.addEventListener("click",function(e){var b=e.target.closest(".otaku-move-card button[data-ask]");if(b&&!window.confirm(b.dataset.ask)){e.preventDefault();}});');
     }
 
     /** @return array<string, array{0: string, 1: string}> key => [title, what it brings across]. */
     private function switches(): array
     {
         return [
-            'forms' => [__('Forms', 'anypress-move'), __('Contact Form 7, WPForms, Ninja Forms and Gravity Forms forms and entries into Fluent Forms, and the pages that show them.', 'anypress-move')],
-            'shop' => [__('Shop', 'anypress-move'), __('A WooCommerce shop into FluentCart with the FluentCart Migrator add-on: products, orders, customers, coupons and gallery images.', 'anypress-move')],
-            'edd' => [__('Digital shop', 'anypress-move'), __('An Easy Digital Downloads 3 shop into FluentCart with the FluentCart Migrator add-on: downloads, orders, customers, coupons, subscriptions and licences, and the pages that show them.', 'anypress-move')],
-            'crm' => [__('Contacts', 'anypress-move'), __('WooCommerce buyers (guests too), MailPoet and Newsletter subscribers into FluentCRM, with their lists and tags.', 'anypress-move')],
-            'support' => [__('Help desk', 'anypress-move'), __('Awesome Support, SupportCandy or JS Help Desk tickets into Fluent Support, with replies, attachments, customers and agents.', 'anypress-move')],
-            'affiliate' => [__('Affiliates', 'anypress-move'), __('AffiliateWP, Affiliates Manager, Solid Affiliate, SliceWP or Ultimate Affiliate Pro into an empty FluentAffiliate.', 'anypress-move')],
-            'community' => [__('Community', 'anypress-move'), __('A BuddyPress or BuddyBoss community into an empty FluentCommunity: groups as spaces with members, posts, comments and reactions.', 'anypress-move')],
-            'course' => [__('Courses', 'anypress-move'), __('LearnDash, Tutor LMS or LifterLMS courses into FluentCommunity courses, with sections, lessons, students and their progress.', 'anypress-move')],
-            'circle' => [__('Circle', 'anypress-move'), __('A Circle community into an empty FluentCommunity through Circle\'s Admin API: spaces, members, posts, comments and courses.', 'anypress-move')],
-            'skool' => [__('Skool', 'anypress-move'), __('A Skool group\'s members into FluentCommunity, from the members CSV you export from the group\'s Members tab: WordPress users in one space or course, tagged in FluentCRM with their answers to the membership questions. Skool has no export for the classroom or posts, so those are rebuilt.', 'anypress-move')],
-            'calendly' => [__('Calendly', 'anypress-move'), __('A Calendly account into FluentBooking through Calendly\'s API: availability schedules, event types as booking types, and upcoming bookings.', 'anypress-move')],
-            'memberpress' => [__('MemberPress', 'anypress-move'), __('Everyone with an active MemberPress membership into the FluentCommunity space or course it opens, with a FluentCRM tag. Payments stay in MemberPress.', 'anypress-move')],
+            'forms' => [__('Forms', 'otaku-move-for-fluent'), __('Contact Form 7, WPForms, Ninja Forms and Gravity Forms forms and entries into Fluent Forms, and the pages that show them.', 'otaku-move-for-fluent')],
+            'shop' => [__('Shop', 'otaku-move-for-fluent'), __('A WooCommerce shop into FluentCart with the FluentCart Migrator add-on: products, orders, customers, coupons and gallery images.', 'otaku-move-for-fluent')],
+            'edd' => [__('Digital shop', 'otaku-move-for-fluent'), __('An Easy Digital Downloads 3 shop into FluentCart with the FluentCart Migrator add-on: downloads, orders, customers, coupons, subscriptions and licences, and the pages that show them.', 'otaku-move-for-fluent')],
+            'crm' => [__('Contacts', 'otaku-move-for-fluent'), __('WooCommerce buyers (guests too), MailPoet and Newsletter subscribers into FluentCRM, with their lists and tags.', 'otaku-move-for-fluent')],
+            'support' => [__('Help desk', 'otaku-move-for-fluent'), __('Awesome Support, SupportCandy or JS Help Desk tickets into Fluent Support, with replies, attachments, customers and agents.', 'otaku-move-for-fluent')],
+            'affiliate' => [__('Affiliates', 'otaku-move-for-fluent'), __('AffiliateWP, Affiliates Manager, Solid Affiliate, SliceWP or Ultimate Affiliate Pro into an empty FluentAffiliate.', 'otaku-move-for-fluent')],
+            'community' => [__('Community', 'otaku-move-for-fluent'), __('A BuddyPress or BuddyBoss community into an empty FluentCommunity: groups as spaces with members, posts, comments and reactions.', 'otaku-move-for-fluent')],
+            'course' => [__('Courses', 'otaku-move-for-fluent'), __('LearnDash, Tutor LMS or LifterLMS courses into FluentCommunity courses, with sections, lessons, students and their progress.', 'otaku-move-for-fluent')],
+            'circle' => [__('Circle', 'otaku-move-for-fluent'), __('A Circle community into an empty FluentCommunity through Circle\'s Admin API: spaces, members, posts, comments and courses.', 'otaku-move-for-fluent')],
+            'skool' => [__('Skool', 'otaku-move-for-fluent'), __('A Skool group\'s members into FluentCommunity, from the members CSV you export from the group\'s Members tab: WordPress users in one space or course, tagged in FluentCRM with their answers to the membership questions. Skool has no export for the classroom or posts, so those are rebuilt.', 'otaku-move-for-fluent')],
+            'calendly' => [__('Calendly', 'otaku-move-for-fluent'), __('A Calendly account into FluentBooking through Calendly\'s API: availability schedules, event types as booking types, and upcoming bookings.', 'otaku-move-for-fluent')],
+            'memberpress' => [__('MemberPress', 'otaku-move-for-fluent'), __('Everyone with an active MemberPress membership into the FluentCommunity space or course it opens, with a FluentCRM tag. Payments stay in MemberPress.', 'otaku-move-for-fluent')],
         ];
     }
 
@@ -92,13 +92,13 @@ class MovePage
     public function handle(): void
     {
         if (!current_user_can('manage_options')) {
-            wp_die(esc_html__('Only an administrator can run these switches.', 'anypress-move'), 403);
+            wp_die(esc_html__('Only an administrator can run these switches.', 'otaku-move-for-fluent'), 403);
         }
         check_admin_referer(self::ACTION);
         $key = sanitize_key(wp_unslash($_POST['switch'] ?? ''));
         $act = sanitize_key(wp_unslash($_POST['act'] ?? ''));
         if (!isset($this->switches()[$key]) || !in_array($act, ['check', 'switch', 'undo'], true)) {
-            wp_die(esc_html__('Unknown switch.', 'anypress-move'), 400);
+            wp_die(esc_html__('Unknown switch.', 'otaku-move-for-fluent'), 400);
         }
         $input = ['from' => sanitize_key(wp_unslash($_POST['from'] ?? ''))];
         foreach ($this->fields($key) as $name => $schema) {
@@ -192,9 +192,9 @@ class MovePage
         if ($last) {
             delete_transient(self::RESULT . get_current_user_id());
         }
-        echo '<div class="wrap"><h1>' . esc_html__('Move to Fluent', 'anypress-move') . '</h1>';
-        echo '<p>' . esc_html__('Each switch copies one plugin\'s data into the Fluent plugin that replaces it. Check first: it says what would come across, what can\'t, and anything in the way, and changes nothing. The old plugin and its data are never changed, emails are held while a switch runs, and Undo takes out only what the switch added.', 'anypress-move') . '</p>';
-        echo '<p>' . esc_html__('Take a backup before you switch. Each switch also runs from WP-CLI as `wp anypress <switch> switch`.', 'anypress-move') . '</p>';
+        echo '<div class="wrap"><h1>' . esc_html__('Move to Fluent', 'otaku-move-for-fluent') . '</h1>';
+        echo '<p>' . esc_html__('Each switch copies one plugin\'s data into the Fluent plugin that replaces it. Check first: it says what would come across, what can\'t, and anything in the way, and changes nothing. The old plugin and its data are never changed, emails are held while a switch runs, and Undo takes out only what the switch added.', 'otaku-move-for-fluent') . '</p>';
+        echo '<p>' . esc_html__('Take a backup before you switch. Each switch also runs from WP-CLI as `wp otaku-move <switch> switch`.', 'otaku-move-for-fluent') . '</p>';
         foreach ($this->switches() as $key => [$title, $what]) {
             $this->card($key, $title, $what, is_array($last) && $last['switch'] === $key ? $last : null);
         }
@@ -203,14 +203,14 @@ class MovePage
 
     private function card(string $key, string $title, string $what, ?array $last): void
     {
-        echo '<div class="card anypress-move-card" id="switch-' . esc_attr($key) . '"><h2 class="title">' . esc_html($title) . '</h2><p>' . esc_html($what) . '</p>';
+        echo '<div class="card otaku-move-card" id="switch-' . esc_attr($key) . '"><h2 class="title">' . esc_html($title) . '</h2><p>' . esc_html($what) . '</p>';
         echo '<form method="post" enctype="multipart/form-data" action="' . esc_url(admin_url('admin-post.php')) . '">';
         wp_nonce_field(self::ACTION);
         echo '<input type="hidden" name="action" value="' . esc_attr(self::ACTION) . '"><input type="hidden" name="switch" value="' . esc_attr($key) . '">';
         $choices = isset($this->imports[$key]) ? $this->imports[$key]->source_choices() : [];
         if (count($choices) > 1) {
             // Only asked when there is a choice: with one source the switch finds it by itself.
-            echo '<p><label for="' . esc_attr($key . '-from') . '">' . esc_html__('Move from', 'anypress-move') . '</label><br><select id="' . esc_attr($key . '-from') . '" name="from">';
+            echo '<p><label for="' . esc_attr($key . '-from') . '">' . esc_html__('Move from', 'otaku-move-for-fluent') . '</label><br><select id="' . esc_attr($key . '-from') . '" name="from">';
             foreach ($choices as $slug => $name) {
                 echo '<option value="' . esc_attr($slug) . '">' . esc_html($name) . '</option>';
             }
@@ -218,29 +218,29 @@ class MovePage
         }
         foreach ($this->fields($key) as $name => $schema) {
             if (($schema['type'] ?? '') === 'boolean') {
-                echo '<p><label><input type="checkbox" name="' . esc_attr($name) . '" value="1"> ' . esc_html__('Also move active Stripe subscriptions to FluentCart, where they keep renewing in Stripe (FluentCart must be active). PayPal and other gateways stay in MemberPress.', 'anypress-move') . '</label></p>';
+                echo '<p><label><input type="checkbox" name="' . esc_attr($name) . '" value="1"> ' . esc_html__('Also move active Stripe subscriptions to FluentCart, where they keep renewing in Stripe (FluentCart must be active). PayPal and other gateways stay in MemberPress.', 'otaku-move-for-fluent') . '</label></p>';
                 continue;
             }
             if ($name === 'csv') {
-                echo '<p><label for="' . esc_attr($key . '-csv') . '">' . esc_html__('Members CSV (Skool: the group\'s Members tab, Export). Read for this run only, never saved.', 'anypress-move') . '</label><br><input type="file" accept=".csv,text/csv" id="' . esc_attr($key . '-csv') . '" name="csv"></p>';
+                echo '<p><label for="' . esc_attr($key . '-csv') . '">' . esc_html__('Members CSV (Skool: the group\'s Members tab, Export). Read for this run only, never saved.', 'otaku-move-for-fluent') . '</label><br><input type="file" accept=".csv,text/csv" id="' . esc_attr($key . '-csv') . '" name="csv"></p>';
                 continue;
             }
             if (($schema['type'] ?? '') === 'integer') {
-                $this->field($key . '-' . $name, $name, __('FluentCommunity space or course id the members join. Leave empty for a new private space called "Skool members".', 'anypress-move'), 'number');
+                $this->field($key . '-' . $name, $name, __('FluentCommunity space or course id the members join. Leave empty for a new private space called "Skool members".', 'otaku-move-for-fluent'), 'number');
                 continue;
             }
             $object = ($schema['type'] ?? '') === 'object';
             $label = $object
-                ? __('Which space or course each membership opens, as membership id:space id pairs (12:40, 13:41). Leave empty for a new private space per membership.', 'anypress-move')
+                ? __('Which space or course each membership opens, as membership id:space id pairs (12:40, 13:41). Leave empty for a new private space per membership.', 'otaku-move-for-fluent')
                 : ($key === 'calendly'
-                    ? __('Personal access token (Calendly: profile menu, Developer, Personal access tokens). Used for this run only, never saved.', 'anypress-move')
-                    : __('Admin V2 API token (Circle: Settings, Developers, Tokens). Used for this run only, never saved.', 'anypress-move'));
+                    ? __('Personal access token (Calendly: profile menu, Developer, Personal access tokens). Used for this run only, never saved.', 'otaku-move-for-fluent')
+                    : __('Admin V2 API token (Circle: Settings, Developers, Tokens). Used for this run only, never saved.', 'otaku-move-for-fluent'));
             $this->field($key . '-' . $name, $name, $label, $object ? 'text' : 'password');
         }
         echo '<p class="submit">';
-        echo '<button class="button" name="act" value="check">' . esc_html__('Check', 'anypress-move') . '</button> ';
-        echo '<button class="button button-primary" name="act" value="switch" data-ask="' . esc_attr__('Run this switch now?', 'anypress-move') . '">' . esc_html__('Switch', 'anypress-move') . '</button> ';
-        echo '<button class="button button-link-delete" name="act" value="undo" data-ask="' . esc_attr__('Take out everything this switch added?', 'anypress-move') . '">' . esc_html__('Undo', 'anypress-move') . '</button>';
+        echo '<button class="button" name="act" value="check">' . esc_html__('Check', 'otaku-move-for-fluent') . '</button> ';
+        echo '<button class="button button-primary" name="act" value="switch" data-ask="' . esc_attr__('Run this switch now?', 'otaku-move-for-fluent') . '">' . esc_html__('Switch', 'otaku-move-for-fluent') . '</button> ';
+        echo '<button class="button button-link-delete" name="act" value="undo" data-ask="' . esc_attr__('Take out everything this switch added?', 'otaku-move-for-fluent') . '">' . esc_html__('Undo', 'otaku-move-for-fluent') . '</button>';
         echo '</p></form>';
         if ($last) {
             $this->result($last['act'], $last['result']);
@@ -261,11 +261,11 @@ class MovePage
             return;
         }
         $result = (array) $result;
-        $heading = ['check' => __('Check: nothing was changed', 'anypress-move'), 'switch' => __('Switched', 'anypress-move'), 'undo' => __('Undone', 'anypress-move')][$act];
+        $heading = ['check' => __('Check: nothing was changed', 'otaku-move-for-fluent'), 'switch' => __('Switched', 'otaku-move-for-fluent'), 'undo' => __('Undone', 'otaku-move-for-fluent')][$act];
         $blockers = (array) ($result['preflight']['blockers'] ?? $result['blockers'] ?? []);
         echo '<div class="notice ' . ($blockers ? 'notice-warning' : 'notice-success') . ' inline"><p><strong>' . esc_html($heading) . '</strong></p>';
-        self::items(__('In the way', 'anypress-move'), $blockers);
-        self::items(__('Good to know', 'anypress-move'), (array) ($result['preflight']['warnings'] ?? $result['warnings'] ?? []));
+        self::items(__('In the way', 'otaku-move-for-fluent'), $blockers);
+        self::items(__('Good to know', 'otaku-move-for-fluent'), (array) ($result['preflight']['warnings'] ?? $result['warnings'] ?? []));
         self::items('', (array) ($result['notes'] ?? []));
         $compare = array_values(array_filter((array) ($result['compare'] ?? []), 'is_array'));
         if ($compare) {
@@ -286,20 +286,20 @@ class MovePage
             }
             echo '</tbody></table>';
         }
-        self::items(__('Can\'t come across', 'anypress-move'), array_filter((array) ($result['lost'] ?? []), 'is_string'));
-        echo '<details><summary>' . esc_html__('Full report', 'anypress-move') . '</summary><pre>' . esc_html((string) wp_json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)) . '</pre></details></div>';
+        self::items(__('Can\'t come across', 'otaku-move-for-fluent'), array_filter((array) ($result['lost'] ?? []), 'is_string'));
+        echo '<details><summary>' . esc_html__('Full report', 'otaku-move-for-fluent') . '</summary><pre>' . esc_html((string) wp_json_encode($result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)) . '</pre></details></div>';
     }
 
     /** The report table's columns, in plain words. */
     private static function columns(): array
     {
         return [
-            'item' => __('What', 'anypress-move'),
-            'source' => __('In the old plugin', 'anypress-move'),
-            'before' => __('In the Fluent plugin before', 'anypress-move'),
-            'after' => __('In the Fluent plugin now', 'anypress-move'),
-            'added' => __('Added', 'anypress-move'),
-            'missing' => __('Missing', 'anypress-move'),
+            'item' => __('What', 'otaku-move-for-fluent'),
+            'source' => __('In the old plugin', 'otaku-move-for-fluent'),
+            'before' => __('In the Fluent plugin before', 'otaku-move-for-fluent'),
+            'after' => __('In the Fluent plugin now', 'otaku-move-for-fluent'),
+            'added' => __('Added', 'otaku-move-for-fluent'),
+            'missing' => __('Missing', 'otaku-move-for-fluent'),
         ];
     }
 
