@@ -9,7 +9,7 @@ on:
       - 'packages/anypress-client/anypress-client.php'
       - 'packages/anypress-payments/anypress-payments.php'
       - 'packages/anypress-export/anypress-export.php'
-      - 'packages/otaku-move-for-fluent/otaku-move-for-fluent.php'
+      - 'packages/otaku-migration-for-fluent/otaku-migration-for-fluent.php'
   workflow_dispatch:
 
 permissions:
@@ -28,7 +28,7 @@ jobs:
       - id: find
         run: |
           tags=()
-          for p in anypress-host anypress-client anypress-payments anypress-export otaku-move-for-fluent; do
+          for p in anypress-host anypress-client anypress-payments anypress-export otaku-migration-for-fluent; do
             v=$(sed -n 's/^[ *]*Version: *//p' "packages/$p/$p.php" | head -1 | tr -d '\r')
             tag="$p-v$v"
             if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then

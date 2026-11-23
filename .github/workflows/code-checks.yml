@@ -57,7 +57,7 @@ jobs:
           tools: composer:v2
       - name: Composer install
         run: composer install --no-interaction --no-progress
-      - name: Build Otaku Move for Fluent's copy of the switches
+      - name: Build Otaku Migration for Fluent's copy of the switches
         run: ../../scripts/build-move.sh
       - name: AnyPress Client's libraries (the SDKs it calls)
         working-directory: packages/anypress-client
@@ -113,7 +113,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package: [otaku-move-for-fluent]
+        package: [otaku-migration-for-fluent]
     steps:
       - name: Checkout code
         uses: actions/checkout@v7

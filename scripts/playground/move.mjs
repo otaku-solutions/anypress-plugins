@@ -1,15 +1,15 @@
-// End-to-end test of Otaku Move for Fluent, the moving switches as their own plugin for any WordPress site (not an AnyPress
+// End-to-end test of Otaku Migration for Fluent, the moving switches as their own plugin for any WordPress site (not an AnyPress
 // store, so no site type: a plain WordPress with the AnyPress theme, FluentCommunity and Tutor LMS from wordpress.org).
 // Tutor LMS makes a course, an enrolment and progress with its own functions and is then switched off. Checks: no
-// switch is a WordPress ability; every switch is a WP-CLI command and the course check runs from it; the Tools, Move to Fluent page lists every switch; its Check
+// switch is a WordPress ability; every switch is a WP-CLI command and the course check runs from it; the Tools, Migrate to Fluent page lists every switch; its Check
 // changes nothing; its Switch makes the FluentCommunity course with the student and progress; its Undo takes it back
-// out; the Tutor LMS data never changes; and with AnyPress Client active, Otaku Move for Fluent does nothing.
+// out; the Tutor LMS data never changes; and with AnyPress Client active, Otaku Migration for Fluent does nothing.
 //
 //   cd scripts/playground && npm ci
 //   npm run move                          # exit 1 on a failure
 //   npm run move -- --serve               # leave the site running at http://127.0.0.1:9408 (admin / password)
 //
-// Needs packages/otaku-move-for-fluent built (scripts/build-move.sh, then composer install in packages/otaku-move-for-fluent),
+// Needs packages/otaku-migration-for-fluent built (scripts/build-move.sh, then composer install in packages/otaku-migration-for-fluent),
 // packages/anypress-client/vendor (composer install there), and network access to downloads.wordpress.org.
 
 import { existsSync, readFileSync } from 'node:fs';
@@ -20,7 +20,7 @@ import { wpCLI } from '@wp-playground/blueprints';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(HERE, '../..');
-const MOVE = resolve(ROOT, 'packages/otaku-move-for-fluent');
+const MOVE = resolve(ROOT, 'packages/otaku-migration-for-fluent');
 const CLIENT = resolve(ROOT, 'packages/anypress-client');
 const THEME = resolve(HERE, 'preview-zips/anypress.zip');
 const WP = process.env.PLAYGROUND_WP || '7.1.3';
@@ -33,7 +33,7 @@ const SWITCHES = ['forms', 'shop', 'edd', 'crm', 'support', 'affiliate', 'commun
 
 for (const [path, fix] of [
     [resolve(MOVE, 'lib/Moving/CourseImport.php'), 'run scripts/build-move.sh'],
-    [resolve(MOVE, 'vendor/autoload.php'), 'run composer install in packages/otaku-move-for-fluent'],
+    [resolve(MOVE, 'vendor/autoload.php'), 'run composer install in packages/otaku-migration-for-fluent'],
     [resolve(CLIENT, 'vendor/autoload.php'), 'run composer install in packages/anypress-client'],
 ]) {
     if (!existsSync(path)) {
@@ -43,7 +43,7 @@ for (const [path, fix] of [
 }
 
 const blueprint = {
-    landingPage: '/wp-admin/tools.php?page=otaku-move-for-fluent',
+    landingPage: '/wp-admin/tools.php?page=otaku-migration-for-fluent',
     login: SERVE,
     features: { networking: true },
     steps: [
@@ -52,7 +52,7 @@ const blueprint = {
         { step: 'installTheme', themeData: { resource: 'literal', name: 'anypress.zip', contents: readFileSync(THEME) }, options: { activate: true } },
         { step: 'installPlugin', pluginData: { resource: 'url', url: `https://downloads.wordpress.org/plugin/fluent-community.${FLUENT_COMMUNITY}.zip` }, options: { activate: true } },
         { step: 'installPlugin', pluginData: { resource: 'url', url: `https://downloads.wordpress.org/plugin/tutor.${TUTOR}.zip` }, options: { activate: true } },
-        { step: 'activatePlugin', pluginPath: 'otaku-move-for-fluent/otaku-move-for-fluent.php' },
+        { step: 'activatePlugin', pluginPath: 'otaku-migration-for-fluent/otaku-migration-for-fluent.php' },
         { step: 'setSiteOptions', options: { blogname: 'Playground Bakery', permalink_structure: '/%postname%/' } },
     ],
 };
@@ -64,7 +64,7 @@ const cli = await runCLI({
     port: PORT,
     blueprint,
     mount: [
-        { hostPath: MOVE, vfsPath: '/wordpress/wp-content/plugins/otaku-move-for-fluent' },
+        { hostPath: MOVE, vfsPath: '/wordpress/wp-content/plugins/otaku-migration-for-fluent' },
         { hostPath: CLIENT, vfsPath: '/wordpress/wp-content/plugins/anypress-client' },
     ],
     verbosity: 'quiet',
@@ -115,13 +115,13 @@ const expect = (condition, message) => {
 };
 const short = (value) => String(JSON.stringify(value)).slice(0, 900);
 
-/** The Move to Fluent page as an administrator sees it. */
-const page = () => php(`require_once ABSPATH . 'wp-admin/includes/admin.php'; set_current_screen('tools_page_otaku-move-for-fluent'); do_action('admin_menu');
-    $hook = get_plugin_page_hook('otaku-move-for-fluent', 'tools.php'); ob_start(); if ($hook) { do_action($hook); } echo json_encode(['hook' => $hook, 'html' => ob_get_clean()]);`);
+/** The Migrate to Fluent page as an administrator sees it. */
+const page = () => php(`require_once ABSPATH . 'wp-admin/includes/admin.php'; set_current_screen('tools_page_otaku-migration-for-fluent'); do_action('admin_menu');
+    $hook = get_plugin_page_hook('otaku-migration-for-fluent', 'tools.php'); ob_start(); if ($hook) { do_action($hook); } echo json_encode(['hook' => $hook, 'html' => ob_get_clean()]);`);
 /** Presses one of the page's buttons, as the form posts it to admin-post.php. */
-const press = (key, act) => php(`$_POST = $_REQUEST = ['action' => 'otaku_move', 'switch' => '${key}', 'act' => '${act}', 'from' => 'tutor', '_wpnonce' => wp_create_nonce('otaku_move'), '_wp_http_referer' => '/wp-admin/tools.php?page=otaku-move-for-fluent'];
-    add_filter('wp_redirect', function ($to) { echo json_encode(['redirect' => $to, 'result' => get_transient('otaku_move_result_1')]); return false; });
-    do_action('admin_post_otaku_move');`);
+const press = (key, act) => php(`$_POST = $_REQUEST = ['action' => 'otaku_migration', 'switch' => '${key}', 'act' => '${act}', 'from' => 'tutor', '_wpnonce' => wp_create_nonce('otaku_migration'), '_wp_http_referer' => '/wp-admin/tools.php?page=otaku-migration-for-fluent'];
+    add_filter('wp_redirect', function ($to) { echo json_encode(['redirect' => $to, 'result' => get_transient('otaku_migration_result_1')]); return false; });
+    do_action('admin_post_otaku_migration');`);
 const course = () => php(`global $wpdb; $p = $wpdb->prefix;
     $c = $wpdb->get_row("SELECT id, title FROM {$p}fcom_spaces WHERE type = 'course'", ARRAY_A);
     $students = $c ? $wpdb->get_col($wpdb->prepare("SELECT u.user_login FROM {$p}fcom_space_user m JOIN {$p}users u ON u.ID = m.user_id WHERE m.space_id = %d AND m.role = 'student'", $c['id'])) : [];
@@ -151,18 +151,18 @@ console.log(`Tutor LMS ${seed.version}: course ${seed.course}, enrolment ${seed.
 const before = await tutorData();
 
 await check('no switch is a WordPress ability, and every switch is a WP-CLI command, without AnyPress Client', async () => {
-    const state = await php(`$names = array_keys(wp_get_abilities()); echo json_encode(['client' => defined('ANYPRESS_CLIENT_VERSION'), 'move' => class_exists('OtakuMove\\\\Plugin', false), 'names' => $names]);`);
+    const state = await php(`$names = array_keys(wp_get_abilities()); echo json_encode(['client' => defined('ANYPRESS_CLIENT_VERSION'), 'move' => class_exists('OtakuMigration\\\\Plugin', false), 'names' => $names]);`);
     expect(!state.client && state.move, short(state));
-    const ours = state.names.filter((n) => /^(anypress|otaku-move)\//.test(n));
+    const ours = state.names.filter((n) => /^(anypress|otaku-migration)\//.test(n));
     expect(!ours.length, `abilities registered: ${ours.join(', ')}`);
     // The EDD switch is the shop switch's --from=edd: it has no command of its own.
     const OWN = SWITCHES.filter((k) => k !== 'edd');
-    const help = await wp('wp otaku-move --help');
-    for (const k of OWN) expect(help.includes(k), `no wp otaku-move ${k}: ${help.slice(0, 600)}`);
+    const help = await wp('wp otaku-migration --help');
+    for (const k of OWN) expect(help.includes(k), `no wp otaku-migration ${k}: ${help.slice(0, 600)}`);
 });
 
 await check('the course switch checks from WP-CLI and changes nothing', async () => {
-    const out = await wp('wp otaku-move course switch --user=admin --from=tutor --dry-run --format=json');
+    const out = await wp('wp otaku-migration course switch --user=admin --from=tutor --dry-run --format=json');
     const start = out.indexOf('{');
     expect(start >= 0, out.slice(0, 600));
     const report = JSON.parse(out.slice(start));
@@ -171,9 +171,9 @@ await check('the course switch checks from WP-CLI and changes nothing', async ()
     expect(!(await course()).course, 'a course was made');
 });
 
-await check('Tools, Move to Fluent lists every switch with Check, Switch and Undo', async () => {
+await check('Tools, Migrate to Fluent lists every switch with Check, Switch and Undo', async () => {
     const { hook, html } = await page();
-    expect(hook && html.includes('Move to Fluent'), short({ hook, html: html?.slice(0, 300) }));
+    expect(hook && html.includes('Migrate to Fluent'), short({ hook, html: html?.slice(0, 300) }));
     for (const k of SWITCHES) expect(html.includes(`id="switch-${k}"`), `no ${k} card`);
     expect((html.match(/value="check"/g) || []).length === SWITCHES.length, 'a Check button per switch');
     expect(html.includes('type="password" id="circle-token"') && html.includes('type="password" id="calendly-token"'), 'the Circle and Calendly tokens are password fields');
@@ -183,7 +183,7 @@ await check('Tools, Move to Fluent lists every switch with Check, Switch and Und
 
 await check('Check on the page says what would come across and changes nothing', async () => {
     const pressed = await press('course', 'check');
-    expect(pressed.redirect?.includes('page=otaku-move-for-fluent#switch-course'), short(pressed));
+    expect(pressed.redirect?.includes('page=otaku-migration-for-fluent#switch-course'), short(pressed));
     const report = pressed.result?.result;
     expect(report?.dry_run === true && report.preflight?.ready === true, short(report));
     expect(report.preflight.sources.tutor.counts.courses === 1, short(report.preflight.sources.tutor));
@@ -216,7 +216,7 @@ await check('Undo on the page takes out only what the switch added; Tutor LMS da
 await check('an editor cannot open the page or press its buttons', async () => {
     const out = await php(`$id = wp_insert_user(['user_login' => 'editor', 'user_pass' => wp_generate_password(), 'role' => 'editor']); wp_set_current_user($id);
         require_once ABSPATH . 'wp-admin/includes/admin.php'; do_action('admin_menu');
-        echo json_encode(['page' => (bool) get_plugin_page_hook('otaku-move-for-fluent', 'tools.php'), 'can' => current_user_can('manage_options')]);`);
+        echo json_encode(['page' => (bool) get_plugin_page_hook('otaku-migration-for-fluent', 'tools.php'), 'can' => current_user_can('manage_options')]);`);
     expect(out.page === false && out.can === false, short(out));
 });
 
@@ -230,23 +230,23 @@ await check('a switch never turns plugins on: with FluentCommunity off, Check as
     expect(text.includes("FluentCommunity isn't active") || text.includes('FluentCommunity isn\\u0027t active'), short(pressed));
 });
 
-await check('with AnyPress Client active, Otaku Move for Fluent does nothing', async () => {
+await check('with AnyPress Client active, Otaku Migration for Fluent does nothing', async () => {
     await php(`activate_plugin('anypress-client/anypress-client.php'); echo json_encode(['ok' => is_plugin_active('anypress-client/anypress-client.php')]);`);
     const state = await php(`require_once ABSPATH . 'wp-admin/includes/admin.php'; do_action('admin_menu');
-        echo json_encode(['client' => defined('ANYPRESS_CLIENT_VERSION'), 'move' => class_exists('OtakuMove\\\\Plugin', false), 'page' => (bool) get_plugin_page_hook('otaku-move-for-fluent', 'tools.php'), 'course' => (bool) wp_get_ability('anypress/check-course')]);`);
+        echo json_encode(['client' => defined('ANYPRESS_CLIENT_VERSION'), 'move' => class_exists('OtakuMigration\\\\Plugin', false), 'page' => (bool) get_plugin_page_hook('otaku-migration-for-fluent', 'tools.php'), 'course' => (bool) wp_get_ability('anypress/check-course')]);`);
     expect(state.client && !state.move && !state.page && state.course, short(state));
     await php(`deactivate_plugins('anypress-client/anypress-client.php'); echo json_encode([]);`);
 });
 
 const log = await cli.playground.readFileAsText('/wordpress/wp-content/debug.log').catch(() => '');
-await check('no PHP errors from Otaku Move for Fluent', async () => {
-    const bad = log.split('\n').filter((line) => /PHP (Fatal|Warning|Parse|Notice|Deprecated)/.test(line) && /otaku-move-for-fluent/.test(line));
+await check('no PHP errors from Otaku Migration for Fluent', async () => {
+    const bad = log.split('\n').filter((line) => /PHP (Fatal|Warning|Parse|Notice|Deprecated)/.test(line) && /otaku-migration-for-fluent/.test(line));
     expect(!bad.length, bad.slice(0, 5).join('\n'));
 });
 
 console.log(`\n${results.filter(([ok]) => ok).length}/${results.length} checks passed`);
 if (SERVE) {
-    console.log(`Leaving it running at ${base}/wp-admin/tools.php?page=otaku-move-for-fluent (admin / password). Ctrl+C to stop.`);
+    console.log(`Leaving it running at ${base}/wp-admin/tools.php?page=otaku-migration-for-fluent (admin / password). Ctrl+C to stop.`);
 } else {
     await cli[Symbol.asyncDispose]?.();
     process.exit(failed ? 1 : 0);

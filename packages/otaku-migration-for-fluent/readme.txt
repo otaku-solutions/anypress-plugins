@@ -1,4 +1,4 @@
-=== Otaku Move for Fluent ===
+=== Otaku Migration for Fluent ===
 Contributors: otakusolutions
 Tags: migration, fluentcrm, fluent forms, fluentcommunity, fluentbooking
 Requires at least: 6.9
@@ -27,9 +27,9 @@ Each switch copies one plugin's data into the Fluent plugin that replaces it, us
 * Calendly: a Calendly account into FluentBooking, through Calendly's API: availability schedules, event types and upcoming bookings.
 * MemberPress: active members into FluentCommunity spaces and courses, with FluentCRM tags. Tick billing and active Stripe subscriptions move to FluentCart, where they keep renewing in Stripe; PayPal and other gateways stay in MemberPress.
 
-Open Tools > Move to Fluent. Check says what would come across, what can't, and anything in the way, and changes nothing. Switch runs it. Undo takes out only what the switch added. The old plugin and its data are never changed, and emails are held while a switch runs, so nobody gets a welcome email for a copied account. Take a backup before you switch.
+Open Tools > Migrate to Fluent. Check says what would come across, what can't, and anything in the way, and changes nothing. Switch runs it. Undo takes out only what the switch added. The old plugin and its data are never changed, and emails are held while a switch runs, so nobody gets a welcome email for a copied account. Take a backup before you switch.
 
-The same switches run from WP-CLI (`wp otaku-move course switch --dry-run`, `wp otaku-move forms switch`, and so on). They run only for an administrator signed in to this site or a WP-CLI user on its server; the plugin registers no WordPress abilities and no REST routes for them.
+The same switches run from WP-CLI (`wp otaku-migration course switch --dry-run`, `wp otaku-migration forms switch`, and so on). They run only for an administrator signed in to this site or a WP-CLI user on its server; the plugin registers no WordPress abilities and no REST routes for them.
 
 Install and turn on the Fluent plugin a switch copies into first (and, for the shop, FluentCart's free Migrator add-on). The switches never turn plugins on or off; Check says which one is still off.
 
@@ -52,9 +52,9 @@ No other switch sends anything off your site. The Skool switch reads only the CS
 == Changelog ==
 
 = 1.6.0 =
-* The plugin is named Otaku Move for Fluent, with the slug and text domain otaku-move-for-fluent.
-* The WP-CLI commands are `wp otaku-move <switch> switch` (`wp otaku-move course switch --dry-run`, and so on).
-* The switches run only from Tools > Move to Fluent and WP-CLI. The plugin registers no WordPress abilities, so AI tools and other remote clients can't run them.
+* The plugin is named Otaku Migration for Fluent, with the slug and text domain otaku-migration-for-fluent.
+* The WP-CLI commands are `wp otaku-migration <switch> switch` (`wp otaku-migration course switch --dry-run`, and so on).
+* The Tools page is Tools > Migrate to Fluent. The switches run only from there and WP-CLI. The plugin registers no WordPress abilities, so AI tools and other remote clients can't run them.
 
 = 1.5.0 =
 * When a switch can move from more than one plugin and several are on this website (help desks, affiliate plugins, course plugins), the card lists them to pick from instead of asking you to type one.

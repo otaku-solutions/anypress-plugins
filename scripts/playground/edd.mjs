@@ -1,7 +1,7 @@
 // End-to-end test of the shop switch's Easy Digital Downloads source (`wp anypress shop switch --from=edd` and the
 // check-shop / switch-shop abilities) on WordPress Playground: a website about to move in, with the AnyPress theme,
 // Easy Digital Downloads 3 and FluentCart from wordpress.org, the FluentCart Migrator add-on from FluentCart's add-ons
-// page and AnyPress Client from this checkout (or Otaku Move for Fluent, which carries the same code). It is not set up as a
+// page and AnyPress Client from this checkout (or Otaku Migration for Fluent, which carries the same code). It is not set up as a
 // store: on a store, AnyPress Client keeps only the site type's plugins on, so EDD (needed while its shop is read) is
 // switched off. The shop switch runs on the website before it moves in.
 // edd/seed.php writes an EDD shop through EDD's own functions: 3 downloads (one with two price options), a discount

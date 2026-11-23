@@ -22,9 +22,9 @@ trap 'rm -rf "$work"' EXIT
 src="$work/$PACKAGE"
 cp -R "$root/packages/$PACKAGE" "$src"
 rm -rf "$src/vendor" "$src/tests" "$src/node_modules" "$src/data" "$src/phpunit.xml.dist" "$src/.phpunit.result.cache"
-# Otaku Move for Fluent carries AnyPress Client's switches, copied in at build time. Its README.md is for this
+# Otaku Migration for Fluent carries AnyPress Client's switches, copied in at build time. Its README.md is for this
 # repository; wordpress.org reads readme.txt.
-if [ "$PACKAGE" = otaku-move-for-fluent ]; then "$root/scripts/build-move.sh" "$src" > /dev/null; rm -f "$src/README.md"; fi
+if [ "$PACKAGE" = otaku-migration-for-fluent ]; then "$root/scripts/build-move.sh" "$src" > /dev/null; rm -f "$src/README.md"; fi
 (cd "$src" && composer install --no-dev --no-interaction --no-progress --optimize-autoloader --quiet)
 
 # Stamp the version: the header's "Version:" and "@version" lines and the *_VERSION constant.
