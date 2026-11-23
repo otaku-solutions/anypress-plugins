@@ -26,7 +26,7 @@ import { runCLI } from '@wp-playground/cli';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const CLIENT = resolve(ROOT, 'packages/anypress-client');
-const WP = process.env.PLAYGROUND_WP || '7.1.4';
+const WP = process.env.PLAYGROUND_WP || '7.1.5';
 const PHP = process.env.PLAYGROUND_PHP || '8.3';
 const PORT = Number(process.env.PLAYGROUND_PORT || 9400);
 const SERVE = process.argv.includes('--serve');
@@ -35,7 +35,7 @@ const THEME = resolve(ROOT, 'scripts/playground/preview-zips/anypress.zip');
 // AnyPress Blocks, which every store has (carousel, popup, counter...): the preview zip too.
 const BLOCKS = resolve(ROOT, 'scripts/playground/preview-zips/anypress-blocks.zip');
 // WordPress's MCP Adapter, as the store template ships it: installed, off until the owner turns it on.
-const MCP_ADAPTER = 'https://downloads.wordpress.org/plugin/mcp-adapter.0.7.1.zip';
+const MCP_ADAPTER = 'https://downloads.wordpress.org/plugin/mcp-adapter.0.7.2.zip';
 // AutomatorWP, on every site type: its abilities (create an automation, run actions) are tools of the site's MCP server too.
 const AUTOMATORWP = 'https://downloads.wordpress.org/plugin/automatorwp.6.1.2.zip';
 const STARTER_PAGES_URL =
