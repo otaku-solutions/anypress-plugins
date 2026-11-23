@@ -1,10 +1,10 @@
-=== AnyPress Move ===
+=== Otaku Migration for Fluent ===
 Contributors: otakusolutions
 Tags: migration, fluentcrm, fluent forms, fluentcommunity, fluentbooking
 Requires at least: 6.9
 Tested up to: 7.1
 Requires PHP: 8.1
-Stable tag: 1.5.0
+Stable tag: 1.6.0
 License: GPL-3.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -27,17 +27,17 @@ Each switch copies one plugin's data into the Fluent plugin that replaces it, us
 * Calendly: a Calendly account into FluentBooking, through Calendly's API: availability schedules, event types and upcoming bookings.
 * MemberPress: active members into FluentCommunity spaces and courses, with FluentCRM tags. Tick billing and active Stripe subscriptions move to FluentCart, where they keep renewing in Stripe; PayPal and other gateways stay in MemberPress.
 
-Open Tools > Move to Fluent. Check says what would come across, what can't, and anything in the way, and changes nothing. Switch runs it. Undo takes out only what the switch added. The old plugin and its data are never changed, and emails are held while a switch runs, so nobody gets a welcome email for a copied account. Take a backup before you switch.
+Open Tools > Migrate to Fluent. Check says what would come across, what can't, and anything in the way, and changes nothing. Switch runs it. Undo takes out only what the switch added. The old plugin and its data are never changed, and emails are held while a switch runs, so nobody gets a welcome email for a copied account. Take a backup before you switch.
 
-The same switches run from WP-CLI (`wp anypress course switch --dry-run`, `wp anypress forms switch`, and so on) and as WordPress abilities, so AI tools connected through the MCP Adapter can check and run them.
+The same switches run from WP-CLI (`wp otaku-migration course switch --dry-run`, `wp otaku-migration forms switch`, and so on). They run only for an administrator signed in to this site or a WP-CLI user on its server; the plugin registers no WordPress abilities and no REST routes for them.
 
 Install and turn on the Fluent plugin a switch copies into first (and, for the shop, FluentCart's free Migrator add-on). The switches never turn plugins on or off; Check says which one is still off.
 
-On an AnyPress website the switches are already built in, and this plugin does nothing.
+On websites hosted by Otaku Solutions the switches are already built in, and this plugin does nothing.
 
 = Source code =
 
-All the code is plain, readable PHP. The source, with its tests, is at https://github.com/otaku-solutions/anypress-plugins (the switches live in packages/anypress-client and are copied into this plugin by scripts/build-move.sh).
+All the code is plain, readable PHP, with nothing compiled or minified.
 
 == External services ==
 
@@ -50,6 +50,11 @@ This plugin connects to two outside services, each only when you run its switch:
 No other switch sends anything off your site. The Skool switch reads only the CSV file you upload, which is used for that run and never saved. The Shop switch links to FluentCart's own page for its free Migrator add-on but never downloads it; you install it yourself.
 
 == Changelog ==
+
+= 1.6.0 =
+* The plugin is named Otaku Migration for Fluent, with the slug and text domain otaku-migration-for-fluent.
+* The WP-CLI commands are `wp otaku-migration <switch> switch` (`wp otaku-migration course switch --dry-run`, and so on).
+* The Tools page is Tools > Migrate to Fluent. The switches run only from there and WP-CLI. The plugin registers no WordPress abilities, so AI tools and other remote clients can't run them.
 
 = 1.5.0 =
 * When a switch can move from more than one plugin and several are on this website (help desks, affiliate plugins, course plugins), the card lists them to pick from instead of asking you to type one.
@@ -66,7 +71,7 @@ No other switch sends anything off your site. The Skool switch reads only the CS
 * Forms: Gravity Forms forms and their entries move to Fluent Forms, through Fluent Forms' own importer with its mistakes put right (hidden name and address parts stay hidden, dates and times keep their format, entry limits and messages keep their values, the default confirmation stays the main one, and entries keep the visitor's IP address, browser and page). Pages, blocks and drafts that show a Gravity Forms form are swapped, and Check lists the show/hide rules and add-on feeds that don't come across.
 
 = 1.1.1 =
-* The plugin's website link goes to anypress.io/move.
+* The plugin's website link changed.
 
 = 1.1.0 =
 * MemberPress: with billing ticked, active Stripe subscriptions move to FluentCart. Each keeps the same Stripe subscription, so Stripe goes on charging as before and FluentCart records the renewals; connect FluentCart's Stripe settings to the same Stripe account, then switch off MemberPress's Stripe gateway. Undo keeps any subscription FluentCart has already recorded a payment on.

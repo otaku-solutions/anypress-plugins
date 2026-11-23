@@ -8,7 +8,7 @@ on:
       package:
         description: Plugin
         type: choice
-        options: [anypress-host, anypress-client, anypress-payments, anypress-export, anypress-move]
+        options: [anypress-host, anypress-client, anypress-payments, anypress-export, otaku-migration-for-fluent]
       version:
         description: 'Released version, like 2.3.0-beta.2'
         required: true

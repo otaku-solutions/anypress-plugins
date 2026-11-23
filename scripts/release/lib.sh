@@ -8,8 +8,8 @@ package_info() {
     anypress-client)   SLUG=anypress-client; MAIN=anypress-client.php ;;
     anypress-payments) SLUG=anypress-payments;    MAIN=anypress-payments.php ;;
     anypress-export) SLUG=anypress-export; MAIN=anypress-export.php ;;
-    anypress-move)   SLUG=anypress-move;   MAIN=anypress-move.php ;;
-    *) echo "unknown package: $PACKAGE (anypress-host, anypress-client, anypress-payments, anypress-export or anypress-move)" >&2; return 1 ;;
+    otaku-migration-for-fluent) SLUG=otaku-migration-for-fluent; MAIN=otaku-migration-for-fluent.php ;;
+    *) echo "unknown package: $PACKAGE (anypress-host, anypress-client, anypress-payments, anypress-export or otaku-migration-for-fluent)" >&2; return 1 ;;
   esac
 }
 
