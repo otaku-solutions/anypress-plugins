@@ -139,7 +139,7 @@ class AccountController
             'id' => (int) $user->ID,
             'email' => (string) $user->user_email,
             'name' => (string) $user->display_name,
-            'groups' => array_values(array_unique(array_filter(array_map('sanitize_key', (array) $groups), 'strlen'))),
+            'groups' => array_values(array_unique(array_filter(array_map('sanitize_key', (array) $groups), static fn (string $group): bool => $group !== ''))),
         ]);
     }
 

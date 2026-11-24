@@ -268,7 +268,7 @@ class ShopSignIn
             'id' => (int) $me['id'],
             'email' => sanitize_email((string) $me['email']),
             'name' => sanitize_text_field((string) ($me['name'] ?? '')),
-            'groups' => array_values(array_filter(array_map('sanitize_key', (array) ($me['groups'] ?? [])), 'strlen')),
+            'groups' => array_values(array_filter(array_map('sanitize_key', (array) ($me['groups'] ?? [])), static fn (string $group): bool => $group !== '')),
         ];
     }
 
