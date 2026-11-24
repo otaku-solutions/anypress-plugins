@@ -184,3 +184,7 @@ wp-config.php
 
 
 __pycache__/
+
+# Written by scripts/playground/anypress-io-preview.mjs (the price list the site plugin falls back to).
+scripts/anypress-io/plugin/pricing.json
+scripts/playground/anypress-io-shots/

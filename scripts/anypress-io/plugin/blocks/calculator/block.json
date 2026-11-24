@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "anypress-io/calculator",
+	"version": "0.1.0",
+	"title": "AnyPress Calculator",
+	"category": "widgets",
+	"description": "anypress.io's calculators, worked out from AnyPress's live price list: what plans cost, what a seller or reseller keeps, and a course platform next to the Community plan.",
+	"keywords": [
+		"price",
+		"calculator",
+		"earnings"
+	],
+	"textdomain": "anypress-io",
+	"attributes": {
+		"kind": {
+			"type": "string",
+			"enum": [
+				"price",
+				"earnings",
+				"course"
+			],
+			"default": "price"
+		},
+		"start": {
+			"type": "string",
+			"enum": [
+				"seller",
+				"reseller"
+			],
+			"default": "seller"
+		},
+		"align": {
+			"type": "string",
+			"default": "wide"
+		}
+	},
+	"supports": {
+		"html": false,
+		"align": [
+			"wide"
+		],
+		"interactivity": true
+	},
+	"editorScript": "file:./index.js",
+	"style": "file:./style.css",
+	"viewScriptModule": "file:./view.js",
+	"render": "file:./render.php"
+}
