@@ -60,3 +60,16 @@ namespace FluentCrm\App\Services\CrmMigrator {
         public static function __callStatic($name, $arguments) {}
     }
 }
+
+namespace FluentCrm\App\Services\Funnel {
+    abstract class BaseTrigger
+    {
+        protected $triggerName;
+        protected $actionArgNum = 1;
+        protected $priority = 10;
+        public function __construct() {}
+        public function __call($name, $arguments) {}
+        public function __get($name) {}
+        public static function __callStatic($name, $arguments) {}
+    }
+}

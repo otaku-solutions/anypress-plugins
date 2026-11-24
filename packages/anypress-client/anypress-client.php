@@ -12,7 +12,7 @@ Plugin Name: AnyPress Client
 Plugin URI: https://anypress.io
 Description: Runs on each AnyPress website: one-click login from the storefront, turns plugins on or off to match the store's plan (roles), and lets the AnyPress connector edit the site's design and content.
 Author: Otaku Solutions
-Version: 2.44.1
+Version: 2.45.0
 Author URI: https://otakusolutions.io
 Update URI: anypress-client
 Requires at least: 6.9
@@ -25,7 +25,7 @@ Text Domain: anypress-client
 define( 'ANYPRESS_CLIENT_SLUG', 'anypress-client' );
 define( 'ANYPRESS_CLIENT_BASENAME', plugin_basename( __FILE__ ) );
 define( 'ANYPRESS_CLIENT_UPDATE_URI', 'anypress-client' );
-define( 'ANYPRESS_CLIENT_VERSION', '2.44.1' );
+define( 'ANYPRESS_CLIENT_VERSION', '2.45.0' );
 define( 'ANYPRESS_CLIENT_TEXTDOMAIN', 'anypress-client' );
 
 use AnyPressClient\Api\AdminLogin;
@@ -76,6 +76,10 @@ new ConditionalConfirmations();
 // A HighLevel agency's site: WP Fusion connected to the site's own sub-account with a token from the AnyPress API.
 // On every request (admin-ajax too), since WP Fusion reads the token wherever it sends a contact.
 new HighLevelLink();
+
+// FluentCRM's "Tag Applied" automation trigger without Pro, so tags given by the incoming webhook or REST API (a
+// Back Office store's contacts from the business's own app) start emails. On every request: the webhook is a front-end one.
+new \AnyPressClient\Crm\TagTriggers();
 
 // FluentCommunity: the community as the home page (Settings > Reading) and FluentAuth's sign-in redirects on the
 // community's own sign-in. On every request, since FluentCommunity builds its links on admin-ajax and REST too.
