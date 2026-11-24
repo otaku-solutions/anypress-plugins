@@ -29,8 +29,8 @@ class ShopSignInCommand
      * : The button's text. Default: "Sign in with your shop account".
      *
      * [--space=<group:slugs>]
-     * : FluentCommunity spaces an account group joins, e.g. seller:sellers-and-resellers. Repeat for more groups;
-     * separate several spaces with commas.
+     * : FluentCommunity spaces each account group joins: group:slugs, with commas between spaces and semicolons
+     * between groups, e.g. "customer:customers;seller:sellers-and-resellers".
      *
      * @when after_wp_load
      */
@@ -38,9 +38,15 @@ class ShopSignInCommand
     {
         $spaces = [];
         $space_args = $assoc_args['space'] ?? [];
-        foreach ((array) $space_args as $pair) {
-            [$group, $slugs] = array_pad(explode(':', (string) $pair, 2), 2, '');
-            $spaces[$group] = explode(',', $slugs);
+        foreach ((array) $space_args as $arg) {
+            foreach (explode(';', (string) $arg) as $pair) {
+                [$group, $slugs] = array_pad(explode(':', trim($pair), 2), 2, '');
+                $spaces[$group] = explode(',', $slugs);
+            }
+        }
+        // Check before saving, so a mistyped address never replaces a working connection.
+        if (!ShopSignIn::valid_shop(untrailingslashit((string) $args[0]))) {
+            WP_CLI::error('The shop address must start with https://.');
         }
 
         ShopSignIn::save([

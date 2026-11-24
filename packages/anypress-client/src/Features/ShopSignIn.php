@@ -50,7 +50,7 @@ class ShopSignIn
     public static function settings(): ?array
     {
         $settings = get_option(self::OPTION);
-        if (!is_array($settings) || empty($settings['shop']) || empty($settings['client_id']) || empty($settings['client_secret'])) {
+        if (!is_array($settings) || !self::valid_shop((string) ($settings['shop'] ?? '')) || empty($settings['client_id']) || empty($settings['client_secret'])) {
             return null;
         }
 
@@ -61,6 +61,20 @@ class ShopSignIn
             'label' => (string) ($settings['label'] ?? '') ?: 'Sign in with your shop account',
             'spaces' => self::clean_spaces($settings['spaces'] ?? []),
         ];
+    }
+
+    /**
+     * The shop's address takes the client secret and the sign-in codes, so it must be HTTPS. Plain HTTP is allowed only
+     * for a shop on this machine (a local test).
+     */
+    public static function valid_shop(string $shop): bool
+    {
+        $parts = wp_parse_url($shop);
+        if (!is_array($parts) || empty($parts['host']) || empty($parts['scheme'])) {
+            return false;
+        }
+
+        return $parts['scheme'] === 'https' || ($parts['scheme'] === 'http' && in_array($parts['host'], ['localhost', '127.0.0.1', '[::1]'], true));
     }
 
     /** @param array<string, mixed> $settings shop, client_id, client_secret, label, spaces (group => space slugs) */
@@ -119,8 +133,12 @@ class ShopSignIn
         $params = wp_unslash($_GET);
         // phpcs:enable WordPress.Security.NonceVerification.Recommended
         if (isset($params['code']) || isset($params['error'])) {
-            $result = $this->finish($settings, (array) $params, (string) ($_COOKIE[self::COOKIE] ?? ''));
-            $this->forget_cookie();
+            $cookie_state = (string) ($_COOKIE[self::COOKIE] ?? '');
+            $result = $this->finish($settings, (array) $params, $cookie_state);
+            // Only the attempt this cookie belongs to clears it, so a sign-in started in another tab still works.
+            if ($cookie_state !== '' && hash_equals($cookie_state, (string) ($params['state'] ?? ''))) {
+                $this->forget_cookie();
+            }
             if (is_wp_error($result)) {
                 wp_die(esc_html($result->get_error_message()), esc_html__('Sign-in error', 'anypress-client'), ['response' => 400, 'back_link' => true]);
             }
@@ -132,7 +150,7 @@ class ShopSignIn
         $start = $this->start($settings, $redirect_to);
         setcookie(self::COOKIE, $start['state'], [
             'expires' => time() + self::STATE_LIFETIME,
-            'path' => COOKIEPATH ?: '/',
+            'path' => self::cookie_path(),
             'domain' => COOKIE_DOMAIN ?: '',
             'secure' => is_ssl(),
             'httponly' => true,
@@ -221,7 +239,7 @@ class ShopSignIn
         $base = $settings['shop'] . '/wp-json/anypress-host/v1/account';
         $client = ['client_id' => $settings['client_id'], 'client_secret' => $settings['client_secret']];
 
-        $response = wp_remote_post($base . '/token', ['timeout' => 15, 'body' => $client + [
+        $response = wp_remote_post($base . '/token', ['timeout' => 15, 'redirection' => 0, 'body' => $client + [
             'grant_type' => 'authorization_code',
             'code' => $code,
             'redirect_uri' => self::redirect_uri(),
@@ -232,12 +250,12 @@ class ShopSignIn
             return $failed;
         }
 
-        $response = wp_remote_get($base . '/me', ['timeout' => 15, 'headers' => ['Authorization' => 'Bearer ' . $tokens['access_token']]]);
+        $response = wp_remote_get($base . '/me', ['timeout' => 15, 'redirection' => 0, 'headers' => ['Authorization' => 'Bearer ' . $tokens['access_token']]]);
         $me = is_wp_error($response) || wp_remote_retrieve_response_code($response) !== 200 ? null : json_decode(wp_remote_retrieve_body($response), true);
 
         foreach (['refresh_token', 'access_token'] as $kind) {
             if (!empty($tokens[$kind])) {
-                wp_remote_post($base . '/revoke', ['timeout' => 5, 'blocking' => false, 'body' => $client + ['token' => $tokens[$kind]]]);
+                wp_remote_post($base . '/revoke', ['timeout' => 5, 'redirection' => 0, 'blocking' => false, 'body' => $client + ['token' => $tokens[$kind]]]);
             }
         }
 
@@ -250,7 +268,7 @@ class ShopSignIn
             'id' => (int) $me['id'],
             'email' => sanitize_email((string) $me['email']),
             'name' => sanitize_text_field((string) ($me['name'] ?? '')),
-            'groups' => array_values(array_filter(array_map('sanitize_key', (array) ($me['groups'] ?? [])))),
+            'groups' => array_values(array_filter(array_map('sanitize_key', (array) ($me['groups'] ?? [])), 'strlen')),
         ];
     }
 
@@ -263,7 +281,8 @@ class ShopSignIn
      */
     public function member_for(array $settings, array $account)
     {
-        $link = (string) wp_parse_url($settings['shop'], PHP_URL_HOST) . ':' . $account['id'];
+        // The shop's host and folder, so two shops on one host never share links (a shop at the root keeps host:id).
+        $link = (string) wp_parse_url($settings['shop'], PHP_URL_HOST) . untrailingslashit((string) wp_parse_url($settings['shop'], PHP_URL_PATH)) . ':' . $account['id'];
         $linked = get_users(['meta_key' => self::LINK_META, 'meta_value' => $link, 'number' => 1]); // phpcs:ignore WordPress.DB.SlowDBQuery -- one lookup by an exact key and value, only when a member signs in.
         $user = $linked ? $linked[0] : get_user_by('email', $account['email']);
 
@@ -279,7 +298,8 @@ class ShopSignIn
                 'user_pass' => wp_generate_password(32, true, true),
                 'display_name' => $account['name'] ?: strstr($account['email'], '@', true),
                 'first_name' => (string) strtok($account['name'], ' '),
-                'role' => get_option('default_role', 'subscriber'),
+                // Always a plain member, whatever the site's default role: shop accounts never get editing rights.
+                'role' => 'subscriber',
             ]);
             if (is_wp_error($user_id)) {
                 return new WP_Error('anypress_shop_sign_in_user', __('We could not set up your membership. Please try again.', 'anypress-client'));
@@ -314,7 +334,7 @@ class ShopSignIn
         $tied = [];
         foreach ($settings['spaces'] as $group => $slugs) {
             $tied = array_merge($tied, $slugs);
-            if (in_array($group, $groups, true)) {
+            if (in_array((string) $group, $groups, true)) {
                 $wanted = array_merge($wanted, $slugs);
             }
         }
@@ -341,7 +361,8 @@ class ShopSignIn
 
     private static function new_username(string $email): string
     {
-        $base = sanitize_user((string) strstr($email, '@', true), true) ?: 'member';
+        // WordPress usernames hold 60 characters; keep room for a number when the name is taken.
+        $base = substr(sanitize_user((string) strstr($email, '@', true), true), 0, 50) ?: 'member';
         $name = $base;
         for ($i = 2; username_exists($name); $i++) {
             $name = $base . $i;
@@ -367,7 +388,15 @@ class ShopSignIn
 
     private function forget_cookie(): void
     {
-        setcookie(self::COOKIE, '', ['expires' => time() - HOUR_IN_SECONDS, 'path' => COOKIEPATH ?: '/', 'domain' => COOKIE_DOMAIN ?: '']);
+        setcookie(self::COOKIE, '', ['expires' => time() - HOUR_IN_SECONDS, 'path' => self::cookie_path(), 'domain' => COOKIE_DOMAIN ?: '']);
+    }
+
+    /** The folder wp-login.php is served from, where the shop sends the visitor back, so the state cookie reaches it. */
+    private static function cookie_path(): string
+    {
+        $path = (string) wp_parse_url(site_url('wp-login.php'), PHP_URL_PATH);
+
+        return trailingslashit(dirname($path ?: '/wp-login.php'));
     }
 
     private static function base64url(string $bytes): string

@@ -49,6 +49,7 @@ class ShopSignInTest extends TestCase
         Functions\when('site_url')->alias(fn ($path = '') => 'https://community.test/' . ltrim($path, '/'));
         Functions\when('wp_validate_redirect')->alias(fn ($url, $fallback) => str_starts_with((string) $url, 'https://community.test/') ? $url : $fallback);
         Functions\when('__')->returnArg();
+        Functions\when('wp_parse_url')->alias(fn ($url, $component = -1) => parse_url((string) $url, $component));
     }
 
     private function settings(): array
@@ -67,6 +68,17 @@ class ShopSignInTest extends TestCase
     {
         $this->assertNull(ShopSignIn::settings());
         ShopSignIn::save(['shop' => 'https://shop.test', 'client_id' => 'abc', 'client_secret' => '']);
+        $this->assertNull(ShopSignIn::settings());
+    }
+
+    public function testOnlyTalksToAShopOverHttps(): void
+    {
+        $this->assertTrue(ShopSignIn::valid_shop('https://shop.test'));
+        $this->assertTrue(ShopSignIn::valid_shop('http://127.0.0.1:9450'));
+        $this->assertFalse(ShopSignIn::valid_shop('http://shop.test'));
+        $this->assertFalse(ShopSignIn::valid_shop('shop.test'));
+
+        ShopSignIn::save(['shop' => 'http://shop.test', 'client_id' => 'abc', 'client_secret' => 'secret']);
         $this->assertNull(ShopSignIn::settings());
     }
 

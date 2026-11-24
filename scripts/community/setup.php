@@ -77,7 +77,7 @@ $anypress_groups = [
         ['ideas-and-roadmap', 'Ideas And Roadmap', '💡', 'public', false, 'Ask for a feature. We mark each idea planned or shipped.'],
     ]],
     // Secret spaces: members join them by the groups the shop gives their account when they sign in
-    // (wp anypress shop-sign-in connect --space=customer:customers --space=seller:sellers-and-resellers ...).
+    // (wp anypress shop-sign-in connect --space="customer:customers;seller:sellers-and-resellers" ...).
     'members-only' => ['Members Only', [
         ['customers', 'Customers', '⭐', 'secret', false, 'For everyone with a website plan: questions about your plan, early looks at new features, and feedback straight to the AnyPress team.'],
         ['sellers-and-resellers', 'Sellers And Resellers', '🤝', 'secret', false, 'Selling sites, your storefront, pricing for clients and reseller tips. Sellers and resellers only.'],
@@ -87,9 +87,11 @@ $anypress_groups = [
 $anypress_spaces = [];
 $anypress_group_serial = 0;
 foreach ($anypress_groups as $group_slug => [$group_title, $spaces]) {
+    // Each group keeps its own place, even when an earlier run made only some of them.
+    ++$anypress_group_serial;
     $group = SpaceGroup::query()->where('slug', $group_slug)->first();
     if (!$group) {
-        $group = SpaceGroup::create(['title' => $group_title, 'slug' => $group_slug, 'serial' => ++$anypress_group_serial, 'settings' => []]);
+        $group = SpaceGroup::create(['title' => $group_title, 'slug' => $group_slug, 'serial' => $anypress_group_serial, 'settings' => []]);
         WP_CLI::log("Group: {$group_title}");
     }
     foreach ($spaces as $serial => [$slug, $title, $emoji, $privacy, $team_only, $about]) {

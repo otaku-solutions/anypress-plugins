@@ -80,7 +80,7 @@ const community = await runCLI({
             { step: 'installPlugin', pluginData: literal(resolve(API, 'templates/anypress-store/plugins/fluent-event-1.0.1.zip'), 'fluent-event.zip'), options: { activate: true } },
             { step: 'mkdir', path: '/wordpress/wp-content/plugins/anypress-client-data' },
             { step: 'writeFile', path: '/wordpress/wp-content/plugins/anypress-client-data/roles.json', data: readFileSync(resolve(API, 'templates/anypress-store/roles.json'), 'utf8') },
-            { step: 'writeFile', path: '/wordpress/wp-content/mu-plugins/0-anypress-store-env.php', data: "<?php putenv('ANYPRESS_IS_TENANT=true'); define('ANYPRESS_TENANT_ROLES', 'community');\n" },
+            { step: 'writeFile', path: '/wordpress/wp-content/mu-plugins/0-anypress-store-env.php', data: "<?php putenv('ANYPRESS_IS_TENANT=true'); define('ANYPRESS_TENANT_ROLES', 'community'); define('DISALLOW_FILE_MODS', true);\n" },
             { step: 'activatePlugin', pluginPath: 'anypress-client/anypress-client.php' },
             { step: 'writeFile', path: '/tmp/community-setup.php', data: readFileSync(resolve(ROOT, 'scripts/community/setup.php'), 'utf8') },
             ...readdirSync(resolve(ROOT, 'scripts/community')).filter((file) => /\.(png|html)$/.test(file)).map((file) => ({ step: 'writeFile', path: `/tmp/${file}`, data: file.endsWith('.html') ? readFileSync(resolve(ROOT, 'scripts/community', file), 'utf8') : new Uint8Array(readFileSync(resolve(ROOT, 'scripts/community', file))) })),
