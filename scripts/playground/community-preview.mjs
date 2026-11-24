@@ -127,7 +127,7 @@ try {
         ]);
     `));
     console.log(`     ${JSON.stringify(counts)}`);
-    check(counts.spaces === 12 && counts.groups === 4, '12 spaces in 4 groups');
+    check(counts.spaces === 13 && counts.groups === 4, '13 spaces in 4 groups');
     check(counts.posts >= 14 && counts.comments >= 15, 'posts and comments in the spaces');
     check(counts.courses === 1 && counts.lessons === 6, 'the AnyPress Basics course with 6 lessons');
     check(counts.events === 3, 'three webinars in FluentEvent');
@@ -146,7 +146,7 @@ try {
     const { chromium, devices } = createRequire(import.meta.url)('playwright');
     mkdirSync(SHOTS, { recursive: true });
     const browser = await chromium.launch();
-    const pages = [['home', '/'], ['space', '/space/moving-in/home'], ['course', '/course/anypress-basics/lessons'], ['events', '/events'], ['spaces', '/spaces'], ['guidelines', '/community-guidelines/']];
+    const pages = [['home', '/'], ['space', '/space/moving-in/home'], ['course', '/course/anypress-basics/lessons'], ['events', '/events'], ['spaces', '/discover/spaces'], ['guidelines', '/community-guidelines/']];
     for (const [who, withCookie] of [['visitor', false], ['member', true]]) {
         for (const [size, options] of [['desktop', { viewport: { width: 1440, height: 900 } }], ['phone', devices['iPhone 13']]]) {
             const context = await browser.newContext(options);
@@ -158,7 +158,10 @@ try {
             }
             const page = await context.newPage();
             for (const [name, path] of pages) {
-                await page.goto(SITE + path, { waitUntil: 'networkidle' }).catch(() => {});
+                const res = await page.goto(SITE + path, { waitUntil: 'networkidle' }).catch((error) => error);
+                if (!res || res instanceof Error || res.status() >= 400) {
+                    check(false, `${path} opens for a ${who} (${res instanceof Error ? res.message : res?.status()})`);
+                }
                 await page.waitForTimeout(1500);
                 await page.screenshot({ path: resolve(SHOTS, `${who}-${size}-${name}.png`), fullPage: false });
             }
@@ -169,6 +172,8 @@ try {
     console.log(`Screenshots in ${SHOTS}`);
 } catch (error) {
     check(false, String(error?.stack || error));
+    const log = await cli.playground.readFileAsText('/wordpress/wp-content/debug.log').catch(() => '');
+    console.log(log.split('\n').filter((line) => /Fatal|Uncaught/.test(line)).slice(-5).join('\n'));
 }
 
 if (SERVE) {
