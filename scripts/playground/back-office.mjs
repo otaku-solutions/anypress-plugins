@@ -152,6 +152,7 @@ try {
             'name' => trim($c->first_name . ' ' . $c->last_name),
             'tags' => $c->tags->pluck('title')->toArray(),
             'runs' => \\FluentCrm\\App\\Models\\FunnelSubscriber::where('funnel_id', ${setup.funnel})->where('subscriber_id', $c->id)->count(),
+            'enrolment' => \\FluentCrm\\App\\Models\\FunnelSubscriber::where('funnel_id', ${setup.funnel})->where('subscriber_id', $c->id)->value('id'),
         ] : null);
     `);
 
@@ -170,10 +171,16 @@ try {
     check(ava?.runs === 1, 'the "Tag Applied" automation started for Customer', JSON.stringify(ava));
     check(ava?.tags.includes('Welcome Sent'), "the automation's first step ran", JSON.stringify(ava));
 
-    // A renewal sends Customer again: the automation runs once per contact.
-    await webhook({ email: 'ava@anypress.example', tags: ['Customer'] });
+    // A cancel takes Customer off, then a new payment adds it back: a real second "tag added" event, and the
+    // automation still runs once per contact (the same enrolment, not a fresh one).
+    const firstEnrolment = ava?.enrolment;
+    await webhook({ email: 'ava@anypress.example', detach_tags: ['Customer'], tags: ['Cancelled'] });
     ava = await contact();
-    check(ava?.runs === 1, 'a second Customer does not start it again', JSON.stringify(ava));
+    check(!ava?.tags.includes('Customer'), 'a cancel takes Customer off', JSON.stringify(ava));
+    await webhook({ email: 'ava@anypress.example', tags: ['Customer'], detach_tags: ['Cancelled'] });
+    ava = await contact();
+    check(ava?.tags.includes('Customer'), 'paying again adds Customer back', JSON.stringify(ava));
+    check(ava?.runs === 1 && ava.enrolment === firstEnrolment, 'adding Customer again does not start it again', JSON.stringify(ava));
 
     // Help in the app: a ticket through Fluent Support's REST API, signed in with the application password.
     const auth = `Basic ${Buffer.from(`${setup.user}:${setup.password}`).toString('base64')}`;
