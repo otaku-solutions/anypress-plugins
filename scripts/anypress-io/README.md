@@ -10,6 +10,13 @@ the AnyPress theme, so every store can use it.
   calculator, and a course platform next to the Community plan. Prices come from the live price list
   (`https://api.anypress.io/pricing`, kept for six hours), or from `pricing.json` beside the plugin when the API can't
   be reached. Built on the Interactivity API; its script loads only on pages with the block.
+- **AnyPress Try It** block (`anypress-io/try`): the `/try` page. It fills the screen with AnyPress's bar and starts
+  the demo the link asks for (`?type=<site type>`, `?demo=<industry demo>`, `?blueprint=<one of our blueprints>&title=`,
+  `?for=<prospect code>`) in WordPress Playground in the visitor's browser, from demo.anypress.site's own build. Make
+  This My Site saves the demo as a draft through the AnyPress API's public demo routes, called from the site
+  (`/wp-json/anypress-io/v1/demo/*`, checked with the page's REST nonce), and goes to the plan's checkout with it. The
+  page is never cached. `blocks/try/progress.js` is Playground's ProgressTracker bundled into one file (how: its top
+  lines); `blocks/try/demo-export.js` is the same PHP as anypress-site's `src/lib/demoExport.ts`.
 - **Sign-ups to the shop's customer list**: a Fluent Forms form with a hidden field named `anypress_lead` sends its
   `email`, `names`, `interest`, `group`, `source`, `campaign` and `beta` fields to the shop's lead route
   (`POST https://shop.anypress.io/wp-json/anypress/v1/lead`). Each send shows in the entry's log.

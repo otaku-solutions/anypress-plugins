@@ -69,6 +69,8 @@ const blueprint = {
         { step: 'writeFile', path: '/wordpress/wp-content/mu-plugins/0-anypress-store-env.php', data: "<?php putenv('ANYPRESS_IS_TENANT=true'); define('ANYPRESS_TENANT_ROLES', 'website'); define('DISALLOW_FILE_MODS', true);\n" },
         // Stands in for the shop's lead route: records each request instead of sending it.
         { step: 'writeFile', path: '/wordpress/wp-content/mu-plugins/1-fake-shop.php', data: "<?php add_filter('pre_http_request', function ($pre, $args, $url) { if (!str_starts_with($url, 'https://shop.anypress.io/wp-json/anypress/v1/lead')) return $pre; update_option('fake_shop_leads', array_merge(get_option('fake_shop_leads', []), [json_decode($args['body'], true)])); return ['headers' => [], 'body' => '{\"confirm\":true}', 'response' => ['code' => 200, 'message' => 'OK'], 'cookies' => [], 'filename' => null]; }, 10, 3);\n" },
+        // Stands in for the API's public demo routes and the photo upload links (the Try It page).
+        { step: 'writeFile', path: '/wordpress/wp-content/mu-plugins/2-fake-api.php', data: readFileSync(resolve(HERE, 'anypress-io/fake-api.php'), 'utf8') },
         { step: 'activatePlugin', pluginPath: 'anypress-client/anypress-client.php' },
         // As on the store: a must-use plugin, because AnyPress Client keeps a website store to its site type's plugins.
         { step: 'writeFile', path: '/wordpress/wp-content/mu-plugins/anypress-io.php', data: "<?php require __DIR__ . '/anypress-io/anypress-io.php';\n" },
@@ -110,15 +112,16 @@ const ids = await php(`echo json_encode([
     'pricing' => wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Pricing', 'post_name' => 'pricing', 'post_content' => ${JSON.stringify(calc('price'))}]),
     'sellers' => wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Sellers', 'post_name' => 'sellers', 'post_content' => ${JSON.stringify(calc('earnings'))}]),
     'courses' => wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Courses', 'post_name' => 'courses', 'post_content' => ${JSON.stringify(calc('course'))}]),
+    'try' => wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Try it', 'post_name' => 'try', 'post_content' => '<!-- wp:anypress-io/try /-->', 'page_template' => 'page-blank']),
 ]);`);
 
 if (SERVE) {
-    console.log(`Serving ${base}: /pricing/, /sellers/, /courses/. Ctrl+C to stop.`);
+    console.log(`Serving ${base}: /pricing/, /sellers/, /courses/, /try/ (the real demo, from demo.anypress.site). Ctrl+C to stop.`);
     await new Promise(() => {});
 }
 
-const active = await php("echo json_encode(['site' => function_exists('anypress_io_pricing'), 'forms' => is_plugin_active('fluentform/fluentform.php'), 'block' => WP_Block_Type_Registry::get_instance()->is_registered('anypress-io/calculator'), 'types' => count(anypress_io_site_types())]);");
-check(active.site && active.forms && active.block, 'the site plugin, its calculator block and Fluent Forms are on, on a website store', JSON.stringify(active));
+const active = await php("echo json_encode(['site' => function_exists('anypress_io_pricing'), 'forms' => is_plugin_active('fluentform/fluentform.php'), 'block' => WP_Block_Type_Registry::get_instance()->is_registered('anypress-io/calculator') && WP_Block_Type_Registry::get_instance()->is_registered('anypress-io/try'), 'types' => count(anypress_io_site_types())]);");
+check(active.site && active.forms && active.block, 'the site plugin, its calculator and Try It blocks and Fluent Forms are on, on a website store', JSON.stringify(active));
 check(active.types === 5, 'the price list has the five kinds of site', String(active.types));
 
 // A sign-up through Fluent Forms reaches the shop's lead route with the form's fields.
@@ -165,6 +168,100 @@ try {
     await page.goto(`${base}/courses/`, { waitUntil: 'networkidle' });
     const community = small('community');
     check((await page.$$eval('.anypress-calc-rows dd', (d) => d.map((x) => x.textContent))).join() === [money(12 * (99 + 100)), money(12 * community), money(12 * (99 + 100) - 12 * community)].join(), 'course calculator: a year on a course platform next to Community');
+
+    // Try It: the page's own bar and loading screen around a stand-in for demo.anypress.site's Playground client, the
+    // blueprints and the shop, so the checks don't start a real WordPress in the browser.
+    const RAW = 'https://raw.githubusercontent.com/otaku-solutions/';
+    const tryPage = async (query, { width = 1280, title } = {}) => {
+        const tab = await browser.newPage({ viewport: { width, height: 860 } });
+        tab.on('pageerror', (e) => errors.push(`${query}: ${e.message}`));
+        await tab.route('https://demo.anypress.site/client/index.js', (r) => r.fulfill({ contentType: 'text/javascript', body: readFileSync(resolve(HERE, 'anypress-io/fake-playground.js'), 'utf8') }));
+        await tab.route(`${RAW}**`, (r) => r.fulfill({ contentType: 'application/json', body: JSON.stringify({ steps: [{ step: 'login' }], fail: r.request().url().includes('fail') }) }));
+        await tab.route('https://shop.anypress.io/**', (r) => r.fulfill({ contentType: 'text/html', body: '<h1>Shop</h1>' }));
+        if (title) await tab.addInitScript((t) => { window.__pageTitle = t; }, title);
+        const res = await tab.goto(`${base}/try/${query}`, { waitUntil: 'domcontentloaded' });
+        return { tab, res };
+    };
+    const shown = (tab, sel) => tab.locator(sel).isVisible();
+    await php("delete_option('fake_api_calls'); echo 1;");
+
+    let { tab, res } = await tryPage('?type=bookings');
+    check(/no-cache|no-store/.test(res.headers()['cache-control'] ?? ''), 'try it: the page is never cached', res.headers()['cache-control']);
+    check(await shown(tab, '.wp-block-anypress-io-try__starting') && (await tab.locator('.wp-block-anypress-io-try__heading').first().textContent()).includes('about a minute'), 'try it: shows our own loading screen while the demo starts');
+    await tab.waitForSelector('.wp-block-anypress-io-try.is-ready', { timeout: 10000 });
+    let started = await tab.evaluate(() => ({ remote: window.__try.remoteUrl, steps: window.__try.blueprint.steps.length, bar: window.__try.disableProgressBar, files: Object.keys(window.__try.files),
+        nav: [...document.querySelectorAll('.wp-block-anypress-io-try__types a')].map((a) => `${a.textContent}${a.getAttribute('aria-current') ? '*' : ''}`).join(), fill: document.querySelector('.wp-block-anypress-io-try__fill').style.width }));
+    check(started.remote === 'https://demo.anypress.site/remote.html' && started.bar === true, 'try it: starts our own Playground, without its progress bar', JSON.stringify(started));
+    check(started.nav === 'Website,Bookings*,Online Store,Community,Everything,HighLevel', 'try it: the bar lists the six site types with Bookings picked', started.nav);
+    check(parseInt(started.fill, 10) >= 60, 'try it: the progress bar follows Playground starting', started.fill);
+    check(started.files.includes('/wordpress/wp-content/mu-plugins/anypress-demo-assistant.php'), "try it: the website assistant gets the API's demo sign-in");
+    check(await shown(tab, '.wp-block-anypress-io-try__frame') && !(await shown(tab, '.wp-block-anypress-io-try__status')) && await shown(tab, '.wp-block-anypress-io-try__keep') && !(await shown(tab, '.wp-block-anypress-io-try__get')),
+        'try it: once running, the demo shows and Make This My Site takes the place of Get This Site');
+    check((await tab.locator('.wp-block-anypress-io-try__note').textContent()).includes('click Make This My Site'), 'try it: the bar says the demo isn’t saved and how to keep it');
+    await tab.screenshot({ path: resolve(SHOTS, 'website-desktop-try.png') });
+    await tab.click('.wp-block-anypress-io-try__keep');
+    await tab.waitForURL('https://shop.anypress.io/**', { timeout: 15000 });
+    check(tab.url() === 'https://shop.anypress.io/item/bookings-small/?demo=d_test123', 'try it: Make This My Site saves the demo and goes to the plan’s checkout with it', tab.url());
+    const calls = await php("echo json_encode(get_option('fake_api_calls', []));");
+    const draft = calls.find((c) => c[0] === 'draft');
+    check(calls.some((c) => c[0] === 'assistant' && c[1].siteType === 'bookings') && draft?.[1].siteType === 'bookings' && draft[1].content.pages[0].title === 'Home' && draft[1].images.join() === 'photo.jpg,elsewhere.jpg',
+        "try it: the site passes the demo's pages and photo names to the API's demo routes", JSON.stringify(calls).slice(0, 300));
+    check(calls.filter((c) => c[0] === 'upload').length === 1 && calls.find((c) => c[0] === 'upload')[1] === 'PUT' && calls.find((c) => c[0] === 'upload')[2] === 1234,
+        'try it: photos go to the upload links, and only to object storage', JSON.stringify(calls.filter((c) => c[0] === 'upload')));
+    await tab.close();
+
+    ({ tab } = await tryPage('?type=website', { title: 'Too big' }));
+    await tab.waitForSelector('.wp-block-anypress-io-try.is-ready', { timeout: 10000 });
+    await tab.click('.wp-block-anypress-io-try__keep');
+    await tab.waitForSelector('.wp-block-anypress-io-try__error:not([hidden])', { timeout: 10000 });
+    check(await tab.locator('.wp-block-anypress-io-try__error').textContent() === 'This demo is too large to save.' && await tab.locator('.wp-block-anypress-io-try__keep').isEnabled(),
+        "try it: when the API won't take the demo, its words show and the button works again");
+    const asked = await tab.evaluate(() => { const e = new Event('beforeunload', { cancelable: true }); window.dispatchEvent(e); return e.defaultPrevented; });
+    await tab.close();
+    check(asked, 'try it: a running demo asks before the tab closes');
+
+    ({ tab } = await tryPage('?type=highlevel'));
+    await tab.waitForSelector('.wp-block-anypress-io-try.is-ready', { timeout: 10000 });
+    check(!(await shown(tab, '.wp-block-anypress-io-try__keep')) && (await tab.getAttribute('.wp-block-anypress-io-try__get', 'href')) === `${base}/highlevel/`, 'try it: a HighLevel demo links to the HighLevel page instead of keeping the demo');
+    await tab.close();
+
+    ({ tab } = await tryPage(`?blueprint=${encodeURIComponent(`${RAW}anypress-theme/main/kits/ridge.json`)}&title=Ridge`));
+    await tab.waitForSelector('.wp-block-anypress-io-try.is-ready', { timeout: 10000 });
+    check(await tab.locator('.wp-block-anypress-io-try__title').textContent() === 'Ridge' && !(await shown(tab, '.wp-block-anypress-io-try__types')) && (await tab.getAttribute('.wp-block-anypress-io-try__get', 'href')) === `${base}/pricing/`,
+        "try it: a kit's example site shows its name, with Get This Site going to the prices");
+    await tab.close();
+
+    ({ tab } = await tryPage(`?blueprint=${encodeURIComponent('https://elsewhere.example/blueprint.json')}`));
+    await tab.waitForSelector('.wp-block-anypress-io-try.is-ready', { timeout: 10000 });
+    check(await tab.evaluate(() => window.__try.blueprint && document.querySelector('.wp-block-anypress-io-try__types a[aria-current]')?.textContent) === 'Website', "try it: a link can't make the page run someone else's blueprint");
+    await tab.close();
+
+    ({ tab } = await tryPage('?for=p_AAAAAAAAAAAAAAAA'));
+    await tab.waitForSelector('.wp-block-anypress-io-try.is-ready', { timeout: 10000 });
+    started = await tab.evaluate(() => ({ steps: window.__try.blueprint.steps.map((s) => s.step).join(), type: document.querySelector('.wp-block-anypress-io-try__types a[aria-current]')?.textContent }));
+    check(started.type === 'Online Store' && started.steps === 'login,writeFile,runPHP', "try it: a business's demo opens its site type with their look added", JSON.stringify(started));
+    await tab.close();
+
+    ({ tab } = await tryPage('?for=p_BBBBBBBBBBBBBBBB'));
+    await tab.waitForSelector('.wp-block-anypress-io-try__gone:not([hidden])', { timeout: 10000 });
+    check(true, 'try it: an ended business demo says so and links to the demos');
+    await tab.close();
+
+    ({ tab } = await tryPage(`?blueprint=${encodeURIComponent(`${RAW}anypress-theme/main/fail.json`)}&title=Broken`));
+    await tab.waitForSelector('.wp-block-anypress-io-try__failed:not([hidden])', { timeout: 10000 });
+    check(await shown(tab, '.wp-block-anypress-io-try__retry'), "try it: a demo that doesn't start says why and offers another try");
+    await tab.close();
+
+    ({ tab } = await tryPage('?type=community', { width: 390 }));
+    await tab.waitForSelector('.wp-block-anypress-io-try.is-ready', { timeout: 10000 });
+    const phoneBar = await tab.evaluate(() => ({ scroll: document.documentElement.scrollWidth - innerWidth, keep: document.querySelector('.wp-block-anypress-io-try__keep').getBoundingClientRect().right <= innerWidth,
+        navScrolls: document.querySelector('.wp-block-anypress-io-try__types').scrollWidth > document.querySelector('.wp-block-anypress-io-try__types').clientWidth }));
+    check(phoneBar.scroll <= 0 && phoneBar.keep && phoneBar.navScrolls, 'phone: the Try It bar fits, its site types scroll sideways', JSON.stringify(phoneBar));
+    await tab.screenshot({ path: resolve(SHOTS, 'website-phone-try.png') });
+    await tab.close();
+
+    const noNonce = await fetch(`${base}/wp-json/anypress-io/v1/demo/draft`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ siteType: 'website', content: {} }) });
+    check(noNonce.status === 401 || noNonce.status === 403, "try it: the demo routes refuse calls that don't come from the page", String(noNonce.status));
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${base}/pricing/`, { waitUntil: 'networkidle' });
