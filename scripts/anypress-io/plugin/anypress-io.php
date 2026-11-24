@@ -25,6 +25,8 @@ define( 'ANYPRESS_IO_SHOP', 'https://shop.anypress.io' );
 require __DIR__ . '/includes/pricing.php';
 require __DIR__ . '/includes/lead.php';
 require __DIR__ . '/includes/demo.php';
+require __DIR__ . '/includes/shortcodes.php';
+require __DIR__ . '/includes/styles.php';
 
 add_action(
 	'init',

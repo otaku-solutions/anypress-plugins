@@ -30,8 +30,25 @@ other plugins off:
 2. Add `wp-content/mu-plugins/anypress-io.php` containing
    `<?php require __DIR__ . '/anypress-io/anypress-io.php';`
 
+## The pages
+
+`pages/` writes anypress.io's pages as block markup made from the AnyPress theme's sections and styles, so each one
+opens in the editor as ordinary, editable blocks:
+
+1. `pages/site-data.json` holds the words and lists the pages use (kinds of site, sizes, other platforms' prices,
+   page details), exported from the anypress-site repository's `src/lib`.
+2. `node pages/build.mjs` writes `pages/html/`, the header, footer and menu in `pages/parts/`, and `pages/pages.json`.
+3. `wp eval-file setup.php --user=<admin>` on the store makes or updates each page by its address (keeping a revision),
+   sets the home page, logo, menu, header, footer and the theme's Sketchbook colours and fonts.
+
+No page types a price: prices and price-list numbers are the `[anypress_price]` and `[anypress_number]` shortcodes, and
+the worked examples and volume savings are `[anypress_example]` and `[anypress_volume_tiers]`, all read from
+`pricing.json` (`plugin/includes/shortcodes.php`). The how-to videos load from anypress.io's video folder until they're
+added to the store's Media Library; define `ANYPRESS_IO_VIDEOS` with their address to point the pages there instead.
+
 ## Trying it
 
 `cd scripts/playground && npm ci && npm run anypress-io` builds a website store on Playground with this plugin and
-checks the calculators against the price list and a sign-up against a stand-in for the shop. Screenshots go to
+checks the calculators against the price list and a sign-up against a stand-in for the shop, then sets up the pages
+and checks each one: prices filled in, every image loads, it fits a phone, and every block is valid in the editor. Screenshots go to
 `scripts/playground/anypress-io-shots/`; `-- --serve` keeps the site running.

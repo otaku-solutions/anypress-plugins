@@ -1,0 +1,62 @@
+[
+	{
+		"path": "",
+		"file": "home",
+		"title": "AnyPress",
+		"template": "page-no-title"
+	},
+	{
+		"path": "pricing",
+		"file": "pricing",
+		"title": "Prices",
+		"template": "page-no-title"
+	},
+	{
+		"path": "sites",
+		"file": "sites",
+		"title": "Kinds of site",
+		"template": "page-no-title"
+	},
+	{
+		"path": "sellers",
+		"file": "sellers",
+		"title": "Sell websites",
+		"template": "page-no-title"
+	},
+	{
+		"path": "resellers",
+		"file": "resellers",
+		"title": "Resellers",
+		"template": "page-no-title"
+	},
+	{
+		"path": "sites/website",
+		"file": "sites-website",
+		"title": "Website & blog",
+		"template": "page-no-title"
+	},
+	{
+		"path": "sites/bookings",
+		"file": "sites-bookings",
+		"title": "Bookings",
+		"template": "page-no-title"
+	},
+	{
+		"path": "sites/store",
+		"file": "sites-store",
+		"title": "Online store",
+		"template": "page-no-title"
+	},
+	{
+		"path": "sites/community",
+		"file": "sites-community",
+		"title": "Community & courses",
+		"template": "page-no-title"
+	},
+	{
+		"path": "sites/everything",
+		"file": "sites-everything",
+		"title": "Everything",
+		"template": "page-no-title"
+	}
+]

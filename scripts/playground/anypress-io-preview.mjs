@@ -7,6 +7,7 @@
 //   npm run anypress-io                    # checks and screenshots into anypress-io-shots/, exit 1 on a failure
 //   npm run anypress-io -- --serve         # keep the site running at http://127.0.0.1:9430 afterwards
 //
+// ANYPRESS_THEME_DIR=<anypress-theme checkout> uses that theme instead of the released one (an unreleased theme change).
 // Needs packages/anypress-client/vendor (composer install), an anypress-api checkout next to this repository (its store
 // template's build.sh and roles.json; or ANYPRESS_API_DIR), and network access to downloads.wordpress.org. The price
 // list comes from https://api.anypress.io/pricing, or anypress-site's copy (ANYPRESS_SITE_DIR) when the API is out.
@@ -27,6 +28,7 @@ const SHOTS = resolve(HERE, 'anypress-io-shots');
 const PHP = process.env.PLAYGROUND_PHP || '8.3';
 const PORT = Number(process.env.PLAYGROUND_PORT || 9430);
 const SERVE = process.argv.includes('--serve');
+const THEME_DIR = process.env.ANYPRESS_THEME_DIR ? resolve(process.env.ANYPRESS_THEME_DIR) : null;
 
 for (const [path, fix] of [
     [resolve(CLIENT, 'vendor/autoload.php'), 'run composer install in packages/anypress-client'],
@@ -61,7 +63,8 @@ const blueprint = {
     steps: [
         { step: 'defineWpConfigConsts', consts: { WP_DEBUG: true, WP_DEBUG_LOG: true, WP_DEBUG_DISPLAY: false, WP_DISABLE_FATAL_ERROR_HANDLER: true, AUTOMATIC_UPDATER_DISABLED: true, DISABLE_WP_CRON: true } },
         { step: 'setSiteOptions', options: { permalink_structure: '/%postname%/', blogname: 'AnyPress' } },
-        { step: 'installTheme', themeData: literal(resolve(HERE, 'preview-zips/anypress.zip'), 'anypress.zip'), options: { activate: true } },
+        // The released theme, or ANYPRESS_THEME_DIR's checkout (mounted below) to try a theme change before it is released.
+        ...(THEME_DIR ? [{ step: 'activateTheme', themeFolderName: 'anypress' }] : [{ step: 'installTheme', themeData: literal(resolve(HERE, 'preview-zips/anypress.zip'), 'anypress.zip'), options: { activate: true } }]),
         ...pinned.map(([slug, version]) => ({ step: 'installPlugin', pluginData: { resource: 'url', url: `https://downloads.wordpress.org/plugin/${slug}.${version}.zip` } })),
         { step: 'installPlugin', pluginData: literal(resolve(HERE, 'preview-zips/anypress-blocks.zip'), 'anypress-blocks.zip') },
         { step: 'mkdir', path: '/wordpress/wp-content/plugins/anypress-client-data' },
@@ -87,6 +90,8 @@ const cli = await runCLI({
     mount: [
         { hostPath: CLIENT, vfsPath: '/wordpress/wp-content/plugins/anypress-client' },
         { hostPath: SITE_PLUGIN, vfsPath: '/wordpress/wp-content/mu-plugins/anypress-io' },
+        { hostPath: resolve(ROOT, 'scripts/anypress-io'), vfsPath: '/wordpress/anypress-io-setup' },
+        ...(THEME_DIR ? [{ hostPath: THEME_DIR, vfsPath: '/wordpress/wp-content/themes/anypress' }] : []),
     ],
     verbosity: 'quiet',
 });
@@ -115,10 +120,21 @@ const ids = await php(`echo json_encode([
     'try' => wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Try it', 'post_name' => 'try', 'post_content' => '<!-- wp:anypress-io/try /-->', 'page_template' => 'page-blank']),
 ]);`);
 
+// anypress.io's pages, as setup.php makes them on the store. setup.php is written for `wp eval-file`; Playground has no
+// WP-CLI, so a stand-in prints its lines.
+const setupOut = await cli.playground.run({ code: `<?php require '/wordpress/wp-load.php';
+    class WP_CLI { public static function log($m) { echo $m, "\\n"; } public static function warning($m) { echo 'Warning: ', $m, "\\n"; } public static function success($m) { echo 'Success: ', $m, "\\n"; } public static function error($m) { throw new RuntimeException($m); } }
+    wp_set_current_user(1);
+    try { include '/wordpress/anypress-io-setup/setup.php'; } catch (Throwable $e) { echo 'ERROR: ', $e->getMessage(), "\\n"; }` });
+const pagesMade = JSON.parse(readFileSync(resolve(ROOT, 'scripts/anypress-io/pages/pages.json'), 'utf8'));
+
 if (SERVE) {
     console.log(`Serving ${base}: /pricing/, /sellers/, /courses/, /try/ (the real demo, from demo.anypress.site). Ctrl+C to stop.`);
     await new Promise(() => {});
 }
+
+console.log(setupOut.text.split('\n').filter(Boolean).map((l) => `     ${l}`).join('\n'));
+check(setupOut.text.includes('Success:') && setupOut.text.includes('Sketchbook colours and fonts on.'), "setup.php makes anypress.io's pages and turns on the Sketchbook colours and fonts");
 
 const active = await php("echo json_encode(['site' => function_exists('anypress_io_pricing'), 'forms' => is_plugin_active('fluentform/fluentform.php'), 'block' => WP_Block_Type_Registry::get_instance()->is_registered('anypress-io/calculator') && WP_Block_Type_Registry::get_instance()->is_registered('anypress-io/try'), 'types' => count(anypress_io_site_types())]);");
 check(active.site && active.forms && active.block, 'the site plugin, its calculator and Try It blocks and Fluent Forms are on, on a website store', JSON.stringify(active));
@@ -262,6 +278,52 @@ try {
 
     const noNonce = await fetch(`${base}/wp-json/anypress-io/v1/demo/draft`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ siteType: 'website', content: {} }) });
     check(noNonce.status === 401 || noNonce.status === 403, "try it: the demo routes refuse calls that don't come from the page", String(noNonce.status));
+
+    // Every page: renders without leftover shortcodes or PHP errors, fits a phone, and is valid blocks in the editor.
+    const shotPages = resolve(SHOTS, 'pages');
+    mkdirSync(shotPages, { recursive: true });
+    for (const made of pagesMade) {
+        const url = `${base}/${made.path ? `${made.path}/` : ''}`;
+        for (const [name, width] of [['desktop', 1440], ['phone', 390]]) {
+            await page.setViewportSize({ width, height: 900 });
+            await page.goto(url, { waitUntil: 'networkidle' });
+            // Scroll down the page so lazy images load, as a visitor's would.
+            await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 600) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); } scrollTo(0, 0); });
+            await page.waitForLoadState('networkidle');
+            const seen = await page.evaluate(() => ({ text: document.body.innerText, scroll: document.documentElement.scrollWidth - innerWidth,
+                broken: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.src) }));
+            if (name === 'desktop') {
+                check(!/\[anypress_|Fatal error|Warning:/.test(seen.text) && seen.broken.length === 0, `/${made.path}: renders with prices filled in and every image`, seen.broken.join(' '));
+            } else {
+                check(seen.scroll <= 0, `/${made.path}: fits a phone`, String(seen.scroll));
+            }
+            await page.screenshot({ path: resolve(shotPages, `${made.file}-${name}.png`), fullPage: true });
+        }
+    }
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(`${base}/`, { waitUntil: 'networkidle' });
+    const home = await page.evaluate(() => document.body.innerText);
+    const lowest = Math.min(...pricing.siteTypes.map((t) => t.monthly.small));
+    check(home.includes(`From ${money(lowest)} a month`) && home.includes(`${money(small('website'))}/mo`), 'home: prices come from the price list', '');
+    const editor = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+    await editor.goto(`${base}/wp-login.php`);
+    await editor.fill('#user_login', 'admin');
+    await editor.fill('#user_pass', 'password');
+    await editor.click('#wp-submit');
+    await editor.waitForLoadState('networkidle');
+    const pageIds = await php(`echo json_encode(array_map(fn($p) => get_page_by_path($p['path'] === '' ? 'home' : $p['path'])?->ID, json_decode(${JSON.stringify(JSON.stringify(pagesMade))}, true)));`);
+    for (const [i, id] of pageIds.entries()) {
+        await editor.goto(`${base}/wp-admin/post.php?post=${id}&action=edit`, { waitUntil: 'domcontentloaded' });
+        await editor.waitForFunction(() => window.wp?.data?.select('core/block-editor')?.getBlocks().length > 0, null, { timeout: 60000 });
+        const invalid = await editor.evaluate(() => {
+            const bad = [];
+            const walk = (blocks) => blocks.forEach((b) => { if (!b.isValid) bad.push(b.name); walk(b.innerBlocks); });
+            walk(window.wp.data.select('core/block-editor').getBlocks());
+            return bad;
+        });
+        check(invalid.length === 0, `/${pagesMade[i].path}: every block is valid in the editor`, invalid.slice(0, 8).join(', '));
+    }
+    await editor.close();
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto(`${base}/pricing/`, { waitUntil: 'networkidle' });
