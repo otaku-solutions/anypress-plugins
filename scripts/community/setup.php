@@ -161,7 +161,7 @@ anypress_community_rest('POST', '/fluent-community/v2/admin/welcome-banner', ['s
         'enabled' => 'yes',
         'allowClose' => 'no',
         'title' => 'The AnyPress community',
-        'description' => 'Website owners, sellers and resellers building on AnyPress. Sign in with your AnyPress account to join in. [What members get](/join/)',
+        'description' => 'Website owners, sellers and resellers building on AnyPress. Sign in with your AnyPress account to join in. [What members get](' . home_url('/join/') . ')',
         'mediaType' => 'none',
         'buttonLabel' => 'Sign In',
     ],
@@ -226,6 +226,8 @@ if (!get_page_by_path('join')) {
         '{{join-home}}' => esc_url(anypress_community_image('join-home.png')),
         '{{join-events}}' => esc_url(anypress_community_image('join-events.png')),
         '{{shop}}' => 'https://shop.anypress.io',
+        '{{sign-in}}' => esc_url(add_query_arg('action', 'anypress-shop-sign-in', site_url('wp-login.php', 'login'))),
+        '{{home}}' => esc_url(home_url('/')),
     ]);
     $anypress_join_id = wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_name' => 'join', 'post_title' => 'Join the AnyPress Community', 'post_content' => $anypress_join, 'page_template' => 'page-no-title'], true);
     if (is_wp_error($anypress_join_id)) {
