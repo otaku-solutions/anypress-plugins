@@ -12,7 +12,7 @@
 // checkout next to this repository (or ANYPRESS_API_DIR), and network access to downloads.wordpress.org.
 // The shop's groups come from a stand-in filter here; on the real shop anypress-crm.php adds them from FluentCRM tags.
 
-import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
@@ -83,7 +83,7 @@ const community = await runCLI({
             { step: 'writeFile', path: '/wordpress/wp-content/mu-plugins/0-anypress-store-env.php', data: "<?php putenv('ANYPRESS_IS_TENANT=true'); define('ANYPRESS_TENANT_ROLES', 'community');\n" },
             { step: 'activatePlugin', pluginPath: 'anypress-client/anypress-client.php' },
             { step: 'writeFile', path: '/tmp/community-setup.php', data: readFileSync(resolve(ROOT, 'scripts/community/setup.php'), 'utf8') },
-            ...['logo.png', 'logo-dark.png'].map((file) => ({ step: 'writeFile', path: `/tmp/${file}`, data: readFileSync(resolve(ROOT, 'scripts/community', file)) })),
+            ...readdirSync(resolve(ROOT, 'scripts/community')).filter((file) => /\.(png|html)$/.test(file)).map((file) => ({ step: 'writeFile', path: `/tmp/${file}`, data: file.endsWith('.html') ? readFileSync(resolve(ROOT, 'scripts/community', file), 'utf8') : new Uint8Array(readFileSync(resolve(ROOT, 'scripts/community', file))) })),
         ],
     },
     mount: [{ hostPath: CLIENT, vfsPath: '/wordpress/wp-content/plugins/anypress-client' }],

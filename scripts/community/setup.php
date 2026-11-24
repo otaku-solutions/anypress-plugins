@@ -120,11 +120,15 @@ function anypress_community_image(string $file): string
         return (string) wp_get_attachment_url($found[0]->ID);
     }
     require_once ABSPATH . 'wp-admin/includes/image.php';
-    $upload = wp_upload_bits(pathinfo($file, PATHINFO_FILENAME) . '-anypress-community.png', null, (string) file_get_contents(__DIR__ . '/' . $file));
+    $bits = is_readable(__DIR__ . '/' . $file) ? (string) file_get_contents(__DIR__ . '/' . $file) : '';
+    if ($bits === '') {
+        WP_CLI::error("{$file} is missing next to setup.php.");
+    }
+    $upload = wp_upload_bits(pathinfo($file, PATHINFO_FILENAME) . '-anypress-community.png', null, $bits);
     if (!empty($upload['error'])) {
         WP_CLI::error($upload['error']);
     }
-    $id = wp_insert_attachment(['post_mime_type' => 'image/png', 'post_title' => 'AnyPress Community logo', 'post_name' => sanitize_title(pathinfo($file, PATHINFO_FILENAME) . '-anypress-community')], $upload['file']);
+    $id = wp_insert_attachment(['post_mime_type' => 'image/png', 'post_title' => 'AnyPress Community: ' . pathinfo($file, PATHINFO_FILENAME), 'post_name' => sanitize_title(pathinfo($file, PATHINFO_FILENAME) . '-anypress-community')], $upload['file']);
     wp_update_attachment_metadata($id, wp_generate_attachment_metadata($id, $upload['file']));
 
     return (string) $upload['url'];
@@ -136,6 +140,13 @@ anypress_community_rest('POST', '/fluent-community/v2/admin/general', ['settings
     'white_logo' => anypress_community_image('logo-dark.png'),
     'access' => ['acess_level' => 'public', 'access_roles' => []],
 ]]);
+// HighLevel Sites wears HighLevel's own icon instead of an emoji.
+$anypress_highlevel = $anypress_spaces['highlevel-sites'] ?? null;
+if ($anypress_highlevel && !$anypress_highlevel->logo) {
+    $anypress_highlevel->logo = anypress_community_image('highlevel.png');
+    $anypress_highlevel->settings = array_merge((array) $anypress_highlevel->settings, ['emoji' => '']);
+    $anypress_highlevel->save();
+}
 anypress_community_rest('POST', '/fluent-community/v2/admin/welcome-banner', ['settings' => [
     'login' => [
         'enabled' => 'yes',
@@ -148,7 +159,7 @@ anypress_community_rest('POST', '/fluent-community/v2/admin/welcome-banner', ['s
         'enabled' => 'yes',
         'allowClose' => 'no',
         'title' => 'The AnyPress community',
-        'description' => 'Website owners, sellers and resellers building on AnyPress. Sign in with your AnyPress account to join in.',
+        'description' => 'Website owners, sellers and resellers building on AnyPress. Sign in with your AnyPress account to join in. [What members get](/join/)',
         'mediaType' => 'none',
         'buttonLabel' => 'Sign In',
     ],
@@ -201,6 +212,24 @@ if (!get_page_by_path('community-guidelines')) {
 HTML;
     wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_name' => 'community-guidelines', 'post_title' => 'Community Guidelines', 'post_content' => $guidelines]);
     WP_CLI::log('Page: Community Guidelines');
+}
+
+// ---- The visitor page: /join, from the theme's Chapter community sections, with real screens of the portal ----
+
+if (!get_page_by_path('join')) {
+    if (!is_readable(__DIR__ . '/join.html')) {
+        WP_CLI::error('join.html is missing next to setup.php.');
+    }
+    $anypress_join = strtr((string) file_get_contents(__DIR__ . '/join.html'), [
+        '{{join-home}}' => esc_url(anypress_community_image('join-home.png')),
+        '{{join-events}}' => esc_url(anypress_community_image('join-events.png')),
+        '{{shop}}' => 'https://shop.anypress.io',
+    ]);
+    $anypress_join_id = wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_name' => 'join', 'post_title' => 'Join the AnyPress Community', 'post_content' => $anypress_join, 'page_template' => 'page-no-title'], true);
+    if (is_wp_error($anypress_join_id)) {
+        WP_CLI::error('The join page: ' . $anypress_join_id->get_error_message());
+    }
+    WP_CLI::log('Page: Join the AnyPress Community');
 }
 
 // ---- The first two posts, by the admin running this ----
