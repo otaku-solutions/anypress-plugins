@@ -12,6 +12,7 @@
     "export": "node export.mjs",
     "shop": "node shop-preview.mjs",
     "community": "node community-preview.mjs",
+    "shop-sign-in": "node shop-sign-in.mjs",
     "forms": "node forms.mjs",
     "shop-switch": "node shop-switch.mjs",
     "crm-switch": "node crm-switch.mjs",

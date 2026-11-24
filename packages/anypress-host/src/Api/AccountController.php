@@ -127,10 +127,19 @@ class AccountController
     {
         $user = wp_get_current_user();
 
+        /**
+         * The account's groups (e.g. seller, reseller), which sites that sign customers in through this shop use to
+         * decide what they may see: "customer" when the account has a website plan, and any the shop adds from its
+         * own records.
+         */
+        $groups = WebsiteSettings::customer_websites((int) $user->ID) ? ['customer'] : [];
+        $groups = apply_filters('anypress_host_account_groups', $groups, $user);
+
         return self::response([
             'id' => (int) $user->ID,
             'email' => (string) $user->user_email,
             'name' => (string) $user->display_name,
+            'groups' => array_values(array_unique(array_filter(array_map('sanitize_key', (array) $groups)))),
         ]);
     }
 
