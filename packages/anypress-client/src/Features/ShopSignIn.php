@@ -218,7 +218,9 @@ class ShopSignIn
             return $user;
         }
 
-        $this->sync_spaces($settings, $user, $account['groups']);
+        if ($account['groups'] !== null) {
+            $this->sync_spaces($settings, $user, $account['groups']);
+        }
 
         wp_clear_auth_cookie();
         wp_set_current_user($user->ID);
@@ -231,7 +233,7 @@ class ShopSignIn
     /**
      * Swaps the code for a token, reads the account with it, then revokes the token: this site keeps no access.
      *
-     * @return array{id: int, email: string, name: string, groups: string[]}|WP_Error
+     * @return array{id: int, email: string, name: string, groups: string[]|null}|WP_Error
      */
     public function fetch_account(array $settings, string $code, string $verifier)
     {
@@ -268,7 +270,8 @@ class ShopSignIn
             'id' => (int) $me['id'],
             'email' => sanitize_email((string) $me['email']),
             'name' => sanitize_text_field((string) ($me['name'] ?? '')),
-            'groups' => array_values(array_filter(array_map('sanitize_key', (array) ($me['groups'] ?? [])), static fn (string $group): bool => $group !== '')),
+            // A shop without account groups (AnyPress Host before 2.26.0) sends no key: null, so spaces stay as they are.
+            'groups' => array_key_exists('groups', $me) ? array_values(array_filter(array_map('sanitize_key', (array) $me['groups']), static fn (string $group): bool => $group !== '')) : null,
         ];
     }
 
@@ -276,7 +279,7 @@ class ShopSignIn
      * The user for this shop account: the one linked to it, else a plain member with its email (then linked), else a
      * new member. A user who can edit content is never signed in with a shop account.
      *
-     * @param array{id: int, email: string, name: string, groups: string[]} $account
+     * @param array{id: int, email: string, name: string, groups: string[]|null} $account
      * @return WP_User|WP_Error
      */
     public function member_for(array $settings, array $account)

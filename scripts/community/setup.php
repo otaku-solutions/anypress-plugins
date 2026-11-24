@@ -161,7 +161,7 @@ anypress_community_rest('POST', '/fluent-community/v2/admin/welcome-banner', ['s
         'enabled' => 'yes',
         'allowClose' => 'no',
         'title' => 'The AnyPress community',
-        'description' => 'Website owners, sellers and resellers building on AnyPress. Sign in with your AnyPress account to join in. [What members get](' . home_url('/join/') . ')',
+        'description' => 'Website owners, sellers and resellers building on AnyPress. Sign in with your AnyPress account to join in. [What members get](' . add_query_arg('pagename', 'join', home_url('/')) . ')',
         'mediaType' => 'none',
         'buttonLabel' => 'Sign In',
     ],
