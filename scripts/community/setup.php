@@ -76,7 +76,10 @@ $anypress_groups = [
         ['general', 'General', '💬', 'public', false, 'WordPress, the Fluent plugins and anything else.'],
         ['ideas-and-roadmap', 'Ideas And Roadmap', '💡', 'public', false, 'Ask for a feature. We mark each idea planned or shipped.'],
     ]],
-    'sellers' => ['Sellers', [
+    // Secret spaces: members join them by the groups the shop gives their account when they sign in
+    // (wp anypress shop-sign-in connect --space=customer:customers --space=seller:sellers-and-resellers ...).
+    'members-only' => ['Members Only', [
+        ['customers', 'Customers', '⭐', 'secret', false, 'For everyone with a website plan: questions about your plan, early looks at new features, and feedback straight to the AnyPress team.'],
         ['sellers-and-resellers', 'Sellers And Resellers', '🤝', 'secret', false, 'Selling sites, your storefront, pricing for clients and reseller tips. Sellers and resellers only.'],
     ]],
 ];
@@ -305,19 +308,19 @@ if (!$anypress_sample) {
 // ---- Sample content, for previews only: members, posts, comments, reactions and events ----
 
 $anypress_people = [
-    'maya' => ['Maya Okafor', 'Runs a yoga studio. Moved from Squarespace.', ['say-hello', 'bookings']],
+    'maya' => ['Maya Okafor', 'Runs a yoga studio. Moved from Squarespace.', ['say-hello', 'bookings', 'customers']],
     'dev' => ['Dev Patel', 'Web designer. Sells sites to local trades.', ['sellers-and-resellers', 'show-your-site']],
-    'lucia' => ['Lucía Herrera', 'Ceramics shop owner.', ['online-stores']],
+    'lucia' => ['Lucía Herrera', 'Ceramics shop owner.', ['online-stores', 'customers']],
     'sam' => ['Sam Whitfield', 'Course creator, ex-Skool.', ['communities-and-courses', 'moving-in']],
     'ren' => ['Ren Tanaka', 'Bookkeeper with a HighLevel agency account.', ['highlevel-sites']],
-    'amara' => ['Amara Nwosu', 'Coach. Building her first website.', ['websites', 'say-hello']],
+    'amara' => ['Amara Nwosu', 'Coach. Building her first website.', ['websites', 'say-hello', 'customers']],
     'jonas' => ['Jonas Berg', 'Reseller in Oslo.', ['sellers-and-resellers', 'ideas-and-roadmap']],
     'priya' => ['Priya Raman', 'Runs a baking class community.', ['communities-and-courses', 'general']],
 ];
 $anypress_users = [];
 foreach ($anypress_people as $login => [$name, $bio, $joins]) {
     $user = get_user_by('login', $login);
-    $id = $user ? (int) $user->ID : (int) wp_insert_user([
+    $id = $user ? (int) $user->ID : wp_insert_user([
         'user_login' => $login,
         'user_email' => "{$login}@anypress.example",
         'user_pass' => wp_generate_password(24),
@@ -326,6 +329,10 @@ foreach ($anypress_people as $login => [$name, $bio, $joins]) {
         'description' => $bio,
         'role' => 'subscriber',
     ]);
+    if (is_wp_error($id)) {
+        WP_CLI::error("Sample member {$login}: " . $id->get_error_message());
+    }
+    $id = (int) $id;
     $anypress_users[$login] = $id;
     $community_user = CommunityUser::find($id);
     if ($community_user) {
@@ -382,13 +389,16 @@ foreach ($anypress_posts as [$space, $author, $slug, $title, $text, $when, $repl
 
 // Webinars are event posts in Announcements, as FluentEvent makes them from the portal's composer: the post is
 // the event's card in the feed and on the Events page, and the event goes in the space's own calendar.
-if (class_exists('FluentEvent\\App\\Models\\Event') && !\FluentEvent\App\Models\Event::query()->exists()) {
+if (class_exists('FluentEvent\\App\\Models\\Event')) {
     $zone = 'America/Los_Angeles';
     foreach ([
         ['Office Hours: bring your questions', '+9 days 10:00', 'Drop in with anything about your site. We share a screen and fix things live.'],
         ['Webinar: build your site in an hour', '+16 days 11:00', 'From a starter page to a finished home page, contact form and booking calendar.'],
         ['Webinar: moving your community in', '+23 days 11:00', 'Moving members, courses and posts from Skool, Circle and LearnDash, step by step.'],
     ] as [$title, $when, $about]) {
+        if (\FluentEvent\App\Models\Event::query()->whereHas('post', fn ($post) => $post->where('post_title', $title))->exists()) {
+            continue;
+        }
         $start = new DateTimeImmutable($when, new DateTimeZone($zone));
         anypress_community_rest('POST', '/fluent-community/v2/feeds', [
             'space' => 'announcements',
