@@ -23,6 +23,8 @@ rm -f "$lib/Crm/HighLevelLink.php"
 rm -rf "$lib/Crm/Importers"
 # FluentCart > Offers is an AnyPress Client screen, not a switch; nothing in the switches uses it.
 rm -f "$lib/Shop/Offers.php"
+# The free "Tag Applied" automation trigger is an AnyPress Client extra for FluentCRM, not a switch.
+rm -f "$lib/Crm/TagTriggers.php" "$lib/Crm/TagAppliedTrigger.php"
 # A wordpress.org plugin may not let remote clients run the switches: Otaku Migration for Fluent registers no WordPress
 # abilities, so the abilities classes stay in AnyPress Client. The switches run from Tools > Migrate to Fluent and WP-CLI.
 rm -f "$lib"/*/*Abilities.php

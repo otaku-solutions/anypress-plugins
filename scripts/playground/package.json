@@ -26,6 +26,7 @@
     "trial": "node trial.mjs",
     "admin-audit": "node admin-audit.mjs",
     "support": "node support.mjs",
+    "back-office": "node back-office.mjs",
     "products": "node products.mjs",
     "courses": "node courses.mjs",
     "calendly": "node calendly.mjs",
