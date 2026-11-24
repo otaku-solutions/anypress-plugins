@@ -14,7 +14,7 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { createServer } from 'node:http';
-import { dirname, resolve } from 'node:path';
+import { basename, dirname, resolve } from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
 import { runCLI } from '@wp-playground/cli';
@@ -61,11 +61,12 @@ const pinned = build.match(/^PLUGINS="\n([\s\S]*?)\n"/m)[1].trim().split('\n').m
 // the real posters, and for each video the start of an MP4 (enough for WordPress to know it as one).
 const MP4 = Buffer.from('000000186674797069736f6d0000020069736f6d69736f32', 'hex');
 const videoServer = createServer((req, res) => {
-    const name = decodeURIComponent(req.url.replace(/^\/videos\//, ''));
-    const poster = resolve(SITE_REPO, 'public/videos', name);
-    if (/^[a-z0-9-]+\.jpg$/.test(name) && existsSync(poster)) {
+    // Only a plain file name ever reaches the file system.
+    const name = /^\/videos\/([a-z0-9-]+\.(?:jpg|mp4))$/.exec(req.url)?.[1] ?? '';
+    const poster = name.endsWith('.jpg') ? resolve(SITE_REPO, 'public/videos', basename(name)) : '';
+    if (poster && existsSync(poster)) {
         res.writeHead(200, { 'content-type': 'image/jpeg' }).end(readFileSync(poster));
-    } else if (/^[a-z0-9-]+\.mp4$/.test(name)) {
+    } else if (name.endsWith('.mp4')) {
         res.writeHead(200, { 'content-type': 'video/mp4' }).end(MP4);
     } else res.writeHead(404).end();
 });

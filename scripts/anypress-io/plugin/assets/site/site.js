@@ -217,7 +217,7 @@
 
 		var SUGGESTED = { website: 49, bookings: 79, store: 99, community: 129, everything: 249 };
 		document.querySelectorAll( '[data-calc="earnings"]' ).forEach( function ( box ) {
-			var st = { account: box.getAttribute( 'data-account' ), type: 'website', size: 'Small', clients: 10, charge: SUGGESTED.website };
+			var st = { account: box.getAttribute( 'data-account' ) === 'reseller' ? 'reseller' : 'seller', type: 'website', size: 'Small', clients: 10, charge: SUGGESTED.website };
 			var ranges = box.querySelectorAll( 'input[type=range]' );
 			var outs = box.querySelectorAll( '.calc-count' );
 			var suggested = function () {
@@ -256,7 +256,7 @@
 				};
 				var result = box.querySelector( '.calc-result' );
 				var fine = result.querySelector( '.calc-fine' ).outerHTML;
-				result.innerHTML = '<span class="eyebrow">what you keep as a ' + st.account + '</span>' +
+				result.innerHTML = '<span class="eyebrow">what you keep as a ' + ( st.account === 'reseller' ? 'reseller' : 'seller' ) + '</span>' +
 					'<p class="calc-big">' + money( mine.month ) + '<small> / month</small></p>' +
 					'<p class="calc-line">' + money( mine.perSite ) + ' on each site, ' + money( cents( mine.month * 12 ) ) + ' a year.</p>' +
 					'<dl class="calc-sum"><div><dt>' + st.clients + ' ' + ( st.clients === 1 ? 'client pays' : 'clients pay' ) + ' you ' + money( price ) + ' each</dt><dd>' + money( cents( price * st.clients ) ) + '</dd></div>' +
@@ -267,7 +267,7 @@
 					row( 'seller', 'Seller', seller ) + row( 'reseller', 'Reseller', reseller ) + '</tbody></table>' + fine;
 			};
 			onPick( box, 'account', function ( v ) {
-				st.account = v;
+				st.account = v === 'reseller' ? 'reseller' : 'seller';
 				draw();
 			} );
 			onPick( box, 'type', function ( v ) {
