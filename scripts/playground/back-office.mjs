@@ -8,7 +8,8 @@
 //   "Trial" taken off), the way an app passes on a Stripe payment.
 // - AnyPress Client's "Tag Applied" trigger (free FluentCRM has none) starts an automation set to "Customer" once,
 //   and not for other tags or a second "Customer".
-// - Stripe events (checkout, cancel, invoice paid, refund), signed and checked by Stripe's own SDK, go through the
+// - Stripe events (checkout, cancel, invoice paid and failed, past due, plan change, trial ending, expired checkout,
+//   refund, dispute), signed and checked by Stripe's own SDK, go through the
 //   AnyPress SDK's Back Office helper (anypress-api sdk/typescript) to the same webhook and move the tags.
 // - Fluent Support's REST API, signed in with a WordPress application password, opens a ticket for the contact.
 //
@@ -213,8 +214,9 @@ try {
         const { default: Stripe } = await import(pathToFileURL(createRequire(stripePath).resolve('stripe')).href);
         const stripe = new Stripe('sk_test_back_office');
         const secret = 'whsec_back_office_playground';
-        const handle = async (type, object, options) => {
-            const payload = JSON.stringify({ id: `evt_${type.replace(/\W/g, '_')}`, object: 'event', type, data: { object } });
+        const handle = async (type, object, options, previous) => {
+            const data = previous ? { object, previous_attributes: previous } : { object };
+            const payload = JSON.stringify({ id: `evt_${type.replace(/\W/g, '_')}`, object: 'event', type, data });
             const event = stripe.webhooks.constructEvent(payload, stripe.webhooks.generateTestHeaderString({ payload, secret }), secret);
             const update = contactUpdateFromStripe(event, options);
             if (update) await sendContactUpdate(hookUrl, update);
@@ -238,6 +240,22 @@ try {
         await handle('charge.refunded', { refunded: true, billing_details: { email: 'ben@anypress.example' } });
         b = await ben();
         check(b?.tags.includes('Refunded') && !b.tags.includes('Customer'), 'Stripe full refund: Refunded added, Customer off', JSON.stringify(b));
+        const asBen = { email: 'ben@anypress.example' };
+        await handle('invoice.payment_failed', { customer_email: 'ben@anypress.example' });
+        await handle('customer.subscription.updated', { status: 'past_due', metadata: { plan: 'Pro' } }, asBen, { status: 'active' });
+        b = await ben();
+        check(b?.tags.includes('Payment Failed') && b.tags.includes('Past Due'), 'Stripe failed renewal: Payment Failed and Past Due added', JSON.stringify(b));
+        await handle('customer.subscription.updated', { status: 'active', metadata: { plan: 'Team' } }, asBen, { status: 'past_due', metadata: { plan: 'Pro' } });
+        b = await ben();
+        check(b?.tags.includes('Team') && !b.tags.includes('Pro') && !b.tags.includes('Past Due') && !b.tags.includes('Payment Failed'), 'Stripe plan change back to active: the new plan on, the old plan, Past Due and Payment Failed off', JSON.stringify(b));
+        await handle('customer.subscription.trial_will_end', { status: 'trialing' }, asBen);
+        await handle('checkout.session.expired', { mode: 'subscription', customer_details: { email: 'ben@anypress.example' } });
+        await handle('charge.dispute.created', { charge: 'ch_ben', reason: 'fraudulent' }, asBen);
+        b = await ben();
+        check(['Trial Ending', 'Checkout Abandoned', 'Disputed'].every((tag) => b?.tags.includes(tag)), 'Stripe trial ending, expired checkout and dispute: each tag added', JSON.stringify(b));
+        await handle('checkout.session.completed', { payment_status: 'paid', customer_details: { email: 'ben@anypress.example' }, metadata: { plan: 'Team' } });
+        b = await ben();
+        check(b?.tags.includes('Customer') && !b.tags.includes('Trial Ending') && !b.tags.includes('Checkout Abandoned'), 'Stripe paid checkout takes off Trial Ending and Checkout Abandoned', JSON.stringify(b));
     } else {
         console.log(`skip the Stripe events (no ${helperPath} or ${stripePath})`);
     }
