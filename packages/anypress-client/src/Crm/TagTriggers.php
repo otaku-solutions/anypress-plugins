@@ -42,7 +42,7 @@ class TagTriggers
     {
         $tagIds = array_values(array_filter(array_map('intval', (array) $tagIds)));
         if ($tagIds && is_object($contact)) {
-            do_action(self::ACTION, $tagIds, $contact);
+            do_action('anypress_crm_tag_applied', $tagIds, $contact);
         }
     }
 
