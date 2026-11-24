@@ -41,6 +41,7 @@ parameters:
         - FluentCart\App\Modules\PaymentMethods\Core\BaseGatewaySettings
         - FluentForm\App\Services\Migrator\Classes\BaseMigratorStub
         - FluentCrm\App\Services\CrmMigrator\BaseMigrator
+        - FluentCrm\App\Services\Funnel\BaseTrigger
     reportUnmatchedIgnoredErrors: true
     ignoreErrors:
         # The plugins work with other plugins and tools that aren't installed here and have no stubs (WP-CLI,

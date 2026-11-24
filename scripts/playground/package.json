@@ -46,6 +46,7 @@
     "crm-import": "node crm-import.mjs",
     "skool": "node skool.mjs",
     "prospects": "node prospects.mjs",
+    "back-office": "node back-office.mjs",
     "staging-api": "node staging-api.mjs"
   },
   "dependencies": {
