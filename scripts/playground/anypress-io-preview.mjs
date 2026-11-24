@@ -148,6 +148,31 @@ const leads = await php("echo json_encode(get_option('fake_shop_leads', []));");
 check(leads.length === 1 && leads[0].email === 'sam@anypress.example' && leads[0].name === 'Sam Rivera' && leads[0].group === 'seller' && leads[0].beta === '1' && leads[0].source === 'anypress.io Beta',
     "a sign-up form sends its email, name, group and beta answer to the shop's lead route, and other forms send nothing", JSON.stringify(leads));
 
+// The seller application goes to the API's /applications route as the form's last check, and the API's answer shows on the form.
+const apply = await php(`$form = (object) ['id' => 5, 'title' => 'Seller application'];
+    $base = ['anypress_application' => '1', 'name' => 'Ana Ortiz', 'email' => 'ana@anypress.example', 'business' => 'Ortiz Studio', 'clients' => 'Salons in our city', 'expected_sites' => '3-9', 'has_site' => 'no', 'subdomain' => 'Ortiz', 'highlevel' => 'no', 'site_types' => ['bookings', 'not-sure'], 'audiences' => ['shops', 'none']];
+    update_option('fake_api_calls', []);
+    $ok = apply_filters('fluentform/validation_errors', [], $base, $form, []);
+    $again = apply_filters('fluentform/validation_errors', [], ['email' => 'again@anypress.example'] + $base, $form, []);
+    $taken = apply_filters('fluentform/validation_errors', [], ['subdomain' => 'taken'] + $base, $form, []);
+    $failed = apply_filters('fluentform/validation_errors', ['name' => ['Please add your name.']], $base, $form, []);
+    $other = apply_filters('fluentform/validation_errors', [], ['email' => 'x@anypress.example'], (object) ['id' => 6, 'title' => 'Contact'], []);
+    echo json_encode(['ok' => $ok, 'again' => $again, 'taken' => $taken, 'failed' => $failed, 'other' => $other, 'sent' => array_values(array_filter(get_option('fake_api_calls', []), fn($c) => $c[0] === 'application'))]);`);
+const sent = apply.sent[0]?.[1] ?? {};
+check(apply.sent.length === 3 && sent.email === 'ana@anypress.example' && sent.wantsStorefront === true && sent.storefrontSubdomain === 'ortiz' && sent.highLevelAgency === false && sent.siteTypes === undefined && sent.audiences?.join() === 'shops' && sent.expectedSites === '3-9',
+    'seller application: the form\'s answers reach the API\'s /applications route, with "Not sure yet" keeping every kind of site', JSON.stringify(apply.sent));
+check(Array.isArray(apply.ok) && apply.ok.length === 0, 'seller application: an application the API takes saves with no errors', JSON.stringify(apply.ok));
+check(apply.again.email?.[0]?.includes('already have an application'), 'seller application: a second application from the same email shows on the email field', JSON.stringify(apply.again));
+check(apply.taken.subdomain?.[0] === 'storefrontSubdomain is taken', "seller application: a storefront address that's taken shows on that field", JSON.stringify(apply.taken));
+check(Object.keys(apply.failed).join() === 'name' && Array.isArray(apply.other) && apply.other.length === 0, "seller application: nothing is sent while the form's own checks fail, or from other forms", JSON.stringify([apply.failed, apply.other]));
+
+// Care and affiliate prices on the pages come from the price list too.
+const priced = await php(`echo json_encode([do_shortcode('[anypress_care item="care-plus" show="monthly"]'), do_shortcode('[anypress_care item="move-my-site-in" show="price"]'), do_shortcode('[anypress_price type="website" affiliate="1"]')]);`);
+const usd = (n) => `$${n.toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(n) ? 0 : 2, maximumFractionDigits: 2 })}`;
+const affiliateCut = Math.round(pricing.siteTypes.find((t) => t.key === 'website').monthly.small * pricing.affiliatePercent) / 100;
+check(priced.join() === [usd(pricing.care.packages.find((c) => c.key === 'care-plus').monthly), usd(pricing.care.services.find((c) => c.key === 'move-my-site-in').price), usd(affiliateCut)].join(),
+    'care and affiliate prices come from the price list', JSON.stringify(priced));
+
 const { chromium } = createRequire(import.meta.url)('playwright');
 const browser = await chromium.launch();
 mkdirSync(SHOTS, { recursive: true });

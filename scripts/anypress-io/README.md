@@ -37,11 +37,20 @@ opens in the editor as ordinary, editable blocks:
 
 1. `pages/site-data.json` holds the words and lists the pages use (kinds of site, sizes, other platforms' prices,
    page details), exported from the anypress-site repository's `src/lib`.
-2. `node pages/build.mjs` writes `pages/html/`, the header, footer and menu in `pages/parts/`, and `pages/pages.json`.
+2. `node pages/build.mjs` writes `pages/html/` (every page of anypress.io: the home page, prices, the kinds of site,
+   the groups, guides, selling and reselling, comparisons, designs, help and care, the beta, running it yourself, and
+   the legal pages), the header, footer and menu in `pages/parts/`, `pages/pages.json`, and `pages/forms.json`: the
+   Fluent Forms forms the pages use (tips by email, the beta sign-up and the seller application), as Fluent Forms'
+   own export.
 3. `wp eval-file setup.php --user=<admin>` on the store makes or updates each page by its address (keeping a revision),
-   sets the home page, logo, menu, header, footer and the theme's Sketchbook colours and fonts.
+   imports the forms, and sets the home page, logo, menu, header, footer and the theme's Sketchbook colours and fonts.
 
-No page types a price: prices and price-list numbers are the `[anypress_price]` and `[anypress_number]` shortcodes, and
+The tips and beta forms send each sign-up to the shop's customer list (`plugin/includes/lead.php`). The seller
+application is sent to the AnyPress API's `/applications` route as the form's last check, so a second application from
+the same email, or a storefront address that's taken, shows on the form (`plugin/includes/application.php`).
+
+No page types an AnyPress price: prices and price-list numbers are the `[anypress_price]`, `[anypress_number]` and
+`[anypress_care]` shortcodes, and
 the worked examples and volume savings are `[anypress_example]` and `[anypress_volume_tiers]`, all read from
 `pricing.json` (`plugin/includes/shortcodes.php`). The how-to videos load from anypress.io's video folder until they're
 added to the store's Media Library; define `ANYPRESS_IO_VIDEOS` with their address to point the pages there instead.
@@ -49,6 +58,7 @@ added to the store's Media Library; define `ANYPRESS_IO_VIDEOS` with their addre
 ## Trying it
 
 `cd scripts/playground && npm ci && npm run anypress-io` builds a website store on Playground with this plugin and
-checks the calculators against the price list and a sign-up against a stand-in for the shop, then sets up the pages
+checks the calculators and price shortcodes against the price list, a sign-up against a stand-in for the shop and the
+seller application against a stand-in for the API, then sets up the pages
 and checks each one: prices filled in, every image loads, it fits a phone, and every block is valid in the editor. Screenshots go to
 `scripts/playground/anypress-io-shots/`; `-- --serve` keeps the site running.

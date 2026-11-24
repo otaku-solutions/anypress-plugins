@@ -31,5 +31,14 @@ add_action(
 					. '.wp-block-list.is-style-inline>li+li::before{content:"·";margin-right:1.5em;opacity:.5}',
 			)
 		);
+		register_block_style(
+			'core/list',
+			array(
+				'name'         => 'pills',
+				'label'        => __( 'Tags', 'anypress-io' ),
+				'inline_style' => '.wp-block-list.is-style-pills{list-style:none;padding:0;display:flex;flex-wrap:wrap;gap:.5em}'
+					. '.wp-block-list.is-style-pills>li{padding:.2em .8em;border:1px solid var(--wp--preset--color--border-light,currentColor);border-radius:999px;font-size:var(--wp--preset--font-size--small)}',
+			)
+		);
 	}
 );

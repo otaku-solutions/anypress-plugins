@@ -132,6 +132,204 @@
 		"template": "page-no-title"
 	},
 	{
+		"path": "about",
+		"file": "about",
+		"title": "About",
+		"template": "page-no-title"
+	},
+	{
+		"path": "contact",
+		"file": "contact",
+		"title": "Contact",
+		"template": "page-no-title"
+	},
+	{
+		"path": "included",
+		"file": "included",
+		"title": "What's included",
+		"template": "page-no-title"
+	},
+	{
+		"path": "highlevel",
+		"file": "highlevel",
+		"title": "AnyPress for HighLevel",
+		"template": "page-no-title"
+	},
+	{
+		"path": "changelog",
+		"file": "changelog",
+		"title": "What's new",
+		"template": "page-no-title"
+	},
+	{
+		"path": "terms",
+		"file": "terms",
+		"title": "Terms of Service",
+		"template": "page-no-title"
+	},
+	{
+		"path": "privacy",
+		"file": "privacy",
+		"title": "Privacy Policy",
+		"template": "page-no-title"
+	},
+	{
+		"path": "refund-policy",
+		"file": "refund-policy",
+		"title": "Refund Policy",
+		"template": "page-no-title"
+	},
+	{
+		"path": "sellers/setup",
+		"file": "sellers-setup",
+		"title": "How we set you up",
+		"template": "page-no-title"
+	},
+	{
+		"path": "sellers/autopilot",
+		"file": "sellers-autopilot",
+		"title": "Selling on autopilot",
+		"template": "page-no-title"
+	},
+	{
+		"path": "move",
+		"file": "move",
+		"title": "Move your site",
+		"template": "page-no-title"
+	},
+	{
+		"path": "affiliates",
+		"file": "affiliates",
+		"title": "Affiliate program",
+		"template": "page-no-title"
+	},
+	{
+		"path": "affiliates/kit",
+		"file": "affiliates-kit",
+		"title": "Affiliate kit",
+		"template": "page-no-title"
+	},
+	{
+		"path": "developers",
+		"file": "developers",
+		"title": "For developers",
+		"template": "page-no-title"
+	},
+	{
+		"path": "ai",
+		"file": "ai",
+		"title": "AnyPress in your AI app",
+		"template": "page-no-title"
+	},
+	{
+		"path": "automate",
+		"file": "automate",
+		"title": "Create sites automatically",
+		"template": "page-no-title"
+	},
+	{
+		"path": "sell",
+		"file": "sell",
+		"title": "Apply to sell websites",
+		"template": "page-no-title"
+	},
+	{
+		"path": "compare",
+		"file": "compare",
+		"title": "Compare",
+		"template": "page-no-title"
+	},
+	{
+		"path": "compare/hosting",
+		"file": "compare-hosting",
+		"title": "AnyPress vs WordPress hosting",
+		"template": "page-no-title"
+	},
+	{
+		"path": "compare/shopify",
+		"file": "compare-shopify",
+		"title": "AnyPress vs Shopify",
+		"template": "page-no-title"
+	},
+	{
+		"path": "compare/multisite",
+		"file": "compare-multisite",
+		"title": "AnyPress vs WordPress multisite",
+		"template": "page-no-title"
+	},
+	{
+		"path": "compare/wp-ultimo",
+		"file": "compare-wp-ultimo",
+		"title": "AnyPress vs WP Ultimo",
+		"template": "page-no-title"
+	},
+	{
+		"path": "compare/managewp",
+		"file": "compare-managewp",
+		"title": "AnyPress vs ManageWP",
+		"template": "page-no-title"
+	},
+	{
+		"path": "designs",
+		"file": "designs",
+		"title": "Designs",
+		"template": "page-no-title"
+	},
+	{
+		"path": "designs/blocks",
+		"file": "designs-blocks",
+		"title": "Blocks",
+		"template": "page-no-title"
+	},
+	{
+		"path": "how-it-works",
+		"file": "how-it-works",
+		"title": "How it works",
+		"template": "page-no-title"
+	},
+	{
+		"path": "how-it-works/sellers",
+		"file": "how-it-works-sellers",
+		"title": "How selling works",
+		"template": "page-no-title"
+	},
+	{
+		"path": "beta",
+		"file": "beta",
+		"title": "Join the beta",
+		"template": "page-no-title"
+	},
+	{
+		"path": "self-host",
+		"file": "self-host",
+		"title": "Run AnyPress yourself",
+		"template": "page-no-title"
+	},
+	{
+		"path": "care",
+		"file": "care",
+		"title": "Care for your website",
+		"template": "page-no-title"
+	},
+	{
+		"path": "help",
+		"file": "help",
+		"title": "Help",
+		"template": "page-no-title"
+	},
+	{
+		"path": "hosting",
+		"file": "hosting",
+		"title": "Hosting and safety",
+		"template": "page-no-title"
+	},
+	{
+		"path": "updates",
+		"file": "updates",
+		"title": "Safe updates",
+		"template": "page-no-title"
+	},
+	{
 		"path": "sites/website",
 		"file": "sites-website",
 		"title": "Website & blog",

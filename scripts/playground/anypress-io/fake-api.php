@@ -1,6 +1,6 @@
 <?php
 /**
- * Stands in for the AnyPress API's public demo routes and the photo upload links on the Try It checks: answers as
+ * Stands in for the AnyPress API's seller applications and public demo routes, and the photo upload links on the Try It checks: answers as
  * the API does and records each call in the fake_api_calls option, so nothing leaves the site.
  */
 add_filter(
@@ -9,6 +9,17 @@ add_filter(
 		$answer = fn( $code, $body ) => array( 'headers' => array(), 'body' => wp_json_encode( $body ), 'response' => array( 'code' => $code, 'message' => '' ), 'cookies' => array(), 'filename' => null );
 		$log    = fn( $call ) => update_option( 'fake_api_calls', array_merge( get_option( 'fake_api_calls', array() ), array( $call ) ) );
 		$body   = isset( $args['body'] ) && is_string( $args['body'] ) ? $args['body'] : '';
+		if ( 'https://api.anypress.io/applications' === $url ) {
+			$application = json_decode( $body, true );
+			$log( array( 'application', $application ) );
+			if ( 'again@anypress.example' === ( $application['email'] ?? '' ) ) {
+				return $answer( 409, array( 'message' => 'An application from this email already exists' ) );
+			}
+			if ( 'taken' === ( $application['storefrontSubdomain'] ?? '' ) ) {
+				return $answer( 400, array( 'message' => 'storefrontSubdomain is taken' ) );
+			}
+			return $answer( 201, array( 'id' => 'app_1' ) );
+		}
 		if ( 'https://api.anypress.io/demos/assistant' === $url ) {
 			$log( array( 'assistant', json_decode( $body, true ) ) );
 			return $answer( 201, array( 'token' => 'apdemo_' . str_repeat( 'a', 43 ) ) );

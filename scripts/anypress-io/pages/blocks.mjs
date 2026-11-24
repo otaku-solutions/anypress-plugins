@@ -11,12 +11,13 @@ const block = (name, a, html) => (html === undefined ? `<!-- wp:${name}${json(a)
 const sp = (slug) => `var:preset|spacing|${slug}`;
 const spCss = (slug) => `var(--wp--preset--spacing--${slug})`;
 
-/** Inline text: **bold**, *italic*, [link](url) and ==marked== (the highlighter mark). Everything else is escaped. */
+/** Inline text: **bold**, *italic*, `code`, [link](url) and ==marked== (the highlighter mark). Everything else is escaped. */
 export function inline(text) {
 	return esc(text)
 		.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
 		.replace(/\*(.+?)\*/g, '<em>$1</em>')
 		.replace(/~~(.+?)~~/g, '<s>$1</s>')
+		.replace(/`([^`]+)`/g, '<code>$1</code>')
 		.replace(/\n/g, '<br>')
 		.replace(/==(.+?)==/g, '<mark class="has-inline-color has-primary-alt-background-color" style="background-color:var(--wp--preset--color--primary-alt)">$1</mark>')
 		.replace(/\[([^[\]]+)\]\(([^)\s]+)\)/g, (_, t, u) => `<a href="${attr(u)}">${t}</a>`);
@@ -127,8 +128,11 @@ export function grid(cards, { min = '15rem', card = true, gap = 'medium', count 
 	return group(inner, { layout: { type: 'grid', ...(count ? { columnCount: count } : {}), minimumColumnWidth: min }, gap });
 }
 
-export function columns(cols, { verticalAlign = 'center' } = {}) {
-	const inner = cols.map((c) => block('column', { verticalAlignment: verticalAlign }, `<div class="wp-block-column is-vertically-aligned-${verticalAlign}">${c}</div>`)).join('\n');
+export function columns(cols, { verticalAlign = 'center', widths } = {}) {
+	const inner = cols.map((c, i) => {
+		const w = widths?.[i];
+		return block('column', { verticalAlignment: verticalAlign, ...(w ? { width: w } : {}) }, `<div class="wp-block-column is-vertically-aligned-${verticalAlign}"${w ? ` style="flex-basis:${w}"` : ''}>${c}</div>`);
+	}).join('\n');
 	return block('columns', { verticalAlignment: verticalAlign, align: 'wide' }, `<div class="wp-block-columns alignwide are-vertically-aligned-${verticalAlign}">${inner}</div>`);
 }
 
@@ -157,3 +161,36 @@ export const raw = (name, attrs) => block(name, attrs);
 
 /** A page: its blocks, one after another. */
 export const page = (...parts) => `${parts.filter(Boolean).join('\n\n')}\n`;
+
+/**
+ * Plain HTML (p, h2-h4, ul, ol, table, with inline strong, em, a and code), as the blocks the editor would save for
+ * it. For approved documents such as the legal pages, whose text arrives as HTML.
+ */
+export function htmlBlocks(html) {
+	const out = [];
+	const re = /<(p|h[2-4]|ul|ol|table)(\s[^>]*)?>([\s\S]*?)<\/\1>/g;
+	for (const [, tag, attrs = '', body] of html.matchAll(re)) {
+		const inner = body.trim();
+		if (tag === 'p') out.push(block('paragraph', {}, `<p>${inner}</p>`));
+		else if (tag[0] === 'h') {
+			const level = Number(tag[1]);
+			const id = attrs.match(/id="([^"]+)"/)?.[1];
+			const a = {};
+			if (level !== 2) a.level = level;
+			if (id) a.anchor = id;
+			out.push(block('heading', a, `<h${level} class="wp-block-heading"${id ? ` id="${attr(id)}"` : ''}>${inner}</h${level}>`));
+		} else if (tag === 'table') {
+			const rows = (part) => [...(inner.match(new RegExp(`<${part}>([\\s\\S]*?)</${part}>`))?.[1] ?? '').matchAll(/<tr(?:\s[^>]*)?>([\s\S]*?)<\/tr>/g)]
+				.map(([, r]) => `<tr>${[...r.matchAll(/<(th|td)[^>]*>([\s\S]*?)<\/\1>/g)].map(([, c, t]) => `<${c}>${t.trim()}</${c}>`).join('')}</tr>`).join('');
+			const th = rows('thead');
+			out.push(block('table', {}, `<figure class="wp-block-table"><table class="has-fixed-layout">${th ? `<thead>${th}</thead>` : ''}<tbody>${rows('tbody')}</tbody></table></figure>`));
+		} else {
+			const items = [...inner.matchAll(/<li>([\s\S]*?)<\/li>/g)].map(([, t]) => block('list-item', {}, `<li>${t.trim()}</li>`)).join('\n');
+			out.push(block('list', tag === 'ol' ? { ordered: true } : {}, `<${tag} class="wp-block-list">${items}</${tag}>`));
+		}
+	}
+	return out.join('\n\n');
+}
+
+/** A code sample, as the editor's Code block. */
+export const code = (text) => block('code', {}, `<pre class="wp-block-code"><code>${esc(text)}</code></pre>`);
