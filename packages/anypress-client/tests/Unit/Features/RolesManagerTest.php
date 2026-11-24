@@ -26,6 +26,7 @@ class RolesManagerTest extends TestCase
 
     private array $active = [];
     private array $site_roles = [];
+    private array $kept_off = [];
 
     protected function setUp(): void
     {
@@ -36,7 +37,11 @@ class RolesManagerTest extends TestCase
         }
 
         $this->active = ['anypress-client/anypress-client.php', 'shop/shop.php', 'forms/forms.php'];
-        Functions\when('get_option')->alias(fn ($name, $default = false) => $name === PluginBootstrap::TENANT_ROLES ? $this->site_roles : $default);
+        Functions\when('get_option')->alias(fn ($name, $default = false) => match ($name) {
+            PluginBootstrap::TENANT_ROLES => $this->site_roles,
+            RolesManager::KEPT_OFF => $this->kept_off,
+            default => $default,
+        });
         Functions\when('get_plugins')->alias(fn () => self::PLUGINS + (McpServer::is_installed() ? [McpServer::PLUGIN => ['Name' => 'MCP Adapter']] : []));
         Functions\when('is_plugin_active')->alias(fn ($file) => in_array($file, $this->active, true));
     }
@@ -90,6 +95,18 @@ class RolesManagerTest extends TestCase
         Actions\expectAdded('admin_notices')->never();
         Functions\expect('activate_plugins')->once()->with(['seo/seo.php']);
         Functions\expect('deactivate_plugins')->once()->with(\Mockery::on(fn ($files) => array_values($files) === ['forms/forms.php']));
+
+        $this->run_manager();
+    }
+
+    public function test_plugins_the_store_keeps_off_stay_off_but_never_anypress_client(): void
+    {
+        $this->writeRoles(['pro' => ['title' => 'Pro', 'plugins' => ['shop/shop.php', 'forms/forms.php', 'seo/seo.php']]]);
+        $this->site_roles = ['pro'];
+        $this->kept_off = ['shop/shop.php', 'seo/seo.php', 'anypress-client/anypress-client.php', 42];
+
+        Functions\expect('activate_plugins')->once()->with([]);
+        Functions\expect('deactivate_plugins')->once()->with(\Mockery::on(fn ($files) => array_values($files) === ['shop/shop.php']));
 
         $this->run_manager();
     }

@@ -113,6 +113,7 @@ try {
     `);
     check(!/^(Group|Space|Page|Course|Event):/m.test(again), 'a second run adds nothing');
 
+    await fetch(`${SITE}/`).catch(() => {});
     const counts = JSON.parse(await php(`
         echo wp_json_encode([
             'spaces' => \\FluentCommunity\\App\\Models\\Space::query()->count(),
@@ -125,6 +126,8 @@ try {
             'home' => get_option('anypress_community_home'),
             'guidelines' => (bool) get_page_by_path('community-guidelines'),
             'join' => (bool) get_page_by_path('join'),
+            'keptOff' => array_values(array_filter(['fluent-crm/fluent-crm.php', 'fluent-cart/fluent-cart.php', 'fluent-cart-customer-rights/fluent-cart-customer-rights.php'], 'is_plugin_active')),
+            'community' => is_plugin_active('fluent-community/fluent-community.php'),
             'colours' => (apply_filters('fluent_community/color_schmea_config', ['light_schema' => 'default'], 'view')['light_schema'] ?? ''),
             'highlevel' => (string) (\\FluentCommunity\\App\\Models\\Space::query()->where('slug', 'highlevel-sites')->first()->logo ?? ''),
         ]);
@@ -136,6 +139,7 @@ try {
     check(counts.events === 3, 'three webinars in FluentEvent');
     check(counts.home === 'yes' && counts.guidelines, 'the community on the home page, and the guidelines page');
     check(counts.join, 'the /join page for visitors');
+    check(counts.keptOff.length === 0 && counts.community, "one CRM and one checkout: the community site type's FluentCRM and FluentCart stay off here, FluentCommunity stays on", counts.keptOff.join());
     check(counts.colours === 'anypress_site_colours', 'the community wears the site\'s own colours');
     check(counts.highlevel.includes('highlevel'), 'HighLevel Sites shows the HighLevel logo');
 

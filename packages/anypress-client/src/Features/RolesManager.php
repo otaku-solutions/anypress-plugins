@@ -6,6 +6,9 @@ use AnyPressClient\Core\Brand;
 
 class RolesManager
 {
+    /** The option listing the site type's plugins this store keeps off (kept_off). */
+    public const KEPT_OFF = 'anypress_plugins_kept_off';
+
     public function __construct()
     {
         add_action('init', [$this, 'activate_enabled_plugins']);
@@ -61,6 +64,8 @@ class RolesManager
         // Plus the MCP Adapter, always on.
         // Plus Polylang while the owner has Languages on.
         $enabled_plugins = Languages::with_polylang(McpServer::with_adapter($plan['plugins']));
+        // Minus the site type's plugins this store keeps off (KEPT_OFF), so they don't run twice beside another store.
+        $enabled_plugins = array_values(array_diff($enabled_plugins, self::kept_off()));
         $all_plugins = array_keys(get_plugins());
         $disabled_plugins = array_diff($all_plugins, $enabled_plugins);
         if ($plan['own_plugins']) {
@@ -101,6 +106,20 @@ class RolesManager
         }
 
         return ['matched' => $matched, 'missing' => $missing, 'plugins' => array_values(array_unique($plugins)), 'own_plugins' => $own_plugins];
+    }
+
+    /**
+     * Site-type plugins this store keeps off: a list of plugin files in the option KEPT_OFF, for a store whose job one
+     * of its plugins already does on another store (several sites sharing one CRM, help desk or checkout). AnyPress
+     * Client and the MCP Adapter always stay on.
+     *
+     * @return string[]
+     */
+    public static function kept_off(): array
+    {
+        $off = array_filter((array) get_option(self::KEPT_OFF, []), 'is_string');
+
+        return array_values(array_diff($off, [PluginBootstrap::PLUGIN_NAME, McpServer::PLUGIN]));
     }
 
     /** The plugins the template manages: every plugin any role in roles.json lists, the MCP Adapter and Polylang. */

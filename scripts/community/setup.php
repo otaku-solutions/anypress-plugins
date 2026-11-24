@@ -167,6 +167,10 @@ anypress_community_rest('POST', '/fluent-community/v2/admin/welcome-banner', ['s
     ],
 ]]);
 update_option('anypress_community_home', 'yes');
+// One CRM and one checkout for all of AnyPress: the shop's. Members buy and are contacts there, and WP Fusion Lite sends
+// them to the shop's FluentCRM over its REST API, so the site type's FluentCRM and FluentCart stay off here
+// (AnyPress Client 2.46.0+).
+update_option('anypress_plugins_kept_off', ['fluent-crm/fluent-crm.php', 'fluent-cart/fluent-cart.php', 'fluent-cart-customer-rights/fluent-cart-customer-rights.php']);
 // Event times show in Pacific time, the team's own clock.
 if (!get_option('timezone_string')) {
     update_option('timezone_string', 'America/Los_Angeles');
