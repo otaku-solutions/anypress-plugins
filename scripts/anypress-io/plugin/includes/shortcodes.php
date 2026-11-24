@@ -6,6 +6,7 @@
  *   [anypress_price type="community" size="large" period="yearly"]
  *   [anypress_price lowest="1"]                              the lowest Small monthly price
  *   [anypress_price type="website" wholesale="1"]            the reseller's price, wholesalePercent off
+ *   [anypress_price type="bookings" count="10" sites="10"]   ten sites' price, with the saving for ten sites
  *   [anypress_number of="trialDays"]                         7; also wholesalePercent, affiliatePercent,
  *                                                            yearlyMonths, monthsFree, mediumTimes, largeTimes,
  *                                                            volumeMin, volumeMax, volumeFirstSites, volumeSites
@@ -66,6 +67,8 @@ add_shortcode(
 				'period'    => 'monthly',
 				'lowest'    => '',
 				'wholesale' => '',
+				'sites'     => '',
+				'count'     => '1',
 			),
 			$atts,
 			'anypress_price'
@@ -74,14 +77,26 @@ add_shortcode(
 		if ( null === $price ) {
 			return '';
 		}
-		return esc_html( anypress_io_money( '' !== $atts['wholesale'] ? anypress_io_wholesale( $price ) : $price ) );
+		if ( '' !== $atts['wholesale'] ) {
+			$price = anypress_io_wholesale( $price );
+		} elseif ( '' !== $atts['sites'] ) {
+			$price = round( $price * ( 100 - anypress_io_volume_percent( (int) $atts['sites'] ) ) / 100, 2 );
+		}
+		return esc_html( anypress_io_money( round( $price * max( 1, (int) $atts['count'] ), 2 ) ) );
 	}
 );
 
 add_shortcode(
 	'anypress_number',
 	static function ( $atts ): string {
-		$atts   = shortcode_atts( array( 'of' => '' ), $atts, 'anypress_number' );
+		$atts   = shortcode_atts(
+			array(
+				'of'    => '',
+				'sites' => '0',
+			),
+			$atts,
+			'anypress_number'
+		);
 		$prices = anypress_io_pricing();
 		$tiers  = (array) ( $prices['volumeTiers'] ?? array() );
 		$value  = match ( $atts['of'] ) {
@@ -89,6 +104,7 @@ add_shortcode(
 			'volumeMin'        => $tiers ? $tiers[0]['percent'] : '',
 			'volumeMax'        => $tiers ? $tiers[ count( $tiers ) - 1 ]['percent'] : '',
 			'volumeFirstSites' => $tiers ? $tiers[0]['sites'] : '',
+			'volumeAt'         => anypress_io_volume_percent( (int) ( $atts['sites'] ?? 0 ) ),
 			'volumeSites'      => $tiers ? preg_replace( '/, ([^,]*)$/', ' and $1', implode( ', ', array_column( $tiers, 'sites' ) ) ) : '',
 			'monthsFree'       => isset( $prices['yearlyMonths'] ) ? 12 - (int) $prices['yearlyMonths'] : '',
 			'mediumTimes'      => $prices['sizeTimes']['medium'] ?? '',

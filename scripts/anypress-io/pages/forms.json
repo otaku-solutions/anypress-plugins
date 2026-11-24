@@ -1,0 +1,121 @@
+[
+	{
+		"title": "Tips by email",
+		"status": "published",
+		"type": "form",
+		"has_payment": 0,
+		"form_fields": {
+			"fields": [
+				{
+					"index": 1,
+					"element": "input_email",
+					"attributes": {
+						"type": "email",
+						"name": "email",
+						"value": "",
+						"id": "",
+						"class": "",
+						"placeholder": "you@yourbusiness.com",
+						"autocomplete": "email"
+					},
+					"settings": {
+						"container_class": "",
+						"label": "Your email",
+						"label_placement": "",
+						"help_message": "",
+						"admin_field_label": "Email",
+						"prefix_label": "",
+						"suffix_label": "",
+						"validation_rules": {
+							"required": {
+								"value": true,
+								"message": "Please add your email.",
+								"global": false
+							},
+							"email": {
+								"value": true,
+								"message": "That doesn't look like an email address.",
+								"global": false
+							}
+						},
+						"conditional_logics": [],
+						"is_unique": "no"
+					},
+					"editor_options": {
+						"title": "Email Address",
+						"icon_class": "ff-edit-email",
+						"template": "inputText"
+					},
+					"uniqElKey": "el_anypress_email"
+				},
+				{
+					"index": 0,
+					"element": "input_hidden",
+					"attributes": {
+						"type": "hidden",
+						"name": "anypress_lead",
+						"value": "1"
+					},
+					"settings": {
+						"admin_field_label": "Send to the shop"
+					},
+					"editor_options": {
+						"title": "Hidden Field",
+						"icon_class": "ff-edit-hidden-field",
+						"template": "inputHidden"
+					},
+					"uniqElKey": "el_anypress_lead"
+				},
+				{
+					"index": 0,
+					"element": "input_hidden",
+					"attributes": {
+						"type": "hidden",
+						"name": "group",
+						"value": "{embed_post.post_name}"
+					},
+					"settings": {
+						"admin_field_label": "Page"
+					},
+					"editor_options": {
+						"title": "Hidden Field",
+						"icon_class": "ff-edit-hidden-field",
+						"template": "inputHidden"
+					},
+					"uniqElKey": "el_anypress_group"
+				}
+			],
+			"submitButton": {
+				"uniqElKey": "el_anypress_submit",
+				"element": "button",
+				"attributes": {
+					"type": "submit",
+					"class": ""
+				},
+				"settings": {
+					"align": "left",
+					"button_style": "",
+					"container_class": "",
+					"help_message": "",
+					"background_color": "",
+					"button_size": "md",
+					"color": "",
+					"button_ui": {
+						"type": "default",
+						"text": "Send me tips",
+						"img_url": ""
+					}
+				},
+				"editor_options": {
+					"title": "Submit Button"
+				}
+			}
+		},
+		"metas": [
+			{
+				"meta_key": "formSettings",
+				"value": "{\"confirmation\": {\"redirectTo\": \"samePage\", \"messageToShow\": \"<p>Thanks! Check your inbox for one email asking you to confirm.</p>\", \"customPage\": null, \"samePageFormBehavior\": \"hide_form\", \"customUrl\": null}, \"restrictions\": {\"limitNumberOfEntries\": {\"enabled\": false}, \"scheduleForm\": {\"enabled\": false}, \"requireLogin\": {\"enabled\": false}, \"denyEmptySubmission\": {\"enabled\": false}}, \"layout\": {\"labelPlacement\": \"top\", \"helpMessagePlacement\": \"with_label\", \"errorMessagePlacement\": \"inline\", \"asteriskPlacement\": \"asterisk-right\"}}"
+			}
+		]
+	}
+]

@@ -1,5 +1,5 @@
 // Sections that several anypress.io pages share, as the live site's shared components draw them.
-import { buttons, columns, drawing, faq, grid, group, h, hand, head, image, list, p, section, table, video } from './blocks.mjs';
+import { buttons, columns, drawing, faq, form, grid, group, h, hand, head, image, list, p, section, table, video } from './blocks.mjs';
 
 export const price = (type, size = 'small', period = 'monthly') => `[anypress_price type="${type}"${size !== 'small' ? ` size="${size}"` : ''}${period !== 'monthly' ? ` period="${period}"` : ''}]`;
 export const num = (of) => `[anypress_number of="${of}"]`;
@@ -15,10 +15,11 @@ export const pageHero = ({ drawing: d, eyebrow, title, lead, extra = [] }) => se
 ].filter(Boolean).join('\n\n'), { width: 'narrow' });
 
 /** "Sound familiar?": each problem people name, crossed out, with what AnyPress does about it. */
-export const problemFix = ({ eyebrow = 'sound familiar?', title, who, items, style = 'tint' }) => section([
+export const problemFix = ({ eyebrow = 'sound familiar?', title, who, items, style = 'tint', after }) => section([
 	head({ eyebrow, title, lead: who && `For ${who.join(', ').replace(/, ([^,]*)$/, ' and $1').toLowerCase()}.` }),
-	grid(items.map(([[pt, pb], [ft, fb]]) => [p(`~~${pt}~~`, { size: 'small' }), p(pb, { size: 'small' }), h(3, `✓ ${ft}`, { size: 'medium' }), p(fb)].join('\n\n')), { min: '20rem' }),
-].join('\n\n'), { style });
+	grid(items.map(([[pt, pb], [ft, fb]]) => [p(`~~${pt}~~`, { size: 'small' }), p(pb, { size: 'small' }), h(3, `✓ ${ft}`, { size: 'medium' }), p(fb)].join('\n\n')), { min: '20rem', count: items.length % 3 === 0 || items.length > 4 ? 3 : 2 }),
+	after,
+].filter(Boolean).join('\n\n'), { style });
 
 /** Prices next to other platforms, for the same kind of site. */
 export const priceCompare = (data) => table(['You’re building', 'Elsewhere', 'AnyPress'], data.SITE_TYPES.map((t) => [
@@ -73,6 +74,28 @@ export const buildYourOwn = (style) => section([
 		['box', 'Or upload a whole site', 'Built a site you love? Upload it as your starting site, with its theme, pages and plugins. Every order is a copy.'],
 	].map(([d, t, b]) => [drawing(d, 120), h(3, t, { align: 'center', size: 'medium' }), p(b, { align: 'center' })].join('\n\n')), { min: '14rem', count: 4 }),
 	p("A few kinds of plugin can't be added because the hosting already does their job: page caching, backups, email sending, file managers and server firewalls.", { align: 'center', size: 'small' }),
+].join('\n\n'), { style });
+
+/** A free guide (or the calculator) on one side, and the tips-by-email sign-up on the other. */
+export const guideBand = ({ eyebrow = 'free guide', title, body, href, label, tips = 'A few short emails, then the occasional update.', anchor, style }) => section(columns([
+	[drawing('scroll', 120, { align: 'left' }), hand(eyebrow, { align: 'left' }), h(2, title, { size: 'x-large' }), p(body), buttons([{ text: label, url: href }], { justify: 'left' })].join('\n\n'),
+	group([h(3, 'Want tips like this by email?', { size: 'large' }), p(tips), form('tips-by-email')].join('\n\n'), { className: 'is-style-section-card', padding: ['large', 'large'], layout: { type: 'default' } }),
+], { verticalAlign: 'top' }), { anchor, style });
+
+/** Most people hear "WordPress" and picture an empty install: what arrives instead, next to plain WordPress hosting. */
+export const readyBuilt = (data, style) => section([
+	drawing('tools', 130),
+	head({ eyebrow: 'already use WordPress?', title: 'Ready to go out of the gate.', lead: 'Most WordPress hosts hand you a blank site and a week of setup. Yours arrives finished the same day, with everything installed, connected and working.' }),
+	table(['Out of the box', 'Plain WordPress hosting', 'AnyPress'], [
+		['Price for one site', `From $${data.WP_HOST.price}/mo for hosting alone (${data.WP_HOST.who})`, 'From [anypress_price lowest="1"]/mo, tools included'],
+		['Shop, bookings, members or courses', 'Research, buy and install plugins', 'Installed and switched on'],
+		['Contact forms and a mailing list', 'Another plugin to set up and connect', 'Ready, and every sign-up lands in your list'],
+		['Getting found on Google', 'Install an SEO plugin and work through it', 'Set up on every page'],
+		['Email that arrives', 'Set up a sending service yourself', 'Sends from your own address'],
+		['Add-ons that break each other', "Hope they don't", 'Made by one team to work together'],
+		['Security fixes', 'Your job', 'Done for you'],
+	].map(([a, b, c]) => [`**${a}**`, b, `✓ ${c}`])),
+	p(`${data.WP_HOST.who}'s price is from [its own pricing page](${data.WP_HOST.url}), billed monthly. [See every plugin in each site, by name](/included/)`, { align: 'center', size: 'small' }),
 ].join('\n\n'), { style });
 
 export { hand };

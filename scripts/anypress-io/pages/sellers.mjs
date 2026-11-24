@@ -2,7 +2,7 @@
 // shortcode on the live price list; the worked example is [anypress_example], worked out from it.
 import { buttons, calculator, columns, drawing, grid, h, hand, head, list, p, page, section, shortcode } from './blocks.mjs';
 import { INCLUDED } from './home.mjs';
-import { buildYourOwn, ctaBand, dashboardTour, facts, flow, includedStrip, num, pageHero, problemFix, questions, videos } from './shared.mjs';
+import { buildYourOwn, ctaBand, dashboardTour, facts, flow, guideBand, includedStrip, num, pageHero, problemFix, questions, videos } from './shared.mjs';
 
 const WHO = ['Freelance web designers', 'Small web design studios', 'Marketing consultants', 'Chambers selling to members', 'Anyone whose clients ask for a website'];
 
@@ -137,10 +137,7 @@ export default function sellers() {
 			flow(START),
 			p('**[How we set you up](/sellers/setup/)** · **[What happens after each sale](/sellers/autopilot/)**', { align: 'center' }),
 		].join('\n\n'), { style: 'tint' }),
-		section(columns([
-			drawing('scroll', 160),
-			[hand('not ready yet?', { align: 'left' }), h(2, 'Work out your numbers first', { size: 'x-large' }), p('Pick a site type and your price, and see what each client leaves you every month. No sign-up needed.'), buttons([{ text: 'Try the calculator ↑', url: '#earnings' }], { justify: 'left' })].join('\n\n'),
-		])),
+		guideBand({ eyebrow: 'not ready yet?', title: 'Work out your numbers first', body: 'Pick a site type and your price, and see what each client leaves you every month. No sign-up needed.', href: '#earnings', label: 'Try the calculator ↑', tips: 'A few short emails about selling websites as a monthly service.' }),
 		ctaBand({ eyebrow: 'ready?', title: 'Sell your first website this month.', body: 'Tell us about your business and who you build for. It takes two minutes, then you book a short call with us to get set up, billing included.', href: '/sell/', label: 'Apply to sell websites', drawings: ['sell', 'shops', 'coins'] }),
 	);
 }

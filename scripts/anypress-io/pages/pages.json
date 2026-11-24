@@ -30,6 +30,108 @@
 		"template": "page-no-title"
 	},
 	{
+		"path": "who",
+		"file": "who",
+		"title": "Who it's for",
+		"template": "page-no-title"
+	},
+	{
+		"path": "who/shops",
+		"file": "who-shops",
+		"title": "Online shops & niche sellers",
+		"template": "page-no-title"
+	},
+	{
+		"path": "who/regulated",
+		"file": "who-regulated",
+		"title": "Supplements, CBD & other regulated products",
+		"template": "page-no-title"
+	},
+	{
+		"path": "who/trades",
+		"file": "who-trades",
+		"title": "Local services & trades",
+		"template": "page-no-title"
+	},
+	{
+		"path": "who/courses",
+		"file": "who-courses",
+		"title": "Course creators & educators",
+		"template": "page-no-title"
+	},
+	{
+		"path": "who/chambers",
+		"file": "who-chambers",
+		"title": "Chambers & associations",
+		"template": "page-no-title"
+	},
+	{
+		"path": "who/churches",
+		"file": "who-churches",
+		"title": "Churches & ministries",
+		"template": "page-no-title"
+	},
+	{
+		"path": "who/franchises",
+		"file": "who-franchises",
+		"title": "Franchises & multi-location brands",
+		"template": "page-no-title"
+	},
+	{
+		"path": "guides",
+		"file": "guides",
+		"title": "Free guides",
+		"template": "page-no-title"
+	},
+	{
+		"path": "guides/shops",
+		"file": "guides-shops",
+		"title": "Moving your shop: a step-by-step checklist",
+		"template": "page-no-title"
+	},
+	{
+		"path": "guides/trades",
+		"file": "guides-trades",
+		"title": "Local trades website checklist",
+		"template": "page-no-title"
+	},
+	{
+		"path": "guides/regulated",
+		"file": "guides-regulated",
+		"title": "Regulated store checklist",
+		"template": "page-no-title"
+	},
+	{
+		"path": "guides/courses",
+		"file": "guides-courses",
+		"title": "What your course platform really costs",
+		"template": "page-no-title"
+	},
+	{
+		"path": "guides/chambers",
+		"file": "guides-chambers",
+		"title": "Member website program: a one-page guide",
+		"template": "page-no-title"
+	},
+	{
+		"path": "guides/churches",
+		"file": "guides-churches",
+		"title": "Church website checklist",
+		"template": "page-no-title"
+	},
+	{
+		"path": "guides/franchises",
+		"file": "guides-franchises",
+		"title": "Rolling out 10 locations: a worked example",
+		"template": "page-no-title"
+	},
+	{
+		"path": "guides/developers",
+		"file": "guides-developers",
+		"title": "Your first site from the API, step by step",
+		"template": "page-no-title"
+	},
+	{
 		"path": "sites/website",
 		"file": "sites-website",
 		"title": "Website & blog",

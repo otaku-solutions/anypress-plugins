@@ -1,6 +1,6 @@
 // anypress.io's home page: the words from the live site (site PR #46's copy), built from theme sections.
 import { buttons, columns, drawing, faq, grid, group, h, hand, head, image, list, p, page, section, table } from './blocks.mjs';
-import { includedStrip } from './shared.mjs';
+import { includedStrip, readyBuilt } from './shared.mjs';
 
 const price = (type) => `[anypress_price type="${type}"]`;
 
@@ -160,5 +160,5 @@ export default function home(data) {
 		buttons([{ text: 'Start your site →', url: '/#sites' }, { text: 'Talk to us', url: '/contact/', outline: true }]),
 	].join('\n\n'), { style: 'brand-soft' });
 
-	return page(hero, included, examples, problems, sites, how, who, prices, sell, questions, cta);
+	return page(hero, included, examples, problems, sites, how, who, readyBuilt(data, 'tint'), prices, sell, questions, cta);
 }

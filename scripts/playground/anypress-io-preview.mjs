@@ -134,7 +134,7 @@ if (SERVE) {
 }
 
 console.log(setupOut.text.split('\n').filter(Boolean).map((l) => `     ${l}`).join('\n'));
-check(setupOut.text.includes('Success:') && setupOut.text.includes('Sketchbook colours and fonts on.'), "setup.php makes anypress.io's pages and turns on the Sketchbook colours and fonts");
+check(setupOut.text.includes('Success:') && setupOut.text.includes('Sketchbook colours and fonts on.') && setupOut.text.includes('Forms ready: tips-by-email'), "setup.php makes anypress.io's pages and the tips form, and turns on the Sketchbook colours and fonts");
 
 const active = await php("echo json_encode(['site' => function_exists('anypress_io_pricing'), 'forms' => is_plugin_active('fluentform/fluentform.php'), 'block' => WP_Block_Type_Registry::get_instance()->is_registered('anypress-io/calculator') && WP_Block_Type_Registry::get_instance()->is_registered('anypress-io/try'), 'types' => count(anypress_io_site_types())]);");
 check(active.site && active.forms && active.block, 'the site plugin, its calculator and Try It blocks and Fluent Forms are on, on a website store', JSON.stringify(active));
@@ -305,6 +305,24 @@ try {
     const home = await page.evaluate(() => document.body.innerText);
     const lowest = Math.min(...pricing.siteTypes.map((t) => t.monthly.small));
     check(home.includes(`From ${money(lowest)} a month`) && home.includes(`${money(small('website'))}/mo`), 'home: prices come from the price list', '');
+
+    // The tips sign-up (a Fluent Forms form setup.php imports): on a group's page it reaches the shop with that group.
+    await page.goto(`${base}/who/shops/`, { waitUntil: 'networkidle' });
+    await page.fill('form.frm-fluent-form input[name="email"]', 'tips@anypress.example');
+    await page.click('form.frm-fluent-form button[type="submit"]');
+    await page.waitForSelector('.ff-message-success', { timeout: 30000 }).catch(() => {});
+    await php(`do_action('fluentform/submission_inserted', 9, ['anypress_lead' => '1', 'email' => 'seller@anypress.example', 'group' => 'sellers'], (object) ['id' => 5, 'title' => 'Tips by email']); echo 1;`);
+    const tipLeads = await php("echo json_encode(get_option('fake_shop_leads', []));");
+    const tip = tipLeads.find((l) => l.email === 'tips@anypress.example');
+    const sellerTip = tipLeads.find((l) => l.email === 'seller@anypress.example');
+    check(tip?.group === 'shops' && (await page.textContent('.ff-message-success').catch(() => '')).includes('Check your inbox'), "tips form: a sign-up on a group's page thanks the visitor and reaches the shop with that group", JSON.stringify(tip));
+    check(sellerTip?.group === 'agencies' && sellerTip?.interest === 'Seller', 'tips form: a sign-up on the sellers page reaches the shop as a seller', JSON.stringify(sellerTip));
+
+    // The one worked price in the guides comes from the price list too.
+    await page.goto(`${base}/guides/franchises/`, { waitUntil: 'networkidle' });
+    const guide = await page.evaluate(() => document.body.innerText);
+    const b = small('bookings');
+    check(guide.includes(`Ten Bookings sites at ${money(b)} each is ${money(b * 10)} a month`) && guide.includes(`discount is ${tier(10)}%, so it comes to ${money(Math.round(b * 10 * (100 - tier(10))) / 100)} a month`), "guides: the franchise guide's ten-site example comes from the price list", '');
     const editor = await browser.newPage({ viewport: { width: 1440, height: 900 } });
     await editor.goto(`${base}/wp-login.php`);
     await editor.fill('#user_login', 'admin');

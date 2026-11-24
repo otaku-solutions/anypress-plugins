@@ -7,10 +7,12 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import home from './home.mjs';
 import pricing from './pricing.mjs';
+import guidePage, { guidesIndex } from './guides.mjs';
 import resellers from './resellers.mjs';
 import sellers from './sellers.mjs';
 import sitePage, { sitesIndex } from './sites.mjs';
 import { footer, header, menu } from './parts.mjs';
+import groupPage, { whoIndex } from './who.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const data = JSON.parse(readFileSync(resolve(HERE, 'site-data.json'), 'utf8'));
@@ -20,6 +22,10 @@ const PAGES = [
 	{ path: 'sites', file: 'sites', title: 'Kinds of site', build: sitesIndex },
 	{ path: 'sellers', file: 'sellers', title: 'Sell websites', build: sellers },
 	{ path: 'resellers', file: 'resellers', title: 'Resellers', build: resellers },
+	{ path: 'who', file: 'who', title: "Who it's for", build: whoIndex },
+	...data.AUDIENCE_GROUPS.filter((g) => g.page).map((g) => ({ path: `who/${g.id}`, file: `who-${g.id}`, title: g.name, build: (d) => groupPage(d, g.id) })),
+	{ path: 'guides', file: 'guides', title: 'Free guides', build: guidesIndex },
+	...data.GUIDES.map((g) => ({ path: `guides/${g.id}`, file: `guides-${g.id}`, title: g.title, build: (d) => guidePage(d, g.id) })),
 	...['website', 'bookings', 'store', 'community', 'everything'].map((id) => ({ path: `sites/${id}`, file: `sites-${id}`, title: id, build: (data) => sitePage(data, id) })),
 ];
 

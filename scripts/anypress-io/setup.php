@@ -30,11 +30,32 @@ $anypress_io_pages  = json_decode( (string) file_get_contents( $anypress_io_dir 
 update_option( 'blogname', 'AnyPress' );
 update_option( 'blogdescription', 'Managed WordPress for shops, studios, clubs and small businesses' );
 
+// The sign-up forms, once each, through Fluent Forms' own import (as Tools > Import would), found again by title.
+$anypress_io_forms = array();
+if ( class_exists( '\\FluentForm\\App\\Services\\Transfer\\TransferService' ) ) {
+	require_once ABSPATH . 'wp-admin/includes/file.php';
+	foreach ( json_decode( (string) file_get_contents( $anypress_io_dir . '/forms.json' ), true ) as $anypress_io_form ) {
+		$found = \FluentForm\App\Models\Form::where( 'title', $anypress_io_form['title'] )->first();
+		if ( ! $found ) {
+			$tmp = wp_tempnam( 'anypress-form.json' );
+			file_put_contents( $tmp, wp_json_encode( array( $anypress_io_form ) ) );
+			\FluentForm\App\Services\Transfer\TransferService::importForms( new \FluentForm\Framework\Http\Request\File( $tmp, 'forms.json' ) );
+			wp_delete_file( $tmp );
+			$found = \FluentForm\App\Models\Form::where( 'title', $anypress_io_form['title'] )->first();
+		}
+		$anypress_io_forms[ sanitize_title( $anypress_io_form['title'] ) ] = $found ? (string) $found->id : '';
+	}
+	WP_CLI::log( sprintf( 'Forms ready: %s.', implode( ', ', array_keys( $anypress_io_forms ) ) ) );
+} else {
+	WP_CLI::warning( 'Fluent Forms is not active, so the sign-up forms are left out.' );
+}
+
 // Pages, parents first, so /sites/website/ finds /sites/.
 usort( $anypress_io_pages, static fn( $a, $b ) => substr_count( $a['path'], '/' ) <=> substr_count( $b['path'], '/' ) );
 $anypress_io_ids = array();
 foreach ( $anypress_io_pages as $anypress_io_page ) {
 	$content = str_replace( array( '{{assets}}', '{{videos}}' ), array( $anypress_io_assets, $anypress_io_videos ), (string) file_get_contents( $anypress_io_dir . '/html/' . $anypress_io_page['file'] . '.html' ) );
+	$content = preg_replace_callback( '/\{\{form:([a-z0-9-]+)\}\}/', static fn( $m ) => $anypress_io_forms[ $m[1] ] ?? '', $content );
 	$path    = trim( $anypress_io_page['path'], '/' );
 	$slug    = '' === $path ? 'home' : basename( $path );
 	$parent  = str_contains( $path, '/' ) ? get_page_by_path( dirname( $path ) ) : null;

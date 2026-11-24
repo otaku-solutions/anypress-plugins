@@ -29,11 +29,18 @@ function anypress_io_send_lead( $entry_id, $data, $form ): void {
 		$name = trim( ( $name['first_name'] ?? '' ) . ' ' . ( $name['last_name'] ?? '' ) );
 	}
 	$text = static fn ( string $key ): string => sanitize_text_field( (string) ( $data[ $key ] ?? '' ) );
+	// The tips form names the page it's on: a group's page (/who/shops) is that group, the selling pages are sellers.
+	$group    = $text( 'group' );
+	$interest = $text( 'interest' );
+	if ( in_array( $group, array( 'sellers', 'resellers' ), true ) ) {
+		$interest = '' !== $interest ? $interest : ( 'sellers' === $group ? 'Seller' : 'Reseller' );
+		$group    = 'agencies';
+	}
 	$body = array(
 		'email'    => sanitize_email( (string) $data['email'] ),
 		'name'     => sanitize_text_field( (string) $name ),
-		'interest' => $text( 'interest' ),
-		'group'    => $text( 'group' ),
+		'interest' => $interest,
+		'group'    => $group,
 		'source'   => '' !== $text( 'source' ) ? $text( 'source' ) : 'anypress.io ' . sanitize_text_field( (string) ( $form->title ?? '' ) ),
 		'campaign' => $text( 'campaign' ),
 		'beta'     => '1' === $text( 'beta' ) ? '1' : '',

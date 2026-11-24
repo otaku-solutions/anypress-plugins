@@ -147,6 +147,8 @@ export function table(head, rows, { className = 'is-style-comparison', caption }
 /** A video with its poster, loading nothing until it's played. */
 export const video = (src, poster, caption) => block('video', {}, `<figure class="wp-block-video"><video controls poster="${attr(poster)}" preload="none" src="${attr(src)}" playsinline></video>${caption ? `<figcaption class="wp-element-caption">${inline(caption)}</figcaption>` : ''}</figure>`);
 export const shortcode = (text) => block('shortcode', {}, text);
+/** A Fluent Forms form by its name in forms.json; setup.php puts in the form's id. */
+export const form = (name) => block('fluentfom/guten-block', { formId: `{{form:${name}}}` });
 
 export const separator = () => block('separator', { className: 'is-style-wide' }, '<hr class="wp-block-separator has-alpha-channel-opacity is-style-wide"/>');
 export const spacer = (height = 'large') => block('spacer', { height: `var:preset|spacing|${height}` }, `<div style="height:var(--wp--preset--spacing--${height})" aria-hidden="true" class="wp-block-spacer"></div>`);
