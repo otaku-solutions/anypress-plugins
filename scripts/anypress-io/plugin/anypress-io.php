@@ -27,7 +27,8 @@ require __DIR__ . '/includes/lead.php';
 require __DIR__ . '/includes/application.php';
 require __DIR__ . '/includes/demo.php';
 require __DIR__ . '/includes/shortcodes.php';
-require __DIR__ . '/includes/styles.php';
+require __DIR__ . '/includes/look.php';
+require __DIR__ . '/includes/widgets.php';
 
 add_action(
 	'init',

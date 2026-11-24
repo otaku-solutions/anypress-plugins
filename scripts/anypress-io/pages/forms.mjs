@@ -1,6 +1,6 @@
 // anypress.io's Fluent Forms forms, as Fluent Forms' own export (Tools > Export), for setup.php to import:
-//   - "Tips by email": an email, sent to the shop's customer list (includes/lead.php).
-//   - "Beta sign-up": name, email and what they'd build, sent to the customer list tagged for the beta (lead.php).
+//   - "Sign-up": name, email, what they'd build and how they heard, sent to the shop's customer list (includes/lead.php),
+//     tagged for the beta from the beta page.
 //   - "Seller application": the /sell application, sent to the AnyPress API (includes/application.php), then to the
 //     customer list as a Seller. The kinds of site come from the price list, so they always match the plans.
 // Each form's settings and fields are written the way Fluent Forms saves them, so they stay editable in its editor.
@@ -63,26 +63,26 @@ const form = (title, fields, submit, message) => ({
 
 const SOURCES = [['search', 'Search (Google, Bing)'], ['social', 'Social media'], ['friend', 'A friend or colleague'], ['event', 'An event or workshop'], ['video', 'YouTube or a podcast'], ['community', 'An online community or forum'], ['other', 'Somewhere else']];
 const AUDIENCES = [['shops', 'Shops and makers'], ['specialty', 'Specialty retailers'], ['courses', 'Course creators'], ['associations', 'Chambers and associations'], ['churches', 'Churches'], ['locations', 'Franchises and multi-location businesses'], ['freelancers', 'Freelancers and studios'], ['software', 'Software companies']];
-// The shop's customer list tags interest by its plans' short names (Website, Bookings, Store, Community, Everything).
-const INTEREST = { 'online-store': 'Store' };
+// The shop's customer list tags interest by its plans' short names (Website, Bookings, Store, Community, Everything);
+// the form shows anypress.io's names for them.
+const KINDS = { website: ['Website', 'Website & blog'], bookings: ['Bookings', 'Bookings'], 'online-store': ['Store', 'Online store'], community: ['Community', 'Community & courses'], everything: ['Everything', 'Everything'] };
 const SELLER_CALL = 'https://shop.anypress.io/seller-call/';
 
 export default function forms(pricing) {
 	key = 0;
 	return [
-		form('Tips by email', [
-			email('email', 'Your email', { placeholder: 'you@yourbusiness.com' }),
-			hidden('anypress_lead', '1', 'Send to the shop'),
-			hidden('group', '{embed_post.post_name}', 'Page'),
-		], 'Send me tips', '<p>Thanks! Check your inbox for one email asking you to confirm.</p>'),
-		form('Beta sign-up', [
+		// The sign-up form on every page that has one (tips, what's new, the beta): the same fields as anypress.io's form, which
+		// site.js sends here. Pages fill in the hidden ones (the page's customer group, the beta, a fixed answer).
+		form('Sign-up', [
 			text('name', 'Your name', { maxlength: 100, autocomplete: 'name' }),
 			email('email', 'Email'),
-			select('interest', 'What would you like to build?', [...pricing.siteTypes.map((t) => [INTEREST[t.key] ?? t.name.split(' ')[0], t.name]), ['Seller', 'Sell websites to my clients'], ['Reseller', 'Resell under my own brand']], { placeholder: 'Not sure yet' }),
+			select('interest', 'What would you like to build?', [...pricing.siteTypes.map((t) => KINDS[t.key] ?? [t.name, t.name]), ['Seller', 'Sell websites to my clients'], ['Reseller', 'Resell under my own brand']], { placeholder: 'Not sure yet' }),
+			select('source', 'How did you hear about us? (optional)', SOURCES),
+			hidden('group', '', 'Customer group'),
+			hidden('beta', '', 'Beta'),
+			hidden('campaign', '', 'Campaign'),
 			hidden('anypress_lead', '1', 'Send to the shop'),
-			hidden('beta', '1', 'Beta'),
-			hidden('source', 'community', 'How they heard about us'),
-		], 'Join the beta', "<p><strong>Thanks, you're on the beta list.</strong></p><p>Check your inbox for one email from us and click the button in it to confirm. We'll email your invite when your place is ready, usually within a few days.</p>"),
+		], 'Send me tips', "<p>Thanks, you're on the list.</p>"),
 		form('Seller application', [
 			text('name', 'Your name', { maxlength: 100, autocomplete: 'name', rules: required('Please add your name.') }),
 			email('email', 'Email'),

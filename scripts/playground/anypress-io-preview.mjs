@@ -112,14 +112,6 @@ async function php(code) {
     return JSON.parse(res.text);
 }
 
-const calc = (kind, extra = {}) => `<!-- wp:anypress-io/calculator ${JSON.stringify({ kind, align: "wide", ...extra })} /-->`;
-const ids = await php(`echo json_encode([
-    'pricing' => wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Pricing', 'post_name' => 'pricing', 'post_content' => ${JSON.stringify(calc('price'))}]),
-    'sellers' => wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Sellers', 'post_name' => 'sellers', 'post_content' => ${JSON.stringify(calc('earnings'))}]),
-    'courses' => wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Courses', 'post_name' => 'courses', 'post_content' => ${JSON.stringify(calc('course'))}]),
-    'try' => wp_insert_post(['post_type' => 'page', 'post_status' => 'publish', 'post_title' => 'Try it', 'post_name' => 'try', 'post_content' => '<!-- wp:anypress-io/try /-->', 'page_template' => 'page-blank']),
-]);`);
-
 // anypress.io's pages, as setup.php makes them on the store. setup.php is written for `wp eval-file`; Playground has no
 // WP-CLI, so a stand-in prints its lines.
 const setupOut = await cli.playground.run({ code: `<?php require '/wordpress/wp-load.php';
@@ -129,12 +121,12 @@ const setupOut = await cli.playground.run({ code: `<?php require '/wordpress/wp-
 const pagesMade = JSON.parse(readFileSync(resolve(ROOT, 'scripts/anypress-io/pages/pages.json'), 'utf8'));
 
 if (SERVE) {
-    console.log(`Serving ${base}: /pricing/, /sellers/, /courses/, /try/ (the real demo, from demo.anypress.site). Ctrl+C to stop.`);
+    console.log(`Serving ${base}: every page of anypress.io, /try/ with the real demo from demo.anypress.site. Ctrl+C to stop.`);
     await new Promise(() => {});
 }
 
 console.log(setupOut.text.split('\n').filter(Boolean).map((l) => `     ${l}`).join('\n'));
-check(setupOut.text.includes('Success:') && setupOut.text.includes('Sketchbook colours and fonts on.') && setupOut.text.includes('Forms ready: tips-by-email'), "setup.php makes anypress.io's pages and the tips form, and turns on the Sketchbook colours and fonts");
+check(setupOut.text.includes('Success:') && setupOut.text.includes('Header and footer set.') && setupOut.text.includes('Forms ready: sign-up, seller-application'), "setup.php makes anypress.io's pages, header, footer and forms", setupOut.text.slice(-300));
 
 const active = await php("echo json_encode(['site' => function_exists('anypress_io_pricing'), 'forms' => is_plugin_active('fluentform/fluentform.php'), 'block' => WP_Block_Type_Registry::get_instance()->is_registered('anypress-io/calculator') && WP_Block_Type_Registry::get_instance()->is_registered('anypress-io/try'), 'types' => count(anypress_io_site_types())]);");
 check(active.site && active.forms && active.block, 'the site plugin, its calculator and Try It blocks and Fluent Forms are on, on a website store', JSON.stringify(active));
@@ -185,30 +177,34 @@ try {
     const money = (n) => `$${n.toLocaleString('en-US', { minimumFractionDigits: Number.isInteger(Math.round(n * 100) / 100) ? 0 : 2, maximumFractionDigits: 2 })}`;
     const tier = (n) => pricing.volumeTiers.reduce((p, t) => (n >= t.sites ? t.percent : p), 0);
 
+    // The calculators, in anypress.io's own markup (worked by the site's script), against the price list.
+    const big = (calc) => page.$eval(`${calc} .calc-big`, (e) => e.firstChild.textContent.trim());
+    const price = '.calc[data-calc=price]';
     await page.goto(`${base}/pricing/`, { waitUntil: 'networkidle' });
-    check(await text('.anypress-calc-big span') === money(small('online-store')), 'price calculator: starts on one Small store at its monthly price', await text('.anypress-calc-big span'));
-    await page.click('.anypress-calc-types button:has-text("Website")');
-    await page.$eval('input[data-field="count"]', (e) => { e.value = '10'; e.dispatchEvent(new Event('input', { bubbles: true })); });
+    check(await big(price) === money(small('online-store')), 'price calculator: starts on one Small store at its monthly price', await big(price));
+    await page.click(`${price} [data-pick=type] [data-value=website]`);
+    await page.locator(`${price} input[type=range]`).fill('10');
     const ten = Math.round(small('website') * (1 - tier(10) / 100) * 100) / 100;
-    check(await text('.anypress-calc-big span') === money(ten * 10) && (await text('.anypress-calc-line')).includes(`(you save ${tier(10)}%)`), 'price calculator: ten website sites get the volume saving', await text('.anypress-calc-line'));
-    await page.click('.anypress-calc-seg button:has-text("Yearly")');
-    check(await text('.anypress-calc-big span') === money(Math.round(small('website') * pricing.yearlyMonths * (1 - tier(10) / 100) * 100) / 100 * 10) && await text('.anypress-calc-big small') === '/ year', 'price calculator: yearly costs the yearly months');
-    check((await page.getAttribute('.anypress-calc-go', 'href')) === 'https://shop.anypress.io/item/website-small/', 'price calculator: the button goes to the plan on the shop');
-    check(await page.getAttribute('.anypress-calc-types button:has-text("Website")', 'aria-pressed') === 'true', 'price calculator: the picked kind of site shows as pressed');
+    check(await big(price) === money(ten * 10) && (await text(`${price} .calc-line`)).includes(`(you save ${tier(10)}%)`), 'price calculator: ten website sites get the volume saving', await text(`${price} .calc-line`));
+    await page.click(`${price} [data-pick=yearly] [data-value="1"]`);
+    check(await big(price) === money(Math.round(small('website') * pricing.yearlyMonths * (1 - tier(10) / 100) * 100) / 100 * 10) && (await text(`${price} .calc-big small`)) === '/ year', 'price calculator: yearly costs the yearly months');
+    check((await page.getAttribute(`${price} .calc-result a`, 'href')) === 'https://shop.anypress.io/item/website-small/', 'price calculator: the button goes to the plan on the shop');
+    check(await page.getAttribute(`${price} [data-pick=type] [data-value=website]`, 'aria-pressed') === 'true', 'price calculator: the picked kind of site shows as pressed');
     await page.screenshot({ path: resolve(SHOTS, 'website-desktop-pricing.png'), fullPage: true });
 
+    const earn = '[data-calc=earnings]';
     await page.goto(`${base}/sellers/`, { waitUntil: 'networkidle' });
     const sellerCost = Math.round(small('website') * (100 - tier(10))) / 100;
-    check(await text('.anypress-calc-big span') === money((49 - sellerCost) * 10), 'earnings calculator: a seller with ten $49 website clients keeps the difference', await text('.anypress-calc-big span'));
-    await page.click('.anypress-calc-seg button:has-text("Reseller")');
+    check(await big(earn) === money((49 - sellerCost) * 10), 'earnings calculator: a seller with ten $49 website clients keeps the difference', await big(earn));
+    await page.click(`${earn} [data-pick=account] [data-value=reseller]`);
     const resellerCost = Math.round(small('website') * (100 - pricing.wholesalePercent)) / 100;
-    check(await text('.anypress-calc-big span') === money((49 - resellerCost) * 10) && (await text('.anypress-calc-eyebrow')).includes('reseller'), 'earnings calculator: a reseller pays the wholesale price', await text('.anypress-calc-big span'));
-    check(await page.getAttribute('.anypress-calc-compare tbody tr:nth-child(2)', 'aria-current') === 'true', 'earnings calculator: the comparison marks the reseller row');
+    check(await big(earn) === money((49 - resellerCost) * 10) && (await text(`${earn} .calc-result .eyebrow`)).includes('reseller'), 'earnings calculator: a reseller pays the wholesale price', await big(earn));
     await page.screenshot({ path: resolve(SHOTS, 'website-desktop-sellers.png'), fullPage: true });
 
-    await page.goto(`${base}/courses/`, { waitUntil: 'networkidle' });
+    await page.goto(`${base}/guides/courses/`, { waitUntil: 'networkidle' });
     const community = small('community');
-    check((await page.$$eval('.anypress-calc-rows dd', (d) => d.map((x) => x.textContent))).join() === [money(12 * (99 + 100)), money(12 * community), money(12 * (99 + 100) - 12 * community)].join(), 'course calculator: a year on a course platform next to Community');
+    check((await page.$$eval('[data-calc=course] dd', (d) => d.map((x) => x.textContent.trim()))).join() === [money(12 * (99 + 100)), money(12 * community), money(12 * (99 + 100) - 12 * community)].join(), 'course calculator: a year on a course platform next to Community',
+        (await page.$$eval('[data-calc=course] dd', (d) => d.map((x) => x.textContent.trim()))).join());
 
     // Try It: the page's own bar and loading screen around a stand-in for demo.anypress.site's Playground client, the
     // blueprints and the shop, so the checks don't start a real WordPress in the browser.
@@ -228,7 +224,7 @@ try {
 
     let { tab, res } = await tryPage('?type=bookings');
     check(/no-cache|no-store/.test(res.headers()['cache-control'] ?? ''), 'try it: the page is never cached', res.headers()['cache-control']);
-    check(await shown(tab, '.wp-block-anypress-io-try__starting') && (await tab.locator('.wp-block-anypress-io-try__heading').first().textContent()).includes('about a minute'), 'try it: shows our own loading screen while the demo starts');
+    check(await shown(tab, '.wp-block-anypress-io-try__starting') && (await tab.locator('.wp-block-anypress-io-try__starting p').first().textContent()).includes('about a minute'), 'try it: shows our own loading screen while the demo starts');
     await tab.waitForSelector('.wp-block-anypress-io-try.is-ready', { timeout: 10000 });
     let started = await tab.evaluate(() => ({ remote: window.__try.remoteUrl, steps: window.__try.blueprint.steps.length, bar: window.__try.disableProgressBar, files: Object.keys(window.__try.files),
         nav: [...document.querySelectorAll('.wp-block-anypress-io-try__types a')].map((a) => `${a.textContent}${a.getAttribute('aria-current') ? '*' : ''}`).join(), fill: document.querySelector('.wp-block-anypress-io-try__fill').style.width }));
@@ -307,7 +303,8 @@ try {
     // Every page: renders without leftover shortcodes or PHP errors, fits a phone, and is valid blocks in the editor.
     const shotPages = resolve(SHOTS, 'pages');
     mkdirSync(shotPages, { recursive: true });
-    for (const made of pagesMade) {
+    // Try It starts a real demo from demo.anypress.site, so it's checked above against a stand-in instead.
+    for (const made of pagesMade.filter((m) => !m.block)) {
         const url = `${base}/${made.path ? `${made.path}/` : ''}`;
         for (const [name, width] of [['desktop', 1440], ['phone', 390]]) {
             await page.setViewportSize({ width, height: 900 });
@@ -329,25 +326,21 @@ try {
     await page.goto(`${base}/`, { waitUntil: 'networkidle' });
     const home = await page.evaluate(() => document.body.innerText);
     const lowest = Math.min(...pricing.siteTypes.map((t) => t.monthly.small));
-    check(home.includes(`From ${money(lowest)} a month`) && home.includes(`${money(small('website'))}/mo`), 'home: prices come from the price list', '');
+    check(home.includes(`From ${money(lowest)}`) && home.includes(`Bookings · ${money(small('bookings'))}/mo`), 'home: prices come from the price list', '');
 
-    // The tips sign-up (a Fluent Forms form setup.php imports): on a group's page it reaches the shop with that group.
+    // The sign-up form keeps anypress.io's markup and goes to the Fluent Forms form setup.php imports: on a group's
+    // page it reaches the shop with that group.
     await page.goto(`${base}/who/shops/`, { waitUntil: 'networkidle' });
-    await page.fill('form.frm-fluent-form input[name="email"]', 'tips@anypress.example');
-    await page.click('form.frm-fluent-form button[type="submit"]');
-    await page.waitForSelector('.ff-message-success', { timeout: 30000 }).catch(() => {});
-    await php(`do_action('fluentform/submission_inserted', 9, ['anypress_lead' => '1', 'email' => 'seller@anypress.example', 'group' => 'sellers'], (object) ['id' => 5, 'title' => 'Tips by email']); echo 1;`);
+    await page.fill('form[data-anypress-form] input[name="email"]', 'tips@anypress.example');
+    await page.click('form[data-anypress-form] button[type="submit"]');
+    await page.waitForSelector('[role=status]:has-text("Check your inbox")', { timeout: 30000 }).catch(() => {});
+    await php(`do_action('fluentform/submission_inserted', 9, ['anypress_lead' => '1', 'email' => 'seller@anypress.example', 'group' => 'sellers'], (object) ['id' => 5, 'title' => 'Sign-up']); echo 1;`);
     const tipLeads = await php("echo json_encode(get_option('fake_shop_leads', []));");
     const tip = tipLeads.find((l) => l.email === 'tips@anypress.example');
     const sellerTip = tipLeads.find((l) => l.email === 'seller@anypress.example');
-    check(tip?.group === 'shops' && (await page.textContent('.ff-message-success').catch(() => '')).includes('Check your inbox'), "tips form: a sign-up on a group's page thanks the visitor and reaches the shop with that group", JSON.stringify(tip));
-    check(sellerTip?.group === 'agencies' && sellerTip?.interest === 'Seller', 'tips form: a sign-up on the sellers page reaches the shop as a seller', JSON.stringify(sellerTip));
+    check(tip?.group === 'shops' && (await page.textContent('[role=status]').catch(() => '')).includes('Check your inbox'), "sign-up form: a sign-up on a group's page thanks the visitor and reaches the shop with that group", JSON.stringify(tip));
+    check(sellerTip?.group === 'agencies' && sellerTip?.interest === 'Seller', 'sign-up form: a sign-up on the sellers page reaches the shop as a seller', JSON.stringify(sellerTip));
 
-    // The one worked price in the guides comes from the price list too.
-    await page.goto(`${base}/guides/franchises/`, { waitUntil: 'networkidle' });
-    const guide = await page.evaluate(() => document.body.innerText);
-    const b = small('bookings');
-    check(guide.includes(`Ten Bookings sites at ${money(b)} each is ${money(b * 10)} a month`) && guide.includes(`discount is ${tier(10)}%, so it comes to ${money(Math.round(b * 10 * (100 - tier(10))) / 100)} a month`), "guides: the franchise guide's ten-site example comes from the price list", '');
     const editor = await browser.newPage({ viewport: { width: 1440, height: 900 } });
     await editor.goto(`${base}/wp-login.php`);
     await editor.fill('#user_login', 'admin');

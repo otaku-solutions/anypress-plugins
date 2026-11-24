@@ -25,12 +25,10 @@ async function call(path, { method = 'GET', body, raw } = {}) {
 
 const blueprintUrl = (name) => `${config.raw}anypress-api/main/templates/anypress-store/playground/${name}.json`;
 const isOurBlueprint = (url) => typeof url === 'string' && url.startsWith(config.raw) && !url.includes('..');
-const tryLink = (type) => {
-	const url = new URL(window.location.href);
-	url.search = '';
-	url.searchParams.set('type', type);
-	return url.toString();
-};
+const tryLink = (type) => `${window.location.pathname.replace(/\/$/, '')}?type=${encodeURIComponent(type)}`;
+const LINK = 'shrink-0 rounded-full border px-3.5 py-1.5 text-[14px] font-bold transition-colors';
+const LINK_ON = 'border-[#141414] bg-[#141414] text-white';
+const LINK_OFF = 'border-[#e9e4de] text-[#141414] hover:border-[#141414]';
 /** The site type a prospect demo's store site type opens as. */
 const prospectType = (siteType) => {
 	if (siteType === 'online-store') return 'store';
@@ -77,9 +75,10 @@ function drawBar({ title, type }) {
 	if (type) {
 		nav.replaceChildren(...Object.entries(config.types).map(([id, t]) => {
 			const a = document.createElement('a');
+			if (id === type) a.setAttribute('aria-current', 'page');
+			a.className = `${LINK} ${id === type ? LINK_ON : LINK_OFF}`;
 			a.href = tryLink(id);
 			a.textContent = t.short;
-			if (id === type) a.setAttribute('aria-current', 'page');
 			return a;
 		}));
 		nav.hidden = false;
@@ -97,7 +96,7 @@ function showKeep(type, ready) {
 	const keep = ready && canKeep(type);
 	part('keep').hidden = !keep;
 	part('get').hidden = keep;
-	part('note').textContent = canKeep(type) ? words.noteKeep : words.note;
+	part('note').textContent = keep ? words.noteKeep : words.note;
 }
 
 /** A line every few seconds, in an order that shows every line before any comes back; the first stays first. */
@@ -114,9 +113,11 @@ function startLines(type, seconds) {
 	const started = Date.now();
 	const lineTimer = setInterval(() => {
 		line.textContent = `${lines[order[next % order.length]]}…`;
-		line.classList.remove('is-new');
+		// A new line fades in again, as anypress.io's does.
+		const fade = 'motion-safe:animate-[fadeIn_400ms_ease-out]';
+		line.classList.remove(fade);
 		void line.offsetWidth;
-		line.classList.add('is-new');
+		line.classList.add(fade);
 		next += 1;
 	}, LINE_SECONDS * 1000);
 	const clock = setInterval(() => {
@@ -158,8 +159,10 @@ async function keepDemo(client, type) {
 async function main() {
 	const site = await pick();
 	if (!site) {
-		part('starting').hidden = true;
-		part('gone').hidden = false;
+		// As on anypress.io: no demo screen, just the note on the page.
+		const gone = part('gone');
+		root.replaceWith(gone);
+		gone.hidden = false;
 		return;
 	}
 	drawBar(site);
@@ -183,6 +186,7 @@ async function main() {
 		part('starting').hidden = false;
 		part('failed').hidden = true;
 		status.hidden = false;
+		frame.classList.replace('opacity-100', 'opacity-0');
 		root.classList.remove('is-ready');
 		fill.style.width = '4%';
 		stopLines = startLines(site.type, 75);
@@ -201,6 +205,7 @@ async function main() {
 			client = await startPlaygroundWeb({ iframe: frame, remoteUrl: config.remote, blueprint, progressTracker: tracker, disableProgressBar: true });
 			if (site.type) await addAssistant(client, site.type);
 			stopLines();
+			frame.classList.replace('opacity-0', 'opacity-100');
 			root.classList.add('is-ready');
 			status.hidden = true;
 			showKeep(site.type, true);
@@ -217,20 +222,20 @@ async function main() {
 	part('retry').addEventListener('click', () => window.location.reload());
 
 	const keep = part('keep');
-	const error = part('error');
+	const errors = [part('error'), part('error2')];
+	const showError = (text) => errors.forEach((e) => { e.textContent = text; e.hidden = !text; });
 	keep.addEventListener('click', async () => {
 		if (!client || keep.disabled) return;
 		keep.disabled = true;
 		keep.textContent = words.saving;
-		error.hidden = true;
+		showError('');
 		try {
 			const checkout = await keepDemo(client, site.type);
 			leaving = true;
 			window.location.assign(checkout);
 		} catch (err) {
 			console.error(err);
-			error.textContent = err instanceof Error && err.message.length < 200 ? err.message : words.saveError;
-			error.hidden = false;
+			showError(err instanceof Error && err.message.length < 200 ? err.message : words.saveError);
 			keep.disabled = false;
 			keep.textContent = words.keep;
 		}

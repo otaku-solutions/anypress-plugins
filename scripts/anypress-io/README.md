@@ -1,15 +1,19 @@
 # anypress.io on WordPress
 
-anypress.io is moving from its Next.js site onto an AnyPress website store. This folder holds the few pieces only
-anypress.io needs. Everything general (blocks, block styles, the Sketchbook palette and fonts) is in AnyPress Blocks and
-the AnyPress theme, so every store can use it.
+anypress.io is moving from its Next.js site onto an AnyPress website store, looking exactly as it does now. This folder
+holds the pieces only anypress.io needs: its pages, made from the live site's own markup, and the plugin that gives them
+the site's own look.
 
 `plugin/` is the **AnyPress Site** plugin:
 
+- **anypress.io's look** (`includes/look.php`): the site's own stylesheet, fonts and script (`assets/site/`, from
+  anypress-site's build), and a page template with the site's header and footer around each page. WordPress's and the
+  theme's styles stay off these pages, so they sit exactly as on anypress.io, while each page is still core blocks
+  (groups, headings, paragraphs, lists, Custom HTML) with the site's class names, editable in the editor.
 - **AnyPress Calculator** block (`anypress-io/calculator`): the price calculator, the seller and reseller earnings
-  calculator, and a course platform next to the Community plan. Prices come from the live price list
-  (`https://api.anypress.io/pricing`, kept for six hours), or from `pricing.json` beside the plugin when the API can't
-  be reached. Built on the Interactivity API; its script loads only on pages with the block.
+  calculator, and a course platform next to the Community plan, in anypress.io's markup (`includes/widgets.php`,
+  worked by `assets/site/site.js`). Prices come from the live price list (`https://api.anypress.io/pricing`, kept for
+  six hours), or from `pricing.json` beside the plugin when the API can't be reached.
 - **AnyPress Try It** block (`anypress-io/try`): the `/try` page. It fills the screen with AnyPress's bar and starts
   the demo the link asks for (`?type=<site type>`, `?demo=<industry demo>`, `?blueprint=<one of our blueprints>&title=`,
   `?for=<prospect code>`) in WordPress Playground in the visitor's browser, from demo.anypress.site's own build. Make
@@ -32,26 +36,28 @@ other plugins off:
 
 ## The pages
 
-`pages/` writes anypress.io's pages as block markup made from the AnyPress theme's sections and styles, so each one
-opens in the editor as ordinary, editable blocks:
+`pages/convert.mjs` writes anypress.io's pages as block markup straight from the pages anypress-site serves, so the
+WordPress pages carry the same markup and class names:
 
-1. `pages/site-data.json` holds the words and lists the pages use (kinds of site, sizes, other platforms' prices,
-   page details), exported from the anypress-site repository's `src/lib`.
-2. `node pages/build.mjs` writes `pages/html/` (every page of anypress.io: the home page, prices, the kinds of site,
-   the groups, guides, selling and reselling, comparisons, designs, help and care, the beta, running it yourself, and
-   the legal pages), the header, footer and menu in `pages/parts/`, `pages/pages.json`, and `pages/forms.json`: the
-   Fluent Forms forms the pages use (tips by email, the beta sign-up and the seller application), as Fluent Forms'
-   own export.
-3. `wp eval-file setup.php --user=<admin>` on the store makes or updates each page by its address (keeping a revision),
-   imports the forms, and sets the home page, logo, menu, header, footer and the theme's Sketchbook colours and fonts.
+1. In anypress-site, put the test prices in and build it:
+   `node <this folder>/pages/test-prices.mjs src/lib/pricing.json && npm run build && npx next start -p 3311`.
+   Each test price is a number no real price uses, so convert.mjs can tell every price on a page apart.
+2. `node pages/convert.mjs` (in `scripts/anypress-io`) writes `pages/html/` (one file per page in `pages/pages.json`),
+   the header and footer in `pages/parts/`, and `pages/forms.json` (the sign-up and seller application forms, as Fluent
+   Forms' own export), and copies the pictures and drawings the pages use into `plugin/assets/`. Each test price
+   becomes the shortcode that prints the real one; it stops with a list if any is left over. Pages anypress.io draws
+   in the browser (Try It) are the plugin's own block instead.
+3. `git checkout src/lib/pricing.json` in anypress-site.
+4. `wp eval-file setup.php --user=<admin>` on the store makes or updates each page by its address (keeping a revision),
+   imports the forms, and sets the home page, logo, header and footer.
 
-The tips and beta forms send each sign-up to the shop's customer list (`plugin/includes/lead.php`). The seller
+The sign-up form sends each sign-up to the shop's customer list (`plugin/includes/lead.php`). The seller
 application is sent to the AnyPress API's `/applications` route as the form's last check, so a second application from
 the same email, or a storefront address that's taken, shows on the form (`plugin/includes/application.php`).
 
 No page types an AnyPress price: prices and price-list numbers are the `[anypress_price]`, `[anypress_number]` and
 `[anypress_care]` shortcodes, and
-the worked examples and volume savings are `[anypress_example]` and `[anypress_volume_tiers]`, all read from
+the worked examples are `[anypress_example]`, all read from
 `pricing.json` (`plugin/includes/shortcodes.php`). The how-to videos load from anypress.io's video folder until they're
 added to the store's Media Library; define `ANYPRESS_IO_VIDEOS` with their address to point the pages there instead.
 

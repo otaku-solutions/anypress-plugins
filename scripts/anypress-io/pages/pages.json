@@ -3,360 +3,355 @@
 		"path": "",
 		"file": "home",
 		"title": "AnyPress",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "pricing",
 		"file": "pricing",
 		"title": "Prices",
-		"template": "page-no-title"
-	},
-	{
-		"path": "sites",
-		"file": "sites",
-		"title": "Kinds of site",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "sellers",
 		"file": "sellers",
 		"title": "Sell websites",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "resellers",
 		"file": "resellers",
 		"title": "Resellers",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "who",
 		"file": "who",
 		"title": "Who it's for",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "who/shops",
 		"file": "who-shops",
 		"title": "Online shops & niche sellers",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "who/regulated",
 		"file": "who-regulated",
 		"title": "Supplements, CBD & other regulated products",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "who/trades",
 		"file": "who-trades",
 		"title": "Local services & trades",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "who/courses",
 		"file": "who-courses",
 		"title": "Course creators & educators",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "who/chambers",
 		"file": "who-chambers",
 		"title": "Chambers & associations",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "who/churches",
 		"file": "who-churches",
 		"title": "Churches & ministries",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "who/franchises",
 		"file": "who-franchises",
 		"title": "Franchises & multi-location brands",
-		"template": "page-no-title"
-	},
-	{
-		"path": "guides",
-		"file": "guides",
-		"title": "Free guides",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "guides/shops",
 		"file": "guides-shops",
 		"title": "Moving your shop: a step-by-step checklist",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "guides/trades",
 		"file": "guides-trades",
 		"title": "Local trades website checklist",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "guides/regulated",
 		"file": "guides-regulated",
 		"title": "Regulated store checklist",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "guides/courses",
 		"file": "guides-courses",
 		"title": "What your course platform really costs",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "guides/chambers",
 		"file": "guides-chambers",
 		"title": "Member website program: a one-page guide",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "guides/churches",
 		"file": "guides-churches",
 		"title": "Church website checklist",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "guides/franchises",
 		"file": "guides-franchises",
 		"title": "Rolling out 10 locations: a worked example",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "guides/developers",
 		"file": "guides-developers",
 		"title": "Your first site from the API, step by step",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "about",
 		"file": "about",
 		"title": "About",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "contact",
 		"file": "contact",
 		"title": "Contact",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "included",
 		"file": "included",
 		"title": "What's included",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "highlevel",
 		"file": "highlevel",
 		"title": "AnyPress for HighLevel",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "changelog",
 		"file": "changelog",
 		"title": "What's new",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "terms",
 		"file": "terms",
 		"title": "Terms of Service",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "privacy",
 		"file": "privacy",
 		"title": "Privacy Policy",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "refund-policy",
 		"file": "refund-policy",
 		"title": "Refund Policy",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "sellers/setup",
 		"file": "sellers-setup",
 		"title": "How we set you up",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "sellers/autopilot",
 		"file": "sellers-autopilot",
 		"title": "Selling on autopilot",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "move",
 		"file": "move",
 		"title": "Move your site",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "affiliates",
 		"file": "affiliates",
 		"title": "Affiliate program",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "affiliates/kit",
 		"file": "affiliates-kit",
 		"title": "Affiliate kit",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "developers",
 		"file": "developers",
 		"title": "For developers",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "ai",
 		"file": "ai",
 		"title": "AnyPress in your AI app",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "automate",
 		"file": "automate",
 		"title": "Create sites automatically",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "sell",
 		"file": "sell",
 		"title": "Apply to sell websites",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "compare",
 		"file": "compare",
 		"title": "Compare",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "compare/hosting",
 		"file": "compare-hosting",
 		"title": "AnyPress vs WordPress hosting",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "compare/shopify",
 		"file": "compare-shopify",
 		"title": "AnyPress vs Shopify",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "compare/multisite",
 		"file": "compare-multisite",
 		"title": "AnyPress vs WordPress multisite",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "compare/wp-ultimo",
 		"file": "compare-wp-ultimo",
 		"title": "AnyPress vs WP Ultimo",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "compare/managewp",
 		"file": "compare-managewp",
 		"title": "AnyPress vs ManageWP",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "designs",
 		"file": "designs",
 		"title": "Designs",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "designs/blocks",
 		"file": "designs-blocks",
 		"title": "Blocks",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "how-it-works",
 		"file": "how-it-works",
 		"title": "How it works",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "how-it-works/sellers",
 		"file": "how-it-works-sellers",
 		"title": "How selling works",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "beta",
 		"file": "beta",
 		"title": "Join the beta",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "self-host",
 		"file": "self-host",
 		"title": "Run AnyPress yourself",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "care",
 		"file": "care",
 		"title": "Care for your website",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "help",
 		"file": "help",
 		"title": "Help",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "hosting",
 		"file": "hosting",
 		"title": "Hosting and safety",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "updates",
 		"file": "updates",
 		"title": "Safe updates",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "sites/website",
 		"file": "sites-website",
 		"title": "Website & blog",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "sites/bookings",
 		"file": "sites-bookings",
 		"title": "Bookings",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "sites/store",
 		"file": "sites-store",
 		"title": "Online store",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "sites/community",
 		"file": "sites-community",
 		"title": "Community & courses",
-		"template": "page-no-title"
+		"template": "anypress-io"
 	},
 	{
 		"path": "sites/everything",
 		"file": "sites-everything",
 		"title": "Everything",
-		"template": "page-no-title"
+		"template": "anypress-io"
+	},
+	{
+		"path": "try",
+		"file": "try",
+		"title": "Try it in your browser",
+		"template": "anypress-io",
+		"block": "anypress-io/try"
 	}
 ]
