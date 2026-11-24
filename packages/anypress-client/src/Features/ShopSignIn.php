@@ -264,7 +264,7 @@ class ShopSignIn
     public function member_for(array $settings, array $account)
     {
         $link = (string) wp_parse_url($settings['shop'], PHP_URL_HOST) . ':' . $account['id'];
-        $linked = get_users(['meta_key' => self::LINK_META, 'meta_value' => $link, 'number' => 1]);
+        $linked = get_users(['meta_key' => self::LINK_META, 'meta_value' => $link, 'number' => 1]); // phpcs:ignore WordPress.DB.SlowDBQuery -- one lookup by an exact key and value, only when a member signs in.
         $user = $linked ? $linked[0] : get_user_by('email', $account['email']);
 
         if ($user instanceof WP_User) {
