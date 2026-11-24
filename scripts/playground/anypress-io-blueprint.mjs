@@ -27,6 +27,8 @@ writeFileSync(resolve(mu, 'anypress-io.php'), "<?php require __DIR__ . '/anypres
 // Stand-ins for the shop's lead route and the API, so trying the forms or Try It sends nothing anywhere.
 writeFileSync(resolve(mu, '1-preview-shop.php'), "<?php add_filter('pre_http_request', function ($pre, $args, $url) { if (!str_starts_with($url, 'https://shop.anypress.io/wp-json/anypress/v1/lead')) return $pre; update_option('fake_shop_leads', array_merge(get_option('fake_shop_leads', []), [json_decode($args['body'], true)])); return ['headers' => [], 'body' => '{\"confirm\":true}', 'response' => ['code' => 200, 'message' => 'OK'], 'cookies' => [], 'filename' => null]; }, 10, 3);\n");
 cpSync(resolve(HERE, 'anypress-io/fake-api.php'), resolve(mu, '2-preview-api.php'));
+// The how-to videos keep playing from anypress.io: copying 120 MB into a browser's WordPress would only slow it down.
+writeFileSync(resolve(mu, '0-preview-videos.php'), "<?php define('ANYPRESS_IO_SKIP_VIDEOS', true);\n");
 const setup = resolve(work, 'anypress-io-setup');
 mkdirSync(setup);
 cpSync(resolve(ROOT, 'scripts/anypress-io/setup.php'), resolve(setup, 'setup.php'));

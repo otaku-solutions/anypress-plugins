@@ -1,0 +1,22 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "anypress-io/changelog",
+	"version": "0.3.0",
+	"title": "AnyPress Changelog",
+	"category": "widgets",
+	"description": "anypress.io's What's New list, drawn from the Changes posts: a filter by site type, then each day's changes, newest first, with the smaller ones folded away.",
+	"keywords": [
+		"changelog",
+		"what's new",
+		"updates"
+	],
+	"textdomain": "anypress-io",
+	"supports": {
+		"html": false,
+		"multiple": false
+	},
+	"editorScript": "file:./index.js",
+	"viewScriptModule": "file:./view.js",
+	"render": "file:./render.php"
+}

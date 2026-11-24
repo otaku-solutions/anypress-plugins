@@ -68,6 +68,9 @@ function toBlocks([rootSelector, partsOnly]) {
 
 	function block(el) {
 		const tag = el.tagName;
+		// What's New: the filter and the months are the AnyPress Changelog block, drawn from the Changes posts.
+		if (el.matches('[aria-label="Show changes for"]')) return '<!-- wp:anypress-io/changelog /-->';
+		if (el.matches('[aria-label="Show changes for"] ~ section')) return '';
 		for (const [selector, make] of WIDGETS) {
 			const made = el.matches(selector) ? make(el) : null;
 			if (made) return made;
@@ -77,7 +80,7 @@ function toBlocks([rootSelector, partsOnly]) {
 			const attrs = common(el, {});
 			if (tag !== 'DIV') attrs.tagName = tag.toLowerCase();
 			const t = tag.toLowerCase();
-			return `<!-- ${comment('group', attrs)} -->\n${open(t, el, 'wp-block-group')}${[...el.children].map(block).join('\n')}</${t}>\n<!-- /wp:group -->`;
+			return `<!-- ${comment('group', attrs)} -->\n${open(t, el, 'wp-block-group')}${[...el.children].map(block).filter(Boolean).join('\n')}</${t}>\n<!-- /wp:group -->`;
 		}
 		if (/^H[1-6]$/.test(tag) && inlineOnly(el)) {
 			const level = Number(tag[1]);
@@ -122,6 +125,52 @@ function assets(markup) {
 		});
 }
 
+// Runs in the page: what it tells search engines and share previews.
+function head() {
+	const content = (selector) => document.querySelector(selector)?.getAttribute('content') ?? '';
+	return {
+		title: document.title,
+		description: content('meta[name="description"]'),
+		image: content('meta[property="og:image"]'),
+		schema: [...document.querySelectorAll('script[type="application/ld+json"]')].flatMap((s) => [JSON.parse(s.textContent)].flat()),
+	};
+}
+
+// anypress.io's own address with WordPress's trailing slash: /sellers#earnings is /sellers/#earnings.
+const slash = (to) => to.replace(/^\/([^#?]*?)\/?([#?].*)?$/, (_, p, h) => `/${p ? `${p}/` : ''}${h ?? ''}`);
+
+// A page's search and share details for Rank Math: prices as their shortcodes, anypress.io's own addresses as
+// {{home}}, and its share picture saved in og/ for the Media Library ({{og}}).
+const LIVE = 'https://anypress.io';
+async function meta(seo, page) {
+	const where = `${page.path || 'home'} (search details)`;
+	let og = '';
+	if (seo.image) {
+		const res = await fetch(seo.image.replace(LIVE, SITE));
+		if (res.ok) {
+			mkdirSync(resolve(HERE, 'og'), { recursive: true });
+			writeFileSync(resolve(HERE, 'og', `${page.file}.png`), Buffer.from(await res.arrayBuffer()));
+			og = `${page.file}.png`;
+		} else console.log(`No share picture for /${page.path}: ${res.status}`);
+	}
+	const fill = (value, key = '') => {
+		if (Array.isArray(value)) return value.map((v) => fill(v));
+		if (value && typeof value === 'object') return Object.fromEntries(Object.entries(value).map(([k, v]) => [k, fill(v, k)]));
+		if (typeof value === 'number' && ['price', 'lowPrice', 'highPrice'].includes(key)) return prices(`$${value}`, leftovers, where);
+		if (typeof value !== 'string') return value;
+		if (value === seo.image) return '{{og}}';
+		if (value === LIVE || value.startsWith(`${LIVE}/`)) return `{{home}}${slash(value.slice(LIVE.length) || '/')}`;
+		return prices(value, leftovers, where);
+	};
+	return {
+		title: prices(seo.title, leftovers, where),
+		description: prices(seo.description, leftovers, where),
+		image: og,
+		// The business and the site are Rank Math's own (setup.php fills in its knowledge graph).
+		schema: fill(seo.schema.filter((s) => !['Organization', 'WebSite'].includes(s['@type']))),
+	};
+}
+
 const pages = JSON.parse(readFileSync(resolve(HERE, 'pages.json'), 'utf8'));
 const browser = await chromium.launch();
 const tab = await (await browser.newContext({ javaScriptEnabled: false })).newPage();
@@ -133,7 +182,8 @@ for (const page of pages) {
 	// Pages anypress.io draws in the browser (Try It) are the plugin's own block, which draws the same markup.
 	if (page.block) {
 		writeFileSync(resolve(HERE, 'html', `${page.file}.html`), `<!-- wp:${page.block} /-->\n`);
-		kept.push(page);
+		await tab.goto(`${SITE}/${page.path}`, { waitUntil: 'load' });
+		kept.push({ ...page, seo: await meta(await tab.evaluate(head), page) });
 		continue;
 	}
 	const res = await tab.goto(`${SITE}/${page.path}`, { waitUntil: 'load' });
@@ -146,9 +196,10 @@ for (const page of pages) {
 		writeFileSync(resolve(HERE, 'parts', 'header.html'), `${prices(assets(parts.header), leftovers, 'header')}\n`);
 		writeFileSync(resolve(HERE, 'parts', 'footer.html'), `${prices(assets(parts.footer), leftovers, 'footer')}\n`);
 	}
+	const seo = await tab.evaluate(head);
 	const { main } = await tab.evaluate(toBlocks, ['body > main', false]);
 	writeFileSync(resolve(HERE, 'html', `${page.file}.html`), `${prices(assets(main), leftovers, page.path || 'home')}\n`);
-	kept.push({ path: page.path, file: page.file, title: page.title, template: 'anypress-io' });
+	kept.push({ path: page.path, file: page.file, title: page.title, template: 'anypress-io', seo: await meta(seo, page) });
 }
 await browser.close();
 
@@ -166,7 +217,35 @@ for (const path of used) {
 const priceList = JSON.parse(readFileSync(resolve(HERE, '../plugin/pricing.json'), 'utf8'));
 writeFileSync(resolve(HERE, 'forms.json'), `${JSON.stringify(forms(priceList), null, '\t')}\n`);
 writeFileSync(resolve(HERE, 'pages.json'), `${JSON.stringify(kept, null, '\t')}\n`);
-console.log(`Wrote ${kept.length} page(s), ${used.size} picture(s) and file(s).`);
+
+// What's New, as Changes posts: anypress-site's changelog, its prices as shortcodes and its pictures in media/.
+const SITE_SRC = resolve(PUBLIC, '..');
+const log = await import(resolve(SITE_SRC, 'src/content/changelog.ts'));
+const changes = log.CHANGES.map((c) => {
+	const where = `changelog: ${c.id}`;
+	const out = { ...c, title: prices(c.title, leftovers, where), body: prices(c.body, leftovers, where) };
+	if (c.image) {
+		const file = c.image.src.split('/').pop();
+		mkdirSync(resolve(HERE, 'media'), { recursive: true });
+		copyFileSync(resolve(PUBLIC, `.${c.image.src}`), resolve(HERE, 'media', file));
+		out.image = { file, alt: c.image.alt };
+	}
+	if (c.link) out.link = { href: c.link.href.startsWith('/') ? slash(c.link.href) : c.link.href, label: c.link.label };
+	return out;
+});
+writeFileSync(resolve(HERE, 'changes.json'), `${JSON.stringify({ kinds: log.KIND_LABELS, for: log.FOR_LABELS, changes }, null, '\t')}\n`);
+
+// anypress.io's old addresses (next.config.ts), as Rank Math redirections: a ":name" part becomes a regex group.
+const config = (await import(resolve(SITE_SRC, 'next.config.ts'))).default;
+const redirects = (await config.redirects()).map((r) => {
+	const from = r.source.replace(/^\//, '');
+	const code = r.permanent ? 301 : 302;
+	if (!from.includes(':')) return { from, to: slash(r.destination), code };
+	let n = 0;
+	return { from: `^${from.replace(/:[a-z]+/gi, '([^/]+)')}/?$`, to: slash(r.destination.replace(/:[a-z]+/gi, () => `$${++n}`)), code, regex: true };
+});
+writeFileSync(resolve(HERE, 'redirects.json'), `${JSON.stringify(redirects, null, '\t')}\n`);
+console.log(`Wrote ${kept.length} page(s), ${used.size} picture(s) and file(s), ${changes.length} change(s), ${redirects.length} redirect(s).`);
 if (leftovers.length) {
 	console.log(`Test prices left in the markup (${TEST_PRICES.note}):`);
 	for (const l of leftovers) console.log(`  ${l}`);

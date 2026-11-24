@@ -1,0 +1,266 @@
+{
+	"kinds": {
+		"new": "New",
+		"improved": "Improved",
+		"fixed": "Fixed"
+	},
+	"for": {
+		"website": "Website",
+		"bookings": "Bookings",
+		"store": "Online store",
+		"community": "Community & courses",
+		"everything": "Everything",
+		"sellers": "Sellers"
+	},
+	"changes": [
+		{
+			"id": "starter-pages-with-survey-forms",
+			"date": "2026-11-24",
+			"kind": "new",
+			"title": "13 ready-made pages, with forms that ask one question at a time",
+			"body": "Add a quote request, project inquiry, client onboarding, home valuation, pickup order, visit planner, consultation booking and more from your page library. Each comes fully designed in your site's look, with real photos and text you can change. Their forms show one question at a time, like a short survey, so visitors finish them instead of facing one long form.",
+			"for": [
+				"website",
+				"bookings",
+				"store",
+				"community",
+				"everything"
+			]
+		},
+		{
+			"id": "tables-without-upsells",
+			"date": "2026-11-23",
+			"kind": "improved",
+			"minor": true,
+			"title": "Ninja Tables without the Pro upsells",
+			"body": "The tables screens in your dashboard no longer show upgrade badges, locked Pro options, review requests or ads for other plugins. You see only the tools you can use.",
+			"for": [
+				"website",
+				"bookings",
+				"store",
+				"community",
+				"everything"
+			]
+		},
+		{
+			"id": "demo-to-site-keeps-your-work",
+			"date": "2026-11-23",
+			"kind": "fixed",
+			"minor": true,
+			"title": "Making a demo your site keeps only your own work",
+			"body": "When you turn a demo you changed on /try into your site, the demo's sample tables, charts, booking pages and sample forms stay behind, and the sections that only introduced them go too. Everything you wrote, your photos and your contact and newsletter forms come with you.",
+			"for": [],
+			"link": {
+				"href": "/try/",
+				"label": "Try a demo"
+			}
+		},
+		{
+			"id": "tables-and-charts",
+			"date": "2026-11-18",
+			"kind": "new",
+			"title": "Tables and charts on any page",
+			"body": "Sites now come with Ninja Tables and Ninja Charts. Put a price list, size guide, timetable or menu on any page, and visitors can sort and search it. Turn a table into a bar, line or pie chart, and the chart updates when you change the table.",
+			"for": [
+				"website",
+				"bookings",
+				"store",
+				"community",
+				"everything"
+			],
+			"link": {
+				"href": "/try/",
+				"label": "See it on a demo site"
+			}
+		},
+		{
+			"id": "fluentevent",
+			"date": "2026-11-18",
+			"kind": "new",
+			"title": "Events for your community",
+			"body": "Community sites now come with FluentEvent. Post an online or in-person event in any space, members say they're going from the event card, and you check people in on the day. Public classes and meetups get their own page that anyone can sign up from, with reminder emails sent for you.",
+			"for": [
+				"community",
+				"everything"
+			],
+			"link": {
+				"href": "/try/",
+				"label": "Try a community site"
+			}
+		},
+		{
+			"id": "law-office-demo",
+			"date": "2026-11-16",
+			"kind": "new",
+			"title": "Try a bookings site set up for a law office",
+			"body": "A new demo shows a Bookings Site made for a law office: one consultation form asks what the client needs, shows only the questions for that, and books them with the right lawyer. It also has the firm's flat fees table, client help desk and six months of posts. Open it from the Bookings Site page.",
+			"for": [
+				"bookings"
+			],
+			"link": {
+				"href": "/try/?demo=law-office",
+				"label": "Try the Law Office demo"
+			}
+		},
+		{
+			"id": "demos-not-saved",
+			"date": "2026-11-13",
+			"kind": "improved",
+			"minor": true,
+			"title": "Demos say they aren't saved",
+			"body": "Trying a site on the Try page now says plainly that the demo runs in your browser and is cleared when you close the tab, and your browser asks before you close it. Make This My Site keeps your changes.",
+			"for": [],
+			"link": {
+				"href": "/try/",
+				"label": "Try a site"
+			}
+		},
+		{
+			"id": "aisle",
+			"date": "2026-11-13",
+			"kind": "new",
+			"title": "Aisle: a finished design for clothing shops",
+			"body": "A home page that opens on a full-screen photo, your categories as photos edge to edge, a lookbook, gift cards and a help centre that's already written: shipping, returns and exchanges, a size guide and track an order.",
+			"for": [
+				"store",
+				"everything"
+			],
+			"link": {
+				"href": "/designs/",
+				"label": "See the designs"
+			}
+		},
+		{
+			"id": "care-without-a-call",
+			"date": "2026-11-13",
+			"kind": "improved",
+			"title": "Care without a call first",
+			"body": "Want us to make changes to your site? Pick a care package straight after checkout or from your account, no call to book first.",
+			"for": [],
+			"link": {
+				"href": "/care/",
+				"label": "See care packages"
+			}
+		},
+		{
+			"id": "calendly-skool-brevo-mailerlite",
+			"date": "2026-11-12",
+			"kind": "new",
+			"title": "Move in from Calendly, Skool, Brevo and MailerLite",
+			"body": "Booking sites can bring their Calendly hours, event types and upcoming bookings. Communities can bring their Skool members. Any site can bring its Brevo or MailerLite contacts into FluentCRM.",
+			"for": [],
+			"link": {
+				"href": "/move/",
+				"label": "See every move"
+			}
+		},
+		{
+			"id": "eu-cancellation-form",
+			"date": "2026-11-12",
+			"kind": "new",
+			"title": "A cancellation form for shoppers in Europe",
+			"body": "Every site that sells with FluentCart now has the 14-day cancellation form EU and UK shoppers have a right to, with each request kept on its order.",
+			"for": [
+				"bookings",
+				"store",
+				"community",
+				"everything"
+			]
+		},
+		{
+			"id": "shop-home-page",
+			"date": "2026-11-12",
+			"kind": "improved",
+			"minor": true,
+			"title": "New arrivals and categories on your shop's home page",
+			"body": "Your shop's home page shows your newest products and a Shop by category row, so shoppers see what you sell straight away.",
+			"for": [
+				"store",
+				"everything"
+			]
+		},
+		{
+			"id": "free-trial",
+			"date": "2026-11-11",
+			"kind": "new",
+			"title": "Seven days free, on every plan",
+			"body": "Start any site and try it for 7 days before you pay. Add a card when you start, and cancel before day 8 to pay nothing. One free trial per person.",
+			"for": [],
+			"link": {
+				"href": "/pricing/",
+				"label": "See plans"
+			}
+		},
+		{
+			"id": "storage-packs",
+			"date": "2026-11-11",
+			"kind": "new",
+			"title": "More room when you need it",
+			"body": "Add 25 GB of storage to any site from your account. Packs stack, and you can pause or cancel one any time.",
+			"for": []
+		},
+		{
+			"id": "community-home-page",
+			"date": "2026-11-11",
+			"kind": "new",
+			"title": "Your community on your home page",
+			"body": "Show your community on your home page from Settings, Reading, so members land in their feed. Members stay out of wp-admin and only ever see your community.",
+			"for": [
+				"community",
+				"everything"
+			]
+		},
+		{
+			"id": "tutor-lifter-memberpress",
+			"date": "2026-11-11",
+			"kind": "new",
+			"title": "Courses and members from Tutor LMS, LifterLMS and MemberPress",
+			"body": "Bring your courses with their lessons and students' progress from Tutor LMS or LifterLMS, and your active MemberPress members into their spaces and courses.",
+			"for": [
+				"community",
+				"everything"
+			],
+			"link": {
+				"href": "/move/",
+				"label": "See every move"
+			}
+		},
+		{
+			"id": "download-my-site",
+			"date": "2026-11-11",
+			"kind": "new",
+			"title": "Download a copy of your whole site",
+			"body": "Tools, Download my site gives you one zip of your whole site, files and database included, that restores on any WordPress host. Your site is yours.",
+			"for": []
+		},
+		{
+			"id": "shop-pages-match",
+			"date": "2026-11-11",
+			"kind": "improved",
+			"minor": true,
+			"title": "Shop pages that match your design",
+			"body": "FluentCart's product, cart and checkout pages now follow your site's colours and fonts.",
+			"for": [
+				"store",
+				"everything"
+			]
+		},
+		{
+			"id": "languages",
+			"date": "2026-11-10",
+			"kind": "new",
+			"title": "Your site in more than one language",
+			"body": "Turn on the Languages switch and Polylang is set up for you, with a language switcher in your menu.",
+			"for": []
+		},
+		{
+			"id": "cleaner-wp-admin",
+			"date": "2026-11-10",
+			"kind": "improved",
+			"minor": true,
+			"title": "A cleaner wp-admin",
+			"body": "Your WordPress Dashboard opens on a tidy home page with what you need, without other plugins' notices and upsells.",
+			"for": []
+		}
+	]
+}

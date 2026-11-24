@@ -3,355 +3,2525 @@
 		"path": "",
 		"file": "home",
 		"title": "AnyPress",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "AnyPress: managed WordPress, set up and looked after for you",
+			"description": "Managed WordPress for shops, studios, clubs and small businesses: a website, bookings, a shop or courses, ready to use. From [anypress_price type=\"website\" size=\"small\" period=\"monthly\"] a month, no cut of sales.",
+			"image": "home.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "pricing",
 		"file": "pricing",
 		"title": "Prices",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Prices for managed WordPress sites · AnyPress",
+			"description": "One monthly price per WordPress site, from [anypress_price type=\"website\" size=\"small\" period=\"monthly\"], set by what you're building and how big it is. Hosting, email, backups and security included. No cut of your sales.",
+			"image": "pricing.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Why does a shop cost more than a website?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Shops, bookings and members' areas do more work and send more email, so they need more from the computers they run on. The price follows what the site needs."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Which size do I need?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Start with Small. It suits most new sites. If your site gets busy, move up to Medium or Large and nothing about your site changes except the room it has."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What happens if I send more email than my size includes?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Your everyday emails, like receipts and booking confirmations, keep sending. Newsletters to your list pause until the next month or until you move up a size."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Is there a yearly price?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Paying yearly costs 10 times the monthly price, so you get 2 months free."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Do you charge a fee on sales?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. The card company charges its normal fee on payments, and we add nothing on top."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Is there a free trial?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Your first website plan starts with 7 days free. You add a card when you start, and the plan's price starts on day 8 unless you cancel first. It's one free trial per person."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How do I cancel?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "From your account, any time. Cancel in the first 7 days and you pay nothing. Within 30 days of your first payment, you get that payment back."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can you make changes to my site for me?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Care gives your website time for changes each month, from [anypress_care item=\"care\" show=\"monthly\"] a month, and one-time help to set it up or move it in. See the care page at anypress.io/care."
+							}
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "sellers",
 		"file": "sellers",
 		"title": "Sell websites",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Sell websites · AnyPress",
+			"description": "Build a website once and sell it every month, under your own name. Every order on your storefront becomes the client's own site in minutes, and we host and look after every one.",
+			"image": "sellers.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "resellers",
 		"file": "resellers",
 		"title": "Resellers",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Become a reseller · AnyPress",
+			"description": "Sell websites under several brands from one login, at [anypress_number of=\"wholesalePercent\"]% off every site, on one monthly bill. We host and look after every site.",
+			"image": "resellers.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "who",
 		"file": "who",
 		"title": "Who it's for",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Who AnyPress is for · AnyPress",
+			"description": "Shops, educators, chambers, churches, franchises, web designers and software teams all build on AnyPress. See who it's for, what it fixes and which site fits.",
+			"image": "who.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "who/shops",
 		"file": "who-shops",
 		"title": "Online shops & niche sellers",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Websites for online shops & niche sellers · AnyPress",
+			"description": "Products, downloads, merch or subscriptions. Your shop arrives ready to sell, on your own domain, and you keep every sale.",
+			"image": "who-shops.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Can I sell digital things, like music or downloads?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Sell downloads, physical products, subscriptions and gift codes from the same shop."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "I already sell somewhere else. Can I move?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Start your AnyPress shop next to your old one, add your products, then point your domain at it when you're ready."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What if I want a second shop?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Each shop is its own site with its own plan. Three or more sites cost less each."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Who it's for",
+							"item": "{{home}}/who/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "Online shops & niche sellers",
+							"item": "{{home}}/who/shops/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "who/regulated",
 		"file": "who-regulated",
 		"title": "Supplements, CBD & other regulated products",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Websites for supplements, CBD & other regulated products · AnyPress",
+			"description": "Your own store on your own domain, using the payment provider you're approved with. No platform rules about what you can list, and no cut of your sales.",
+			"image": "who-regulated.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Do you approve my products?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. Your payment provider decides what you can sell through them. We give you the store; you stay responsible for following the rules for your products."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I sell subscriptions?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Monthly refills and subscribe-and-save work out of the box."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Is there a fee per order?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No AnyPress fee. Your payment provider's fee is the only one."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Who it's for",
+							"item": "{{home}}/who/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "Supplements, CBD & other regulated products",
+							"item": "{{home}}/who/regulated/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "who/trades",
 		"file": "who-trades",
 		"title": "Local services & trades",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Websites for local services & trades · AnyPress",
+			"description": "We set up a website that shows up when people nearby search for what you do, lets them book a time, and keeps every customer in one list. You stay on the job.",
+			"image": "who-trades.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Can you move my domain over?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Type in the domain you already have. With supported domain companies it connects in one click, and email can come from it too."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Do I have to edit the site myself?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Only your words and photos, and only if you want to. If you can write an email, you can edit your pages. We do the technical part."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can customers pay a deposit when they book?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. You can take card payment when someone books, so a no-show doesn't cost you the slot."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can it send my leads to HighLevel?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. AnyPress works with HighLevel, so the people who book or write in can land in your HighLevel contacts too."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Who it's for",
+							"item": "{{home}}/who/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "Local services & trades",
+							"item": "{{home}}/who/trades/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "who/courses",
 		"file": "who-courses",
 		"title": "Course creators & educators",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Websites for course creators & educators · AnyPress",
+			"description": "Sell programs, run classes and host your students' discussions on your own domain, for one monthly price.",
+			"image": "who-courses.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Can I charge monthly for a membership?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Sell courses as one-off purchases, memberships every month, or both."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I add live classes?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. With the Everything plan, students can book live sessions on the same site."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What happens when I have more students?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Move up a size whenever you need to. Your site, courses and students stay where they are."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Who it's for",
+							"item": "{{home}}/who/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "Course creators & educators",
+							"item": "{{home}}/who/courses/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "who/chambers",
 		"file": "who-chambers",
 		"title": "Chambers & associations",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Websites for chambers & associations · AnyPress",
+			"description": "A website for your organisation that collects dues, sells event tickets and gives members a place to connect.",
+			"image": "who-chambers.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Can our members get websites too?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. You can offer your members their own AnyPress sites, under your name, as a member benefit or an income stream."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Do we need someone technical?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. We set it up and look after it. Your team edits pages and members like any other website."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Is this for churches and ministries too?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. See the page for churches."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Who it's for",
+							"item": "{{home}}/who/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "Chambers & associations",
+							"item": "{{home}}/who/chambers/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "who/churches",
 		"file": "who-churches",
 		"title": "Churches & ministries",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Websites for churches & ministries · AnyPress",
+			"description": "A website for your church that takes online giving, shares what's happening and gives your groups a place to connect.",
+			"image": "who-churches.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Does it take a cut of giving?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. Only the card company's fee applies."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can small groups talk on the site?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. With the Community or Everything plan, groups get their own space for news and discussion."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can we stream services?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "You can add your livestream or recordings to any page."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Who it's for",
+							"item": "{{home}}/who/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "Churches & ministries",
+							"item": "{{home}}/who/churches/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "who/franchises",
 		"file": "who-franchises",
 		"title": "Franchises & multi-location brands",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Websites for franchises & multi-location brands · AnyPress",
+			"description": "Every location gets its own site from your starting point, with its own bookings and domain, and your brand stays the same everywhere.",
+			"image": "who-franchises.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Can each location have its own domain?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Each site can use its own domain, or a page on yours."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Who pays: head office or the location?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Either. Head office can pay for every site, or each location can buy its own."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can we sell sites to our franchisees?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Head office can become a seller and offer sites under your own brand."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Who it's for",
+							"item": "{{home}}/who/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "Franchises & multi-location brands",
+							"item": "{{home}}/who/franchises/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "guides/shops",
 		"file": "guides-shops",
 		"title": "Moving your shop: a step-by-step checklist",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Moving your shop: a step-by-step checklist · AnyPress",
+			"description": "How to move an online shop to a new home without losing sales, customers or your place on Google. A free guide from AnyPress.",
+			"image": "guides-shops.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Article",
+					"headline": "Moving your shop: a step-by-step checklist",
+					"description": "How to move an online shop to a new home without losing sales, customers or your place on Google.",
+					"url": "{{home}}/guides/shops/",
+					"image": "{{og}}",
+					"author": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"url": "{{home}}/"
+					},
+					"publisher": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"logo": {
+							"@type": "ImageObject",
+							"url": "{{home}}/logo-512.png/"
+						}
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Moving your shop: a step-by-step checklist",
+							"item": "{{home}}/guides/shops/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "guides/trades",
 		"file": "guides-trades",
 		"title": "Local trades website checklist",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Local trades website checklist · AnyPress",
+			"description": "What a plumber, electrician or any local trade needs on a website to get found nearby and get booked.",
+			"image": "guides-trades.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Article",
+					"headline": "Local trades website checklist",
+					"description": "What a plumber, electrician or any local trade needs on a website to get found nearby and get booked.",
+					"url": "{{home}}/guides/trades/",
+					"image": "{{og}}",
+					"author": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"url": "{{home}}/"
+					},
+					"publisher": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"logo": {
+							"@type": "ImageObject",
+							"url": "{{home}}/logo-512.png/"
+						}
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Local trades website checklist",
+							"item": "{{home}}/guides/trades/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "guides/regulated",
 		"file": "guides-regulated",
 		"title": "Regulated store checklist",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Regulated store checklist · AnyPress",
+			"description": "What to have in place before you sell supplements, CBD or other regulated products from your own store.",
+			"image": "guides-regulated.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Article",
+					"headline": "Regulated store checklist",
+					"description": "What to have in place before you sell supplements, CBD or other regulated products from your own store.",
+					"url": "{{home}}/guides/regulated/",
+					"image": "{{og}}",
+					"author": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"url": "{{home}}/"
+					},
+					"publisher": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"logo": {
+							"@type": "ImageObject",
+							"url": "{{home}}/logo-512.png/"
+						}
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Regulated store checklist",
+							"item": "{{home}}/guides/regulated/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "guides/courses",
 		"file": "guides-courses",
 		"title": "What your course platform really costs",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "What your course platform really costs · AnyPress",
+			"description": "Course platforms often charge a monthly fee and a share of every sale. Put in your numbers to see the yearly total.",
+			"image": "guides-courses.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Article",
+					"headline": "What your course platform really costs",
+					"description": "Course platforms often charge a monthly fee and a share of every sale. Put in your numbers to see the yearly total.",
+					"url": "{{home}}/guides/courses/",
+					"image": "{{og}}",
+					"author": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"url": "{{home}}/"
+					},
+					"publisher": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"logo": {
+							"@type": "ImageObject",
+							"url": "{{home}}/logo-512.png/"
+						}
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "What your course platform really costs",
+							"item": "{{home}}/guides/courses/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "guides/chambers",
 		"file": "guides-chambers",
 		"title": "Member website program: a one-page guide",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Member website program: a one-page guide · AnyPress",
+			"description": "How a chamber or association can offer members their own websites, as a benefit or as a new source of income.",
+			"image": "guides-chambers.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Article",
+					"headline": "Member website program: a one-page guide",
+					"description": "How a chamber or association can offer members their own websites, as a benefit or as a new source of income.",
+					"url": "{{home}}/guides/chambers/",
+					"image": "{{og}}",
+					"author": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"url": "{{home}}/"
+					},
+					"publisher": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"logo": {
+							"@type": "ImageObject",
+							"url": "{{home}}/logo-512.png/"
+						}
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Member website program: a one-page guide",
+							"item": "{{home}}/guides/chambers/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "guides/churches",
 		"file": "guides-churches",
 		"title": "Church website checklist",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Church website checklist · AnyPress",
+			"description": "What visitors and members look for on a church website, and what your team needs to keep it current.",
+			"image": "guides-churches.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Article",
+					"headline": "Church website checklist",
+					"description": "What visitors and members look for on a church website, and what your team needs to keep it current.",
+					"url": "{{home}}/guides/churches/",
+					"image": "{{og}}",
+					"author": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"url": "{{home}}/"
+					},
+					"publisher": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"logo": {
+							"@type": "ImageObject",
+							"url": "{{home}}/logo-512.png/"
+						}
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Church website checklist",
+							"item": "{{home}}/guides/churches/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "guides/franchises",
 		"file": "guides-franchises",
 		"title": "Rolling out 10 locations: a worked example",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Rolling out 10 locations: a worked example · AnyPress",
+			"description": "How a brand with ten locations can give each one its own site from one starting point, and what it costs.",
+			"image": "guides-franchises.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Article",
+					"headline": "Rolling out 10 locations: a worked example",
+					"description": "How a brand with ten locations can give each one its own site from one starting point, and what it costs.",
+					"url": "{{home}}/guides/franchises/",
+					"image": "{{og}}",
+					"author": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"url": "{{home}}/"
+					},
+					"publisher": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"logo": {
+							"@type": "ImageObject",
+							"url": "{{home}}/logo-512.png/"
+						}
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Rolling out 10 locations: a worked example",
+							"item": "{{home}}/guides/franchises/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "guides/developers",
 		"file": "guides-developers",
 		"title": "Your first site from the API, step by step",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Your first site from the API, step by step · AnyPress",
+			"description": "Create a WordPress site for one of your customers from your own code. A free guide from AnyPress.",
+			"image": "guides-developers.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Article",
+					"headline": "Your first site from the API, step by step",
+					"description": "Create a WordPress site for one of your customers from your own code.",
+					"url": "{{home}}/guides/developers/",
+					"image": "{{og}}",
+					"author": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"url": "{{home}}/"
+					},
+					"publisher": {
+						"@type": "Organization",
+						"name": "AnyPress",
+						"logo": {
+							"@type": "ImageObject",
+							"url": "{{home}}/logo-512.png/"
+						}
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Your first site from the API, step by step",
+							"item": "{{home}}/guides/developers/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "about",
 		"file": "about",
 		"title": "About",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "About AnyPress · AnyPress",
+			"description": "AnyPress is managed WordPress for small businesses: sites set up for you and looked after every day. What we believe, and the open source code behind it.",
+			"image": "about.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "contact",
 		"file": "contact",
 		"title": "Contact",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Contact · AnyPress",
+			"description": "Questions about AnyPress, a seller or reseller account, or creating WordPress sites from your own app? Send us a message or email support@anypress.io.",
+			"image": "contact.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "included",
 		"file": "included",
 		"title": "What's included",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "What's included · AnyPress",
+			"description": "Every WordPress plugin and tool in each AnyPress site, by name, for people who know WordPress: shop, bookings, forms, email, members, courses and backups.",
+			"image": "included.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "highlevel",
 		"file": "highlevel",
 		"title": "AnyPress for HighLevel",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "AnyPress for HighLevel agencies · AnyPress",
+			"description": "Keep HighLevel for your clients' contacts, texts and inbox. AnyPress adds a real WordPress website to every sub-account, created from a workflow and looked after for you.",
+			"image": "highlevel.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Do I have to stop using HighLevel?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. Keep HighLevel for contacts, texts, your inbox and your workflows. AnyPress adds the WordPress website next to it."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can a site's forms and bookings reach HighLevel?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. AnyPress connects to HighLevel, so people who book or write in on the website can land in that sub-account's contacts."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What can a workflow do?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Create a site, look one up, and suspend or resume it, so a site follows the client's subscription without anyone logging in."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Is it ready now?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "The HighLevel app is in early access. Email us and we'll set you up."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "AnyPress for HighLevel",
+							"item": "{{home}}/highlevel/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "changelog",
 		"file": "changelog",
 		"title": "What's new",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "What's new · AnyPress",
+			"description": "New designs, new ways to move in and new things your site can do. Every AnyPress site gets them, and there's nothing to install.",
+			"image": "changelog.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "terms",
 		"file": "terms",
 		"title": "Terms of Service",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Terms of Service · AnyPress",
+			"description": "The terms for using AnyPress: buying a plan in our shop, using your WordPress site, the dashboard and the AnyPress API.",
+			"image": "terms.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "privacy",
 		"file": "privacy",
 		"title": "Privacy Policy",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Privacy Policy · AnyPress",
+			"description": "How AnyPress collects, uses and protects personal data for website owners, sellers, resellers and the visitors to their sites.",
+			"image": "privacy.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "refund-policy",
 		"file": "refund-policy",
 		"title": "Refund Policy",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Refund Policy · AnyPress",
+			"description": "Your first AnyPress payment has a 30-day money-back guarantee. How to ask for a refund, how long it takes, and what happens to your site.",
+			"image": "refund-policy.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "sellers/setup",
 		"file": "sellers-setup",
 		"title": "How we set you up",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "How we set you up to sell websites · AnyPress",
+			"description": "Apply in two minutes, book a 30-minute call with us, and we set you up: your storefront, what you sell, your prices and how billing works.",
+			"image": "sellers-setup.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Why a call? Can't I just sign up?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Selling websites works best when billing, what you sell and your prices are right from day one. Half an hour together saves weeks of guessing."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What does the call cost?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Nothing. It's how every seller and reseller starts."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Seller or reseller: which am I?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "One business name is a seller. Several brands, each with its own storefront, is a reseller. We'll work it out on the call. See the difference."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Do I have to build a starting site?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. Sell our ready-built sites as they are, or change one into your own. We'll go through both on the call."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "I already host client sites. Can I bring them?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Moving a site in copies the whole site across. We'll plan it with you on the call."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Who do I talk to after I'm set up?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Us. Email support@anypress.io and we'll help."
+							}
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "sellers/autopilot",
 		"file": "sellers-autopilot",
 		"title": "Selling on autopilot",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Selling websites on autopilot · AnyPress",
+			"description": "From the order to the day a client leaves: every site is built, billed, paused, backed up and taken offline on its own, so you never press a button.",
+			"image": "sellers-autopilot.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Do I have to do anything when someone buys?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. The order builds the site and sends your welcome email. You'll see the new site in your dashboard a few minutes later."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What if a client's card fails?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Their site is paused, not deleted. When they pay, it comes back exactly as it was."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What does a paused site look like?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Visitors see a short page saying the site isn't available right now. The site itself, its pages, orders and members, are kept."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can a client leave and come back?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. If they buy again before their backups are gone, their site is put back from its last backup, with everything they had."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I take a client's site somewhere else?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Download site on a site's page in your dashboard makes one zip of WordPress, its files and its database. It works on any WordPress host."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can sites start somewhere other than my storefront?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes, from a form, your CRM or your own app. See the ways in. Every site follows the same steps after that."
+							}
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "move",
 		"file": "move",
 		"title": "Move your site",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Move your site · AnyPress",
+			"description": "Bring your current WordPress site to AnyPress. We copy it straight from your old host with WordPress's own free Reprint plugin. Your old site isn't changed, and everything comes across.",
+			"image": "move.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "affiliates",
 		"file": "affiliates",
 		"title": "Affiliate program",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Affiliate program · AnyPress",
+			"description": "Recommend AnyPress managed WordPress and earn 30% of every new customer's first payment. Free to join, a 30-day cookie, and paid by PayPal.",
+			"image": "affiliates.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "affiliates/kit",
 		"file": "affiliates-kit",
 		"title": "Affiliate kit",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Affiliate kit · AnyPress",
+			"description": "Everything AnyPress affiliates need: your link, ready-to-use words for each kind of business, and the AnyPress logo to download.",
+			"image": "affiliates-kit.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "developers",
 		"file": "developers",
 		"title": "For developers",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "WordPress site API for developers · AnyPress",
+			"description": "Create and manage WordPress sites from your own app with the AnyPress API, SDKs, webhooks and MCP connector.",
+			"image": "developers.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "ai",
 		"file": "ai",
 		"title": "AnyPress in your AI app",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "AnyPress in your AI app · AnyPress",
+			"description": "Connect AnyPress to Claude, ChatGPT, Cursor, VS Code or any other MCP app and ask in plain words: make a site, back it up, connect a domain or change its pages.",
+			"image": "ai.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "automate",
 		"file": "automate",
 		"title": "Create sites automatically",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Create sites automatically · AnyPress",
+			"description": "Sellers and resellers never build client sites by hand. An order, a form or a CRM step creates the site, through your shop, n8n, Make, Zapier, HighLevel or the AnyPress API.",
+			"image": "automate.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "sell",
 		"file": "sell",
 		"title": "Apply to sell websites",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Sell websites with AnyPress · AnyPress",
+			"description": "Apply to sell WordPress websites to your own clients under your own name. Each order creates a finished site, and AnyPress hosts and looks after every one.",
+			"image": "sell.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "compare",
 		"file": "compare",
 		"title": "Compare",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Compare AnyPress with hosting, multisite and more · AnyPress",
+			"description": "AnyPress prices next to Shopify, Squarespace, Wix, Kajabi, Circle and Skool, and how it compares with regular hosting, WordPress multisite, WP Ultimo and ManageWP.",
+			"image": "compare.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "compare/hosting",
 		"file": "compare-hosting",
 		"title": "AnyPress vs WordPress hosting",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "AnyPress vs WordPress hosting · AnyPress",
+			"description": "With regular hosting you rent room on a server and build the rest yourself. With AnyPress you pick what you're building and it arrives ready to use.",
+			"image": "compare-hosting.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Compare",
+							"item": "{{home}}/compare/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "AnyPress vs WordPress hosting",
+							"item": "{{home}}/compare/hosting/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "compare/shopify",
 		"file": "compare-shopify",
 		"title": "AnyPress vs Shopify",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "AnyPress vs Shopify · AnyPress",
+			"description": "Both get you selling online. With Shopify you add paid apps as you grow and sell by their product rules. With AnyPress the tools come with the site, and the site is yours to take anywhere.",
+			"image": "compare-shopify.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Compare",
+							"item": "{{home}}/compare/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "AnyPress vs Shopify",
+							"item": "{{home}}/compare/shopify/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "compare/multisite",
 		"file": "compare-multisite",
 		"title": "AnyPress vs WordPress multisite",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "AnyPress vs WordPress multisite · AnyPress",
+			"description": "Multisite runs many sites from one WordPress install and one database. AnyPress gives every site its own WordPress and its own database, so one site never drags down the rest.",
+			"image": "compare-multisite.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Compare",
+							"item": "{{home}}/compare/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "AnyPress vs WordPress multisite",
+							"item": "{{home}}/compare/multisite/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "compare/wp-ultimo",
 		"file": "compare-wp-ultimo",
 		"title": "AnyPress vs WP Ultimo",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "AnyPress vs WP Ultimo · AnyPress",
+			"description": "WP Ultimo is a plugin that turns your own WordPress multisite network into a platform for selling sites. AnyPress is the whole platform, hosted and looked after for you.",
+			"image": "compare-wp-ultimo.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Compare",
+							"item": "{{home}}/compare/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "AnyPress vs WP Ultimo",
+							"item": "{{home}}/compare/wp-ultimo/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "compare/managewp",
 		"file": "compare-managewp",
 		"title": "AnyPress vs ManageWP",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "AnyPress vs ManageWP · AnyPress",
+			"description": "ManageWP is a dashboard for looking after WordPress sites that are hosted somewhere else. AnyPress hosts the sites, looks after them, and lets you sell them under your own name.",
+			"image": "compare-managewp.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Compare",
+							"item": "{{home}}/compare/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 3,
+							"name": "AnyPress vs ManageWP",
+							"item": "{{home}}/compare/managewp/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "designs",
 		"file": "designs",
 		"title": "Designs",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Designs · AnyPress",
+			"description": "Sixteen ready-made looks for different kinds of business, plus popups, countdowns, before-and-after sliders, maps and more. Switch your site's whole look in one click.",
+			"image": "designs.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "designs/blocks",
 		"file": "designs-blocks",
 		"title": "Blocks",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Blocks · AnyPress",
+			"description": "Popups, carousels, before-and-after sliders, countdowns, maps, a location finder and more, on every AnyPress site. Try each one live in your browser.",
+			"image": "designs-blocks.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "how-it-works",
 		"file": "how-it-works",
 		"title": "How it works",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "How getting a website on AnyPress works · AnyPress",
+			"description": "Pick what you're building and add a card, and your website is ready in minutes, with the first 7 days free. Add your words and photos, and we look after it every day from then on.",
+			"image": "how-it-works.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Do I need to be technical?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. We do the technical part. If you can write an email, you can edit your pages, and we're an email away if you get stuck."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How long does a new site take?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Minutes, not days. You get an email as soon as it's ready. If a build ever fails, we're told straight away and fix it."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Is my site really separate from everyone else's?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. It has its own space and its own WordPress. Another site getting busy or having a problem doesn't touch yours."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Who can see or change my site?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "You, and anyone you add. We only step in to keep it running, or when you ask us for help."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I bring the site I already have?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "If it's on WordPress, yes. How moving works."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I take my site with me?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. It's real WordPress, so a full copy can go with you to any host. No lock-in."
+							}
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "how-it-works/sellers",
 		"file": "how-it-works-sellers",
 		"title": "How selling works",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "How selling websites on AnyPress works · AnyPress",
+			"description": "Your storefront takes the orders under your own name, every order becomes its own WordPress site built from your starting site, and AnyPress hosts and looks after every one.",
+			"image": "how-it-works-sellers.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Do my clients see AnyPress?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. They buy from your storefront, get emails from your name and manage their site from an account on your shop."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What is a starting site?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "It's the site every new order is copied from. Use one of ours, or set up your own with your design, pages and plugins, so every client starts with it."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What does the storefront cost?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Nothing. Your first storefront is included. You pay per site you sell."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I create sites without a shop?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Sites can come from a form, a payment or your own app through the API, n8n, Make or Zapier. Create sites automatically."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Who supports my clients?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "You do the client-facing side. We support you, and we look after the sites themselves."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Who updates WordPress and the plugins?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "We do, for WordPress, our theme and the plugins we include. Every new release is tried on every kind of site before it reaches yours. Plugins you add yourself, you update in a new version of your starting site."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Does every site get the padlock (HTTPS)?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Every site and every domain your clients connect gets a free certificate, renewed for you."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What happens when a client stops paying?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "When their plan is cancelled, the site is backed up and taken offline for you. Nothing to remember."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I bring sites I already host?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Choose Move a site in on your dashboard and the whole site is copied across. How moving works."
+							}
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "beta",
 		"file": "beta",
 		"title": "Join the beta",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Join the AnyPress beta · AnyPress",
+			"description": "Finished WordPress sites built on the Fluent plugins: only the plugins you need, set up and connected, hosting and email handled, your old site moved in, and every site in one dashboard. Beta invites are open now.",
+			"image": "beta.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "self-host",
 		"file": "self-host",
 		"title": "Run AnyPress yourself",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Run AnyPress yourself · AnyPress",
+			"description": "Run AnyPress on a server you choose: free to do yourself, or we set it up and look after it. For businesses that sell websites and companies that keep their sites on their own servers.",
+			"image": "self-host.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "care",
 		"file": "care",
 		"title": "Care for your website",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Care for your website · AnyPress",
+			"description": "Monthly time for changes to your AnyPress website, requests answered by email, and one-time help to set up or move in your site.",
+			"image": "care.png",
+			"schema": []
+		}
 	},
 	{
 		"path": "help",
 		"file": "help",
 		"title": "Help",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Help with your AnyPress website · AnyPress",
+			"description": "How to sign in, open your site's WordPress editor, use your own domain, cancel a plan, and get a refund on AnyPress.",
+			"image": "help.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "How do I sign in?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Go to your account page and sign in with the email address you bought your plan with. If you don't know your password, choose \"Lost your password?\" on the sign-in page and we'll email you a link to set a new one."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How do I open my site's editor?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Sign in to your account page, open My website and choose Log in to your website. It opens your site's WordPress dashboard already signed in, with no second password."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "My site isn't ready yet. Is that normal?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "A new site is usually ready a few minutes after you pay. We email you when it is. If it's been more than an hour, email us and we'll look right away."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What address does my site start with?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Every site starts on a free address ending in anypress.site, with a secure (https) connection. You can keep it or switch to your own domain whenever you like."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How do I use my own domain?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Sign in to your account page and open My website. Under \"Use your own domain\" you'll find the records to add where your domain is managed (the company you bought it from, or Cloudflare). Add them, then type your domain in the same place. The secure connection is set up for you, and the old address keeps working for a few minutes while it switches."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How do I cancel?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Sign in to your account page, open My website and choose Manage or cancel plan. Your site stays online until the end of the period you've paid for, and you won't be charged again."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Is there a free trial?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Your first website plan starts with 7 days free. You add a card when you start, and the plan's price starts on day 8 unless you cancel first from your account. It's one free trial per person."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How do I get a refund?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Your first payment for a new plan is covered by our 30-day money-back guarantee. Email support@anypress.io within 30 days with your account's email address and your site name. A refund ends the plan and takes the site offline, so export anything you want to keep first. The details are in our refund policy."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I change my plan or size?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Email us with your site name and what you'd like, and we'll switch it for you. The new price starts from your next renewal."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Is my site backed up?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. We save a copy of every site each night and keep daily and weekly copies. If something goes wrong, email us and we'll bring it back."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Who looks after security fixes?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "We do. Security fixes for WordPress, its plugins and the server are applied for you, so you can get on with your business."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "I sell websites. Where do I sign in?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Sellers and resellers sign in to the dashboard at app.anypress.io, not here. It has every client and site you sell. New to selling? See how selling works."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Where do my clients sign in?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "On your own storefront. They never get an AnyPress login, and they never see AnyPress."
+							}
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "hosting",
 		"file": "hosting",
 		"title": "Hosting and safety",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Hosting and safety · AnyPress",
+			"description": "Every AnyPress site runs on its own, with its own WordPress and database, a free padlock, nightly backups we test every day, and the speed settings already done.",
+			"image": "hosting.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Is my site on a shared server?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Sites share the machine, not the site. Each one has its own WordPress, database and set amount of computing power and memory, so a busy neighbour can't slow yours down or reach your files."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What happens if a backup fails?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "It's tried again ten minutes later. If it still fails, it lands on our list to fix. Your site keeps running either way."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How big can uploads be?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Up to 64 MB a file on most sites. Community and Everything sites take up to 512 MB, for the videos members post."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Do you keep my backups if I leave?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "When a site is removed, its backups are kept for another 90 days, so it can be brought back if you change your mind."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I install my own plugins?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Your site is real WordPress. We look after the plugins every site comes with; ones you add, you update. See what's included."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Who updates WordPress?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "We do. How updates stay safe."
+							}
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "updates",
 		"file": "updates",
 		"title": "Safe updates",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Safe updates for every site · AnyPress",
+			"description": "We update WordPress, the theme and the included plugins for every site, after trying each update on every kind of site. Sellers change their own starting site in versions they can go back from.",
+			"image": "updates.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Do I have to update anything?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Not for WordPress, our theme, our blocks or the plugins every site comes with. We do those. Plugins you add yourself, you update in a new version of your starting site."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Will an update change my pages or orders?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. Updates change the software, not what's in the site. Your pages, posts, orders, members and uploads stay as they are."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "How fast do security fixes arrive?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "We look for new releases every hour. A fix reaches sites as soon as it has passed the checks above, usually the same day."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "What if an update breaks something?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "It shouldn't get that far, because every update is tried on every kind of site first. If it does, the site can go back to the version it was on, and every site also has nightly backups."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I stop my clients' sites from getting a change of mine?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Your changes only reach a site when you move it to the new version. Until then it stays on the one it has."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I turn on automatic plugin updates in WordPress?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "There's no need for the plugins we include, because we update them for you. For more about how sites are run, see hosting and safety."
+							}
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "sites/website",
 		"file": "sites-website",
 		"title": "Website & blog",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Website & blog on managed WordPress · AnyPress",
+			"description": "Tell people who you are and help them find you. A website & blog on WordPress, set up for you and looked after every day, from [anypress_price type=\"website\" size=\"small\" period=\"monthly\"] a month.",
+			"image": "sites-website.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Product",
+					"name": "AnyPress Website & blog",
+					"description": "Tell people who you are and help them find you.",
+					"brand": {
+						"@type": "Brand",
+						"name": "AnyPress"
+					},
+					"url": "{{home}}/sites/website/",
+					"offers": {
+						"@type": "AggregateOffer",
+						"priceCurrency": "USD",
+						"lowPrice": "[anypress_price type=\"website\" size=\"small\" period=\"monthly\"]",
+						"highPrice": "[anypress_price type=\"website\" size=\"large\" period=\"monthly\"]",
+						"offerCount": 3,
+						"availability": "https://schema.org/InStock",
+						"url": "https://shop.anypress.io/item/website-small/"
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Can I change the design?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Colours, fonts, your logo and every page's layout can be changed in the editor, with no code."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Will people find me on Google?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Your site is set up so search engines can read it from day one. Ranking still takes time and good content, but nothing technical is holding you back."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I send a newsletter?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. People sign up on your site and you send them emails from your own address. Your size sets how many emails a month."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I add a shop or bookings later?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Move to Store, Bookings or Everything and your pages stay exactly where they are."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Website & blog",
+							"item": "{{home}}/sites/website/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "sites/bookings",
 		"file": "sites-bookings",
 		"title": "Bookings",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Booking website on managed WordPress · AnyPress",
+			"description": "Let clients pick a time and pay when they book. A booking website on WordPress, set up for you and looked after every day, from [anypress_price type=\"bookings\" size=\"small\" period=\"monthly\"] a month.",
+			"image": "sites-bookings.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Product",
+					"name": "AnyPress Bookings",
+					"description": "Let clients pick a time and pay when they book.",
+					"brand": {
+						"@type": "Brand",
+						"name": "AnyPress"
+					},
+					"url": "{{home}}/sites/bookings/",
+					"offers": {
+						"@type": "AggregateOffer",
+						"priceCurrency": "USD",
+						"lowPrice": "[anypress_price type=\"bookings\" size=\"small\" period=\"monthly\"]",
+						"highPrice": "[anypress_price type=\"bookings\" size=\"large\" period=\"monthly\"]",
+						"offerCount": 3,
+						"availability": "https://schema.org/InStock",
+						"url": "https://shop.anypress.io/item/bookings-small/"
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Can I offer free consultations too?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Make some bookings free and others paid, each with its own length and price."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I run group classes?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Not yet. Each booking is one client at one time today. If you run group classes, email support@anypress.io and we'll tell you what works now."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Where does the money go?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Straight to the payment account you connect. We don't take a cut, only the card company's normal fee applies."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can clients book from their phone?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. The whole site, booking calendar included, works on phones."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Bookings",
+							"item": "{{home}}/sites/bookings/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "sites/store",
 		"file": "sites-store",
 		"title": "Online store",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Online store on managed WordPress · AnyPress",
+			"description": "Sell products, downloads and subscriptions, and keep every sale. An online store on WordPress, set up for you and looked after every day, from [anypress_price type=\"online-store\" size=\"small\" period=\"monthly\"] a month.",
+			"image": "sites-store.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Product",
+					"name": "AnyPress Online store",
+					"description": "Sell products, downloads and subscriptions, and keep every sale.",
+					"brand": {
+						"@type": "Brand",
+						"name": "AnyPress"
+					},
+					"url": "{{home}}/sites/store/",
+					"offers": {
+						"@type": "AggregateOffer",
+						"priceCurrency": "USD",
+						"lowPrice": "[anypress_price type=\"online-store\" size=\"small\" period=\"monthly\"]",
+						"highPrice": "[anypress_price type=\"online-store\" size=\"large\" period=\"monthly\"]",
+						"offerCount": 3,
+						"availability": "https://schema.org/InStock",
+						"url": "https://shop.anypress.io/item/online-store-small/"
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "How do I get paid?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "You connect your own card payment account. Money from each order goes straight to you, and we don't add any fee on top."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Is there a limit on products?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "We don't set one. The size you pick sets the storage for your photos and files, and you can move up any time."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Do you handle sales tax?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "You set your tax rates and the shop adds them at checkout. Filing taxes stays with you or your accountant."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I sell subscriptions?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Monthly or yearly subscriptions renew and charge on their own, and customers manage them from their account."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Online store",
+							"item": "{{home}}/sites/store/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "sites/community",
 		"file": "sites-community",
 		"title": "Community & courses",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "Community & course site on managed WordPress · AnyPress",
+			"description": "A members' area with courses, discussions and paid access. A community & course site on WordPress, set up for you and looked after every day, from [anypress_price type=\"community\" size=\"small\" period=\"monthly\"] a month.",
+			"image": "sites-community.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Product",
+					"name": "AnyPress Community & courses",
+					"description": "A members' area with courses, discussions and paid access.",
+					"brand": {
+						"@type": "Brand",
+						"name": "AnyPress"
+					},
+					"url": "{{home}}/sites/community/",
+					"offers": {
+						"@type": "AggregateOffer",
+						"priceCurrency": "USD",
+						"lowPrice": "[anypress_price type=\"community\" size=\"small\" period=\"monthly\"]",
+						"highPrice": "[anypress_price type=\"community\" size=\"large\" period=\"monthly\"]",
+						"offerCount": 3,
+						"availability": "https://schema.org/InStock",
+						"url": "https://shop.anypress.io/item/community-small/"
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Do members need to download an app?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. Your community runs on your website and works in any browser, on a phone or a computer."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I have free and paid members?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. Keep some groups and lessons open to everyone and the rest for paying members."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Do you take a share of course sales?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. You pay one monthly price for the site, whatever you earn."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Can I move my students over?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Yes. You can bring your member list with you and invite everyone to the new site."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Community & courses",
+							"item": "{{home}}/sites/community/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "sites/everything",
 		"file": "sites-everything",
 		"title": "Everything",
-		"template": "anypress-io"
+		"template": "anypress-io",
+		"seo": {
+			"title": "All-in-one business site on managed WordPress · AnyPress",
+			"description": "Shop, bookings, members, courses and a help desk on one site. An all-in-one business site on WordPress, set up for you and looked after every day, from [anypress_price type=\"everything\" size=\"small\" period=\"monthly\"] a month.",
+			"image": "sites-everything.png",
+			"schema": [
+				{
+					"@context": "https://schema.org",
+					"@type": "Product",
+					"name": "AnyPress Everything",
+					"description": "Shop, bookings, members, courses and a help desk on one site.",
+					"brand": {
+						"@type": "Brand",
+						"name": "AnyPress"
+					},
+					"url": "{{home}}/sites/everything/",
+					"offers": {
+						"@type": "AggregateOffer",
+						"priceCurrency": "USD",
+						"lowPrice": "[anypress_price type=\"everything\" size=\"small\" period=\"monthly\"]",
+						"highPrice": "[anypress_price type=\"everything\" size=\"large\" period=\"monthly\"]",
+						"offerCount": 3,
+						"availability": "https://schema.org/InStock",
+						"url": "https://shop.anypress.io/item/everything-small/"
+					}
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "FAQPage",
+					"mainEntity": [
+						{
+							"@type": "Question",
+							"name": "Why not buy two smaller plans?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Everything puts all the tools on one site, so a customer who buys, books and joins is one person, not three. It also costs less than the four other plans together, and adds a help desk."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Do I have to use every part?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. Switch on what you need today. The rest is ready when you are."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Which size should I pick?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "Small suits most new sites. Busy shops and big communities usually move to Medium or Large, and you can change any time."
+							}
+						},
+						{
+							"@type": "Question",
+							"name": "Is it harder to look after?",
+							"acceptedAnswer": {
+								"@type": "Answer",
+								"text": "No. We apply security fixes to every part and save it every night, the same as any other AnyPress site."
+							}
+						}
+					]
+				},
+				{
+					"@context": "https://schema.org",
+					"@type": "BreadcrumbList",
+					"itemListElement": [
+						{
+							"@type": "ListItem",
+							"position": 1,
+							"name": "Home",
+							"item": "{{home}}/"
+						},
+						{
+							"@type": "ListItem",
+							"position": 2,
+							"name": "Everything",
+							"item": "{{home}}/sites/everything/"
+						}
+					]
+				}
+			]
+		}
 	},
 	{
 		"path": "try",
 		"file": "try",
 		"title": "Try it in your browser",
 		"template": "anypress-io",
-		"block": "anypress-io/try"
+		"block": "anypress-io/try",
+		"seo": {
+			"title": "Try it in your browser · AnyPress",
+			"description": "Open a real AnyPress site in your browser and click around. No sign-up, nothing to install, nothing saved.",
+			"image": "try.png",
+			"schema": []
+		}
 	}
 ]
