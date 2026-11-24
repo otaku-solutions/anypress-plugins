@@ -31,8 +31,13 @@ function toBlocks([rootSelector, partsOnly]) {
 	const comment = (name, attrs) => `wp:${name}${Object.keys(attrs).length ? ` ${json(attrs)}` : ''}`;
 	const inlineOnly = (el) => [...el.querySelectorAll('*')].every((n) => INLINE.has(n.tagName));
 	const hasText = (el) => [...el.childNodes].some((n) => n.nodeType === 3 && n.textContent.trim());
-	const inner = (el) => el.innerHTML.replace(/<!--[\s\S]*?-->/g, '');
-	const outer = (el) => el.outerHTML.replace(/<!--[\s\S]*?-->/g, '');
+	// React's markers and other comments are taken out of the page itself, so the markup holds none.
+	const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_COMMENT);
+	const comments = [];
+	while (walker.nextNode()) comments.push(walker.currentNode);
+	comments.forEach((c) => c.remove());
+	const inner = (el) => el.innerHTML;
+	const outer = (el) => el.outerHTML;
 	// Class, id and the rest of an element's attributes, as a block stores them.
 	const common = (el, attrs) => {
 		const cls = el.getAttribute('class');

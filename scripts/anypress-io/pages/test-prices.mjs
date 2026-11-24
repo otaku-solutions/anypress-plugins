@@ -76,7 +76,7 @@ export function prices(markup, leftovers, where) {
 	out = out.replace(/(?<![0-9,])99,?991(?![0-9])/g, '[anypress_number of="emailPackEmails"]');
 	out = out.replace(/(?<![0-9.,$])59(?= ?GB)/g, '[anypress_number of="storagePackGb"]');
 	// Text only: attributes and drawings' paths hold numbers of their own.
-	const text = out.replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/<!--[\s\S]*?-->/g, '').replace(/<[^>]*>/g, ' ');
+	const text = out.replace(/<svg[\s\S]*?<\/svg>/g, '').replace(/<[^>]*>/g, ' ');
 	for (const m of text.matchAll(/.{0,40}(?<![0-9])(11\d\d|22\d\d|44\d\d|33\d\d|34\d\d|35\d\d|11,?\d{3}|99,?991)(?![0-9]).{0,30}/g)) {
 		leftovers.push(`${where}: ${m[0].replace(/\s+/g, ' ').trim()}`);
 	}
