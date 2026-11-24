@@ -8,6 +8,8 @@
 //   "Trial" taken off), the way an app passes on a Stripe payment.
 // - AnyPress Client's "Tag Applied" trigger (free FluentCRM has none) starts an automation set to "Customer" once,
 //   and not for other tags or a second "Customer".
+// - Stripe events (checkout, cancel, invoice paid, refund), signed and checked by Stripe's own SDK, go through the
+//   AnyPress SDK's Back Office helper (anypress-api sdk/typescript) to the same webhook and move the tags.
 // - Fluent Support's REST API, signed in with a WordPress application password, opens a ticket for the contact.
 //
 //   cd scripts/playground && npm ci
@@ -18,7 +20,8 @@
 
 import { existsSync, readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { runCLI } from '@wp-playground/cli';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -199,6 +202,45 @@ try {
         echo wp_json_encode($t ? ['title' => $t->title, 'email' => $t->customer->email ?? null] : null);
     `);
     check(ticket?.email === 'ava@anypress.example' && ticket.title === 'My clips stopped exporting', "the ticket is in Fluent Support under the contact's email", JSON.stringify(ticket));
+
+    // Payments in the app, end to end: Stripe events signed and checked by Stripe's own SDK, turned into contact
+    // updates by the AnyPress SDK's Back Office helper, sent to the same webhook. Runs when the anypress-api checkout
+    // has the helper and its node_modules (npm ci there).
+    const helperPath = resolve(API, 'sdk/typescript/src/back-office.ts');
+    const stripePath = resolve(API, 'node_modules/stripe/package.json');
+    if (existsSync(helperPath) && existsSync(stripePath)) {
+        const { contactUpdateFromStripe, sendContactUpdate } = await import(pathToFileURL(helperPath).href);
+        const { default: Stripe } = await import(pathToFileURL(createRequire(stripePath).resolve('stripe')).href);
+        const stripe = new Stripe('sk_test_back_office');
+        const secret = 'whsec_back_office_playground';
+        const handle = async (type, object, options) => {
+            const payload = JSON.stringify({ id: `evt_${type.replace(/\W/g, '_')}`, object: 'event', type, data: { object } });
+            const event = stripe.webhooks.constructEvent(payload, stripe.webhooks.generateTestHeaderString({ payload, secret }), secret);
+            const update = contactUpdateFromStripe(event, options);
+            if (update) await sendContactUpdate(hookUrl, update);
+        };
+        const ben = async () => php(`
+            $c = \\FluentCrm\\App\\Models\\Subscriber::where('email', 'ben@anypress.example')->first();
+            echo wp_json_encode($c ? ['name' => trim($c->first_name . ' ' . $c->last_name), 'tags' => $c->tags->pluck('title')->toArray(),
+                'runs' => \\FluentCrm\\App\\Models\\FunnelSubscriber::where('funnel_id', ${setup.funnel})->where('subscriber_id', $c->id)->count()] : null);
+        `);
+        await webhook({ email: 'ben@anypress.example', tags: ['Trial'] });
+        await handle('checkout.session.completed', { payment_status: 'paid', customer_details: { email: 'ben@anypress.example', name: 'Ben Ito' }, metadata: { plan: 'Pro' } });
+        let b = await ben();
+        check(b?.name === 'Ben Ito' && b.tags.includes('Customer') && b.tags.includes('Pro') && !b.tags.includes('Trial'), 'Stripe checkout: Customer and the plan added, Trial off', JSON.stringify(b));
+        check(b?.runs === 1 && b.tags.includes('Welcome Sent'), 'Stripe checkout starts the "Tag Applied" automation', JSON.stringify(b));
+        await handle('customer.subscription.deleted', { customer: 'cus_ben', metadata: { plan: 'Pro' } }, { email: 'ben@anypress.example' });
+        b = await ben();
+        check(b?.tags.includes('Cancelled') && !b.tags.includes('Customer') && !b.tags.includes('Pro'), 'Stripe cancel: Cancelled added, Customer and the plan off', JSON.stringify(b));
+        await handle('invoice.paid', { customer_email: 'ben@anypress.example' });
+        b = await ben();
+        check(b?.tags.includes('Customer') && !b.tags.includes('Cancelled') && b.runs === 1, 'Stripe invoice paid: Customer back, Cancelled off, automation not started again', JSON.stringify(b));
+        await handle('charge.refunded', { refunded: true, billing_details: { email: 'ben@anypress.example' } });
+        b = await ben();
+        check(b?.tags.includes('Refunded') && !b.tags.includes('Customer'), 'Stripe full refund: Refunded added, Customer off', JSON.stringify(b));
+    } else {
+        console.log(`skip the Stripe events (no ${helperPath} or ${stripePath})`);
+    }
 
     // Nothing a stranger can do: a wrong webhook address and no password are both turned away.
     const wrong = await fetch(hookUrl.replace(/hash=[^&]+/, 'hash=not-a-real-hash'), { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ email: 'x@anypress.example', tags: ['Customer'] }) }).then((r) => r.json()).catch(() => ({}));
