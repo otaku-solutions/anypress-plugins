@@ -28,7 +28,7 @@ class ShopSignInCommand
      * [--label=<label>]
      * : The button's text. Default: "Sign in with your shop account".
      *
-     * [--space=<group:slugs>]
+     * [--space=<spaces>]
      * : FluentCommunity spaces each account group joins: group:slugs, with commas between spaces and semicolons
      * between groups, e.g. "customer:customers;seller:sellers-and-resellers".
      *
