@@ -1,0 +1,43 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "anypress-io/button",
+	"version": "0.1.0",
+	"title": "anypress.io Button",
+	"category": "design",
+	"description": "A button in anypress.io's own look: Ink, Paper or Honey, with its words and link edited in place.",
+	"keywords": [
+		"button",
+		"link",
+		"call to action"
+	],
+	"textdomain": "anypress-io",
+	"attributes": {
+		"text": {
+			"type": "rich-text",
+			"source": "rich-text",
+			"selector": "a"
+		},
+		"url": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "a",
+			"attribute": "href"
+		},
+		"anypressAttrs": {
+			"type": "object"
+		}
+	},
+	"supports": {
+		"className": false,
+		"html": false
+	},
+	"example": {
+		"attributes": {
+			"text": "Start Your Site",
+			"url": "/pricing",
+			"className": "btn btn-ink"
+		}
+	},
+	"editorScript": "file:./index.js"
+}

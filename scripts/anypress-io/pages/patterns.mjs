@@ -7,26 +7,15 @@
 import { mkdirSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { KINDS } from './kinds.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const OUT = resolve(HERE, '../plugin/patterns');
 
-// The site's own pieces, by the class that marks them, with their name in the inserter. A section is the kind of the
-// first of these it holds; sections holding none (plain text) aren't patterns.
-const KINDS = [
-	['hero', 'Home Top'], ['page-hero', 'Page Top'], ['type-hero', 'Site Type Top'], ['beta-hero-shot', 'Beta Top'],
-	['calc-wrap', 'Earnings Calculator'], ['calc', 'Price Calculator'], ['prices', 'Price List'], ['price-compare', 'Price Comparison'], ['tiers', 'Volume Savings'],
-	['size-cards', 'Size Cards'], ['types', 'Site Types'], ['compare', 'Comparison Table'], ['versus', 'Side by Side'], ['vs', 'Before and After'],
-	['faq', 'Questions'], ['steps', 'Steps'], ['hero-steps', 'Numbered Steps'], ['flow', 'Flow'], ['sys', 'How It Connects'], ['desk', 'Desk'],
-	['cards', 'Cards'], ['who-row', 'Who It Is For'], ['made-for', 'Made For'], ['built-for', 'Built For'], ['can-list', 'What You Can Do'],
-	['checks', 'Ticks'], ['chips', 'Chips'], ['marquee', 'Moving Strip'], ['logo-row', 'Logo Row'], ['app-logos', 'App Logos'], ['apps', 'Apps'],
-	['recipes', 'Recipes'], ['tpls', 'Designs'], ['shot', 'Screenshot'], ['appshot', 'App Screenshot'], ['video-tile', 'Videos'],
-	['scene-wrap', 'Scene'], ['vignette', 'Scene'], ['split', 'Split'], ['quote', 'Quote'], ['notes', 'Notes'], ['ribbon', 'Ribbon'],
-	['try-strip', 'Try It Strip'], ['guide-band', 'Guide Band'], ['ai-band', 'AI Band'], ['beta-types', 'Beta Site Types'], ['beta-videos', 'Beta Videos'],
-	['fields', 'Form'], ['ctas', 'Call to Action'], ['end', 'Closing Call to Action'], ['prose', 'Long Text'],
-];
+// A section is the kind of the first of the site's pieces (kinds.mjs) it holds; sections holding none (plain text)
+// aren't patterns.
 
-/** The top-level blocks of a page's main, as their whole block markup. */
+/** The top-level blocks of a page, as their whole block markup. */
 function sections(markup) {
 	const out = [];
 	const re = /<!-- (\/?)wp:([a-z0-9/-]+)(?: (\{.*?\}))? (\/?)-->/g;
@@ -35,14 +24,14 @@ function sections(markup) {
 	for (const m of markup.matchAll(re)) {
 		const [, close, , , self] = m;
 		if (self) {
-			if (depth === 1) out.push(m[0]);
+			if (depth === 0) out.push(m[0]);
 			continue;
 		}
 		if (!close) {
 			depth++;
-			if (depth === 2) start = m.index;
+			if (depth === 1) start = m.index;
 		} else {
-			if (depth === 2) out.push(markup.slice(start, m.index + m[0].length));
+			if (depth === 1) out.push(markup.slice(start, m.index + m[0].length));
 			depth--;
 		}
 	}
@@ -56,7 +45,7 @@ for (const file of readdirSync(resolve(HERE, 'html')).sort()) {
 	const page = file.replace(/\.html$/, '');
 	for (const section of sections(readFileSync(resolve(HERE, 'html', file), 'utf8'))) {
 		// Sections that are a page's own widget (a calculator, the Try It page, What's New) stay on their page.
-		if (/wp:anypress-io\/|\[anypress_example|data-anypress-form/.test(section)) continue;
+		if (/wp:anypress-io\/(?!button)|\[anypress_example|data-anypress-form/.test(section)) continue;
 		const has = new Set(classes(section));
 		const kind = KINDS.find(([cls]) => has.has(cls));
 		if (!kind || seen.has(kind[0])) continue;

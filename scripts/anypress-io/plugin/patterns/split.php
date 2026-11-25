@@ -11,19 +11,19 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<!-- wp:group {"className":"sec soft","anypressAttrs":{"aria-labelledby":"h-split"},"tagName":"section"} -->
+<!-- wp:group {"className":"sec soft","anypressAttrs":{"aria-labelledby":"h-split"},"metadata":{"name":"You run the business. We run the sites."},"tagName":"section"} -->
 <section class="wp-block-group sec soft"><!-- wp:group {"className":"in"} -->
 <div class="wp-block-group in"><!-- wp:group {"className":"sec-head"} -->
-<div class="wp-block-group sec-head"><!-- wp:html -->
-<span class="eyebrow">who does what</span>
-<!-- /wp:html -->
+<div class="wp-block-group sec-head"><!-- wp:paragraph {"className":"eyebrow","anypressAttrs":{"tag":"span"}} -->
+<p class="eyebrow">who does what</p>
+<!-- /wp:paragraph -->
 <!-- wp:heading {"anchor":"h-split"} -->
 <h2 id="h-split" class="wp-block-heading">You run the business. We run the sites.</h2>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"split"} -->
+<!-- wp:group {"className":"split","metadata":{"name":"Split"}} -->
 <div class="wp-block-group split"><!-- wp:group -->
-<div class="wp-block-group"><!-- wp:html -->
+<div class="wp-block-group"><!-- wp:html {"metadata":{"name":"Box"}} -->
 <h3><div data-drawing="nametag" aria-hidden="true" class="ob  " style="aspect-ratio:176 / 150"></div>You control</h3>
 <!-- /wp:html -->
 <!-- wp:list -->
@@ -44,8 +44,8 @@ defined( 'ABSPATH' ) || exit;
 <!-- /wp:list-item --></ul>
 <!-- /wp:list --></div>
 <!-- /wp:group -->
-<!-- wp:group -->
-<div class="wp-block-group"><!-- wp:html -->
+<!-- wp:group {"metadata":{"name":"We handle"}} -->
+<div class="wp-block-group"><!-- wp:html {"metadata":{"name":"Box"}} -->
 <h3><div data-drawing="tools" aria-hidden="true" class="ob  " style="aspect-ratio:176 / 156"></div>We handle</h3>
 <!-- /wp:html -->
 <!-- wp:list -->

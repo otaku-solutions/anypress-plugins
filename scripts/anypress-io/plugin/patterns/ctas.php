@@ -11,32 +11,32 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<!-- wp:group {"className":"in end","tagName":"section"} -->
-<section class="wp-block-group in end"><!-- wp:html -->
-<span class="eyebrow">your turn</span>
-<!-- /wp:html -->
+<!-- wp:group {"className":"in end","metadata":{"name":"Closing Call to Action"},"tagName":"section"} -->
+<section class="wp-block-group in end"><!-- wp:paragraph {"className":"eyebrow","anypressAttrs":{"tag":"span"}} -->
+<p class="eyebrow">your turn</p>
+<!-- /wp:paragraph -->
 <!-- wp:heading -->
 <h2 class="wp-block-heading">Ready when you are.</h2>
 <!-- /wp:heading -->
 <!-- wp:paragraph -->
 <p>Pick what you're building. It's ready to use the same day, and we look after it from there.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"className":"ctas"} -->
-<div class="wp-block-group ctas"><!-- wp:html -->
+<!-- wp:group {"className":"ctas","metadata":{"name":"Call to Action"}} -->
+<div class="wp-block-group ctas"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
 <a class="btn btn-ink" href="/#sites">Start your site →</a>
-<!-- /wp:html -->
-<!-- wp:html -->
+<!-- /wp:anypress-io/button -->
+<!-- wp:anypress-io/button {"className":"btn btn-paper"} -->
 <a class="btn btn-paper" href="/contact">Talk to us</a>
-<!-- /wp:html --></div>
+<!-- /wp:anypress-io/button --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"row"} -->
-<div class="wp-block-group row"><!-- wp:html -->
+<!-- wp:group {"className":"row","metadata":{"name":"Section"}} -->
+<div class="wp-block-group row"><!-- wp:html {"metadata":{"name":"Drawing"}} -->
 <div data-drawing="store" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 190"></div>
 <!-- /wp:html -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"Drawing"}} -->
 <div data-drawing="everything" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 190"></div>
 <!-- /wp:html -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"Drawing"}} -->
 <div data-drawing="bookings" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 185"></div>
 <!-- /wp:html --></div>
 <!-- /wp:group --></section>

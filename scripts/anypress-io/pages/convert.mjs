@@ -5,14 +5,18 @@
 //
 //   node convert.mjs [http://localhost:3311]
 //
-// Each element becomes the core block that saves the same tag: sections and boxes become Groups, headings Headings,
-// paragraphs Paragraphs, plain lists Lists; anything else (cards, links, pictures, tables) stays as it is in a
-// Custom HTML block. Prices come back as the AnyPress Site plugin's price shortcodes, found by the test prices.
+// Each element becomes the block that saves the same markup: sections and boxes become Groups, headings Headings,
+// paragraphs, labels and lines of text Paragraphs, plain lists Lists, questions Details and buttons the AnyPress Site
+// plugin's Button; anything else (drawings, cards, pictures, tables, forms) stays as it is in a Custom HTML block,
+// named for what it is. Each section is named in List View for its kind (kinds.mjs) or its heading. The page's <main>
+// is the page template's own, so the page is its sections, one after another. Prices come back as the AnyPress Site
+// plugin's price shortcodes, found by the test prices.
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import forms from './forms.mjs';
+import { KINDS } from './kinds.mjs';
 import { prices, TEST_PRICES } from './test-prices.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
@@ -22,7 +26,7 @@ const ASSETS = resolve(HERE, '../plugin/assets');
 const { chromium } = createRequire(resolve(HERE, '../../playground/package.json'))('playwright');
 
 // Runs in the page: the block markup for one element and everything in it.
-function toBlocks([rootSelector, partsOnly]) {
+function toBlocks([rootSelector, partsOnly, kinds]) {
 	const GROUP = new Set(['DIV', 'SECTION', 'HEADER', 'FOOTER', 'ARTICLE', 'ASIDE', 'MAIN']);
 	const INLINE = new Set(['A', 'SPAN', 'STRONG', 'EM', 'B', 'I', 'BR', 'CODE', 'SMALL', 'SUP', 'SUB', 'S', 'MARK', 'KBD', 'U', 'ABBR', 'TIME', 'WBR']);
 	// Parts the site's scripts fill in or that the plugin's own blocks stand in for, kept whole.
@@ -53,7 +57,24 @@ function toBlocks([rootSelector, partsOnly]) {
 		return `<${tag}${el.id ? ` id="${el.id}"` : ''}${cls ? ` class="${cls}"` : ''}>`;
 	};
 	for (const s of document.querySelectorAll('main script')) s.remove();
-	const html = (el) => `<!-- wp:html -->\n${outer(el)}\n<!-- /wp:html -->`;
+	// What a Custom HTML piece is, as its name in List View.
+	const PIECES = [
+		['[data-drawing]', 'Drawing'], ['[data-vignette]', 'Animated Scene'], ['.video-tile', 'Video'], ['.logo-swap', 'Logo'],
+		['form', 'Form'], ['table,:has(> table)', 'Table'], ['.appshot', 'App Screenshot'], ['figure,img,picture,:has(> img)', 'Picture'],
+		['a.side-pill', 'Pill Link'], ['a.type', 'Site Type Card'], ['a.badge', 'Badge'], ['a', 'Link'], ['ul,ol', 'List'], ['details', 'Question'],
+		['svg', 'Icon'], ['span', 'Text'],
+	];
+	const kindOf = (el) => kinds.find(([cls]) => el.classList.contains(cls))?.[1];
+	const nameOf = (el) => PIECES.find(([selector]) => el.matches(selector))?.[1] ?? 'Box';
+	const meta = (attrs, name) => (name ? { ...attrs, metadata: { name } } : attrs);
+	const html = (el) => `<!-- ${comment('html', meta({}, nameOf(el)))} -->\n${outer(el)}\n<!-- /wp:html -->`;
+	// A section's name: its kind, else its heading, else the kind of the first piece it holds.
+	const sectionName = (el) => {
+		// A heading with a number in it may hold a price, which becomes a shortcode later, so it doesn't name the section.
+		const heading = el.querySelector('h1,h2,h3')?.textContent.trim().replace(/\s+/g, ' ').replace(/^.*\d.*$/, '');
+		const inside = kinds.find(([cls]) => el.querySelector(`.${CSS.escape(cls)}`))?.[1];
+		return kindOf(el) ?? (heading ? (heading.length > 40 ? `${heading.slice(0, 38).trim()}…` : heading) : inside ?? 'Section');
+	};
 
 	// The site's worked-out pieces become the AnyPress Site plugin's calculator block and example shortcode, which draw
 	// the same markup from the live price list.
@@ -66,7 +87,7 @@ function toBlocks([rootSelector, partsOnly]) {
 		['.compare', (el) => ({ 'A year of selling Website sites': shortcode('[anypress_example kind="seller"]'), 'Two brands on one wholesale bill': shortcode('[anypress_example kind="reseller"]') })[el.querySelector('[role="region"]')?.getAttribute('aria-label')] ?? null],
 	];
 
-	function block(el) {
+	function block(el, top = false) {
 		const tag = el.tagName;
 		// What's New: the filter and the months are the AnyPress Changelog block, drawn from the Changes posts.
 		if (el.matches('[aria-label="Show changes for"]')) return '<!-- wp:anypress-io/changelog /-->';
@@ -77,7 +98,7 @@ function toBlocks([rootSelector, partsOnly]) {
 		}
 		if (el.matches(WHOLE)) return html(el);
 		if (GROUP.has(tag) && el.children.length && !hasText(el)) {
-			const attrs = common(el, {});
+			const attrs = meta(common(el, {}), top ? sectionName(el) : kindOf(el));
 			if (tag !== 'DIV') attrs.tagName = tag.toLowerCase();
 			const t = tag.toLowerCase();
 			return `<!-- ${comment('group', attrs)} -->\n${open(t, el, 'wp-block-group')}${[...el.children].map(block).filter(Boolean).join('\n')}</${t}>\n<!-- /wp:group -->`;
@@ -87,8 +108,34 @@ function toBlocks([rootSelector, partsOnly]) {
 			const attrs = common(el, level === 2 ? {} : { level });
 			return `<!-- ${comment('heading', attrs)} -->\n${open(tag.toLowerCase(), el, 'wp-block-heading')}${inner(el)}</${tag.toLowerCase()}>\n<!-- /wp:heading -->`;
 		}
-		if (tag === 'P' && inlineOnly(el)) {
-			return `<!-- ${comment('paragraph', common(el, {}))} -->\n${open('p', el, '')}${inner(el)}</p>\n<!-- /wp:paragraph -->`;
+		// A line of text in a box of its own or a label (the handwritten eyebrow over a heading) is a Paragraph too, with the
+		// same classes; it keeps its own tag on the page (includes/look.php), as the site's rules expect.
+		if ((tag === 'P' || (tag === 'DIV' && hasText(el)) || (tag === 'SPAN' && el.matches('.eyebrow,.hand,.label'))) && inlineOnly(el)) {
+			const attrs = common(el, {});
+			if (tag !== 'P') attrs.anypressAttrs = { ...attrs.anypressAttrs, tag: tag.toLowerCase() };
+			return `<!-- ${comment('paragraph', attrs)} -->\n${open('p', el, '')}${inner(el)}</p>\n<!-- /wp:paragraph -->`;
+		}
+		// A question and its answer: a Details block, the question as its summary and the answer as blocks in it.
+		const summary = el.firstElementChild;
+		if (tag === 'DETAILS' && summary?.tagName === 'SUMMARY' && inlineOnly(summary) && el.children.length > 1 && !hasText(el)) {
+			const attrs = common(el, el.open ? { showContent: true } : {});
+			if (attrs.anypressAttrs) {
+				delete attrs.anypressAttrs.open;
+				if (!Object.keys(attrs.anypressAttrs).length) delete attrs.anypressAttrs;
+			}
+			const answer = [...el.children].slice(1).map((c) => block(c)).filter(Boolean).join('\n');
+			return `<!-- ${comment('details', attrs)} -->\n${open('details', el, 'wp-block-details').replace(/>$/, el.open ? ' open>' : '>')}<summary>${inner(summary)}</summary>${answer}</details>\n<!-- /wp:details -->`;
+		}
+		// The site's buttons: the AnyPress Site plugin's Button, which saves the same link.
+		if (tag === 'A' && el.classList.contains('btn') && inlineOnly(el) && !el.querySelector('a')) {
+			const attrs = common(el, {});
+			if (attrs.anypressAttrs) {
+				delete attrs.anypressAttrs.href;
+				if (!Object.keys(attrs.anypressAttrs).length) delete attrs.anypressAttrs;
+			}
+			const href = el.getAttribute('href');
+			if (attrs.anchor) return html(el);
+			return `<!-- ${comment('anypress-io/button', attrs)} -->\n<a class="${el.getAttribute('class')}"${href !== null ? ` href="${href.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}"` : ''}>${inner(el)}</a>\n<!-- /wp:anypress-io/button -->`;
 		}
 		if ((tag === 'UL' || tag === 'OL') && el.children.length && !hasText(el) && [...el.children].every((li) => li.tagName === 'LI' && inlineOnly(li))) {
 			const attrs = common(el, tag === 'OL' ? { ordered: true } : {});
@@ -109,7 +156,8 @@ function toBlocks([rootSelector, partsOnly]) {
 		const header = [document.querySelector('body > aside.announce'), document.querySelector('body > header')].filter(Boolean).map(block).join('\n');
 		return { header, footer: block(document.querySelector('body > footer')) };
 	}
-	return { main: block(document.querySelector(rootSelector)) };
+	// The page's sections, one after another: the template has the <main> around them.
+	return { main: [...document.querySelector(rootSelector).children].map((el) => block(el, true)).filter(Boolean).join('\n') };
 }
 
 // The site's own files (pictures, drawings, scenes) the markup points at, copied into the plugin's assets.
@@ -192,12 +240,12 @@ for (const page of pages) {
 		continue;
 	}
 	if (page.path === '') {
-		const parts = await tab.evaluate(toBlocks, [null, true]);
+		const parts = await tab.evaluate(toBlocks, [null, true, KINDS]);
 		writeFileSync(resolve(HERE, 'parts', 'header.html'), `${prices(assets(parts.header), leftovers, 'header')}\n`);
 		writeFileSync(resolve(HERE, 'parts', 'footer.html'), `${prices(assets(parts.footer), leftovers, 'footer')}\n`);
 	}
 	const seo = await tab.evaluate(head);
-	const { main } = await tab.evaluate(toBlocks, ['body > main', false]);
+	const { main } = await tab.evaluate(toBlocks, ['body > main', false, KINDS]);
 	writeFileSync(resolve(HERE, 'html', `${page.file}.html`), `${prices(assets(main), leftovers, page.path || 'home')}\n`);
 	kept.push({ path: page.path, file: page.file, title: page.title, template: 'anypress-io', seo: await meta(seo, page) });
 }

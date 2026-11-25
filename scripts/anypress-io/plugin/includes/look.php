@@ -39,7 +39,7 @@ add_action(
 					'title'       => __( 'anypress.io page', 'anypress-io' ),
 					'description' => __( 'The site header, the page, and the site footer, laid out as on anypress.io.', 'anypress-io' ),
 					'post_types'  => array( 'page' ),
-					'content'     => '<!-- wp:template-part {"slug":"header","tagName":"div"} /--><!-- wp:post-content /--><!-- wp:template-part {"slug":"footer","tagName":"div"} /-->',
+					'content'     => '<!-- wp:template-part {"slug":"header","tagName":"div"} /--><!-- wp:group {"tagName":"main","className":"flex-1"} --><main class="wp-block-group flex-1"><!-- wp:post-content /--></main><!-- /wp:group --><!-- wp:template-part {"slug":"footer","tagName":"div"} /-->',
 				)
 			);
 		}
@@ -61,7 +61,7 @@ foreach ( array( 'frontpage_template_hierarchy', 'page_template_hierarchy' ) as 
 add_filter(
 	'register_block_type_args',
 	static function ( array $args, string $name ): array {
-		if ( in_array( $name, array( 'core/group', 'core/heading', 'core/paragraph', 'core/list', 'core/list-item' ), true ) ) {
+		if ( in_array( $name, array( 'core/group', 'core/heading', 'core/paragraph', 'core/list', 'core/list-item', 'core/details' ), true ) ) {
 			$args['attributes']['anypressAttrs'] = array( 'type' => 'object' );
 		}
 		return $args;
@@ -75,6 +75,12 @@ add_filter(
 		$attrs = $block['attrs']['anypressAttrs'] ?? null;
 		if ( ! is_array( $attrs ) || '' === $content ) {
 			return $content;
+		}
+		// A line of text that is a <span> or <div> on anypress.io (a label over a heading) is a Paragraph in the editor and
+		// keeps its own tag on the page, so the site's rules for it still apply.
+		$tag = $attrs['tag'] ?? '';
+		if ( 'core/paragraph' === $block['blockName'] && in_array( $tag, array( 'span', 'div' ), true ) ) {
+			$content = (string) preg_replace( array( '/^(\s*)<p\b/', '#</p>(\s*)$#' ), array( '$1<' . $tag, '</' . $tag . '>$1' ), $content );
 		}
 		$tags = new WP_HTML_Tag_Processor( $content );
 		if ( $tags->next_tag() ) {
@@ -197,12 +203,53 @@ add_action(
 	static function () {
 		if ( is_admin() ) {
 			wp_enqueue_style( 'anypress-io-site', anypress_io_asset( 'site/css/site.css' ), array(), ANYPRESS_IO_VERSION );
+			// The page canvas as the page: full width, the site's paper, ink and font, and the hand-made pieces in
+			// place (assets/site/editor.js) rather than in boxes of their own.
+			wp_add_inline_style(
+				'anypress-io-site',
+				'.editor-styles-wrapper{background:var(--paper);color:var(--ink);font-family:var(--font-hanken);padding:0}'
+				. '.editor-styles-wrapper .is-root-container{display:flex;flex-direction:column;padding:0!important;max-width:none!important}'
+				. '.editor-styles-wrapper .is-root-container>*{max-width:none!important;margin-left:0!important;margin-right:0!important}'
+				. '.editor-styles-wrapper .anypress-io-in-place{display:contents}'
+				// A label is a <span> on the page and a Paragraph here, where a section's rules for its paragraphs would win.
+				. '.editor-styles-wrapper p.eyebrow{font-family:var(--font-caveat);font-size:1.4rem;font-weight:700;line-height:1;color:var(--rose)}'
+				. '.editor-styles-wrapper .sell p.eyebrow{color:var(--honey)}'
+				// The editor's own link colour and underline stay off the buttons.
+				. '.editor-styles-wrapper a.btn{text-decoration:none}.editor-styles-wrapper a.btn-ink{color:var(--paper)}.editor-styles-wrapper a.btn-paper,.editor-styles-wrapper a.btn-honey{color:var(--ink)}'
+			);
+			wp_enqueue_style( 'anypress-io-editor', anypress_io_asset( 'site/css/editor.css' ), array( 'anypress-io-site' ), ANYPRESS_IO_VERSION );
+			wp_enqueue_script( 'anypress-io-canvas', anypress_io_asset( 'site/canvas.js' ), array(), ANYPRESS_IO_VERSION, true );
+			wp_add_inline_script( 'anypress-io-canvas', 'window.anypressIo=' . wp_json_encode( array( 'assets' => untrailingslashit( anypress_io_asset( '' ) ) ) ) . ';', 'before' );
 		}
 	}
 );
 add_action(
 	'enqueue_block_editor_assets',
 	static function () {
-		wp_enqueue_script( 'anypress-io-attrs', anypress_io_asset( 'site/editor.js' ), array( 'wp-hooks' ), ANYPRESS_IO_VERSION, true );
+		wp_enqueue_script( 'anypress-io-attrs', anypress_io_asset( 'site/editor.js' ), array( 'wp-hooks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-compose', 'wp-i18n', 'wp-api-fetch', 'wp-data' ), ANYPRESS_IO_VERSION, true );
+		wp_add_inline_script( 'anypress-io-attrs', 'window.anypressIoEditor=' . wp_json_encode( array( 'inline' => current_user_can( 'unfiltered_html' ) ) ) . ';', 'before' );
+	}
+);
+
+// The editor shows a Custom HTML piece in place (assets/site/editor.js); one holding price shortcodes is shown with
+// the prices filled in, from here.
+add_action(
+	'rest_api_init',
+	static function () {
+		register_rest_route(
+			'anypress-io/v1',
+			'/preview',
+			array(
+				'methods'             => 'POST',
+				'permission_callback' => static fn() => current_user_can( 'unfiltered_html' ),
+				'args'                => array(
+					'content' => array(
+						'type'     => 'string',
+						'required' => true,
+					),
+				),
+				'callback'            => static fn( WP_REST_Request $request ) => array( 'html' => do_shortcode( (string) $request['content'] ) ),
+			)
+		);
 	}
 );

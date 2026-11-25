@@ -11,11 +11,11 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<!-- wp:group {"className":"sec in","anchor":"apps","anypressAttrs":{"aria-labelledby":"h-apps"},"tagName":"section"} -->
+<!-- wp:group {"className":"sec in","anchor":"apps","anypressAttrs":{"aria-labelledby":"h-apps"},"metadata":{"name":"Chips"},"tagName":"section"} -->
 <section id="apps" class="wp-block-group sec in"><!-- wp:group {"className":"sec-head"} -->
-<div class="wp-block-group sec-head"><!-- wp:html -->
-<span class="eyebrow">the apps</span>
-<!-- /wp:html -->
+<div class="wp-block-group sec-head"><!-- wp:paragraph {"className":"eyebrow","anypressAttrs":{"tag":"span"}} -->
+<p class="eyebrow">the apps</p>
+<!-- /wp:paragraph -->
 <!-- wp:heading {"anchor":"h-apps"} -->
 <h2 id="h-apps" class="wp-block-heading">AnyPress in n8n, Make, Zapier and HighLevel.</h2>
 <!-- /wp:heading -->
@@ -23,17 +23,17 @@ defined( 'ABSPATH' ) || exit;
 <p>Add the AnyPress app to the tool you already use and pick a step. Nothing to code, and the trigger sets up its own webhook when you turn the flow on.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"apps"} -->
+<!-- wp:group {"className":"apps","metadata":{"name":"Apps"}} -->
 <div class="wp-block-group apps"><!-- wp:group {"className":"app","tagName":"article"} -->
 <article class="wp-block-group app"><!-- wp:group {"className":"app-text"} -->
-<div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"}} -->
-<div class="wp-block-group app-logos"><!-- wp:html -->
+<div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"},"metadata":{"name":"App Logos"}} -->
+<div class="wp-block-group app-logos"><!-- wp:html {"metadata":{"name":"Picture"}} -->
 <span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt="" width="28" height="28"></span>
 <!-- /wp:html -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"Text"}} -->
 <span>+</span>
 <!-- /wp:html -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"Picture"}} -->
 <span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/n8n-logo.svg" alt="" width="28" height="28"></span>
 <!-- /wp:html --></div>
 <!-- /wp:group -->
@@ -74,29 +74,29 @@ defined( 'ABSPATH' ) || exit;
 <!-- wp:paragraph {"className":"app-note"} -->
 <p class="app-note">Starts your flow when a site is ready, fails, is suspended and more.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"className":"ctas mt-6"} -->
-<div class="wp-block-group ctas mt-6"><!-- wp:html -->
-<a href="https://shop.anypress.io/docs/use-anypress-in-n8n/" class="btn btn-ink">Install in n8n →</a>
-<!-- /wp:html -->
-<!-- wp:html -->
-<a href="https://shop.anypress.io/docs/use-anypress-in-n8n/" class="btn btn-paper">Setup guide</a>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"ctas mt-6","metadata":{"name":"Call to Action"}} -->
+<div class="wp-block-group ctas mt-6"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
+<a class="btn btn-ink" href="https://shop.anypress.io/docs/use-anypress-in-n8n/">Install in n8n →</a>
+<!-- /wp:anypress-io/button -->
+<!-- wp:anypress-io/button {"className":"btn btn-paper"} -->
+<a class="btn btn-paper" href="https://shop.anypress.io/docs/use-anypress-in-n8n/">Setup guide</a>
+<!-- /wp:anypress-io/button --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"App Screenshot"}} -->
 <figure class="appshot"><div class="appshot-bar" aria-hidden="true"><i></i><i></i><i></i><span>n8n</span></div><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/n8n-create-site.webp" alt="The AnyPress node in n8n, set to create a site from the form's business name and email" width="780" height="1311" loading="lazy"></figure>
 <!-- /wp:html --></article>
 <!-- /wp:group -->
-<!-- wp:group {"className":"app","tagName":"article"} -->
+<!-- wp:group {"className":"app","metadata":{"name":"AnyPress for Make"},"tagName":"article"} -->
 <article class="wp-block-group app"><!-- wp:group {"className":"app-text"} -->
-<div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"}} -->
-<div class="wp-block-group app-logos"><!-- wp:html -->
+<div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"},"metadata":{"name":"App Logos"}} -->
+<div class="wp-block-group app-logos"><!-- wp:html {"metadata":{"name":"Picture"}} -->
 <span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt="" width="28" height="28"></span>
 <!-- /wp:html -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"Text"}} -->
 <span>+</span>
 <!-- /wp:html -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"Picture"}} -->
 <span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/make-logo.svg" alt="" width="28" height="28"></span>
 <!-- /wp:html --></div>
 <!-- /wp:group -->
@@ -137,29 +137,29 @@ defined( 'ABSPATH' ) || exit;
 <!-- wp:paragraph {"className":"app-note"} -->
 <p class="app-note">Starts your flow when a site is ready, fails, is suspended and more.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"className":"ctas mt-6"} -->
-<div class="wp-block-group ctas mt-6"><!-- wp:html -->
-<a href="https://www.make.com/en/hq/app-invitation/671dddf42544d057e9ecc35c05ecdf8b" class="btn btn-ink">Add to Make →</a>
-<!-- /wp:html -->
-<!-- wp:html -->
-<a href="https://shop.anypress.io/docs/use-anypress-in-make/" class="btn btn-paper">Setup guide</a>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"ctas mt-6","metadata":{"name":"Call to Action"}} -->
+<div class="wp-block-group ctas mt-6"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
+<a class="btn btn-ink" href="https://www.make.com/en/hq/app-invitation/671dddf42544d057e9ecc35c05ecdf8b">Add to Make →</a>
+<!-- /wp:anypress-io/button -->
+<!-- wp:anypress-io/button {"className":"btn btn-paper"} -->
+<a class="btn btn-paper" href="https://shop.anypress.io/docs/use-anypress-in-make/">Setup guide</a>
+<!-- /wp:anypress-io/button --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"App Screenshot"}} -->
 <figure class="appshot"><div class="appshot-bar" aria-hidden="true"><i></i><i></i><i></i><span>Make</span></div><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/make-create-site.webp" alt="The AnyPress Create a Site module in Make, with the site name, reference, client email and size filled in" width="894" height="666" loading="lazy"></figure>
 <!-- /wp:html --></article>
 <!-- /wp:group -->
-<!-- wp:group {"className":"app","tagName":"article"} -->
+<!-- wp:group {"className":"app","metadata":{"name":"AnyPress for Zapier"},"tagName":"article"} -->
 <article class="wp-block-group app"><!-- wp:group {"className":"app-text"} -->
-<div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"}} -->
-<div class="wp-block-group app-logos"><!-- wp:html -->
+<div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"},"metadata":{"name":"App Logos"}} -->
+<div class="wp-block-group app-logos"><!-- wp:html {"metadata":{"name":"Picture"}} -->
 <span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt="" width="28" height="28"></span>
 <!-- /wp:html -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"Text"}} -->
 <span>+</span>
 <!-- /wp:html -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"Picture"}} -->
 <span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/zapier-logo.svg" alt="" width="28" height="28"></span>
 <!-- /wp:html --></div>
 <!-- /wp:group -->
@@ -200,29 +200,29 @@ defined( 'ABSPATH' ) || exit;
 <!-- wp:paragraph {"className":"app-note"} -->
 <p class="app-note">Starts your flow when a site is ready, fails, is suspended and more.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"className":"ctas mt-6"} -->
-<div class="wp-block-group ctas mt-6"><!-- wp:html -->
-<a href="https://zapier.com/developer/public-invite/248504/d92ccd4f604ea3e76535ff8452c69eb9/" class="btn btn-ink">Add to Zapier →</a>
-<!-- /wp:html -->
-<!-- wp:html -->
-<a href="https://shop.anypress.io/docs/use-anypress-in-zapier/" class="btn btn-paper">Setup guide</a>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"ctas mt-6","metadata":{"name":"Call to Action"}} -->
+<div class="wp-block-group ctas mt-6"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
+<a class="btn btn-ink" href="https://zapier.com/developer/public-invite/248504/d92ccd4f604ea3e76535ff8452c69eb9/">Add to Zapier →</a>
+<!-- /wp:anypress-io/button -->
+<!-- wp:anypress-io/button {"className":"btn btn-paper"} -->
+<a class="btn btn-paper" href="https://shop.anypress.io/docs/use-anypress-in-zapier/">Setup guide</a>
+<!-- /wp:anypress-io/button --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"App Screenshot"}} -->
 <figure class="appshot"><div class="appshot-bar" aria-hidden="true"><i></i><i></i><i></i><span>Zapier</span></div><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/zapier-create-site.webp" alt="The AnyPress Create Site action in a Zap, with the site name, reference, client email and size filled in" width="808" height="580" loading="lazy"></figure>
 <!-- /wp:html --></article>
 <!-- /wp:group -->
-<!-- wp:group {"className":"app no-shot","tagName":"article"} -->
+<!-- wp:group {"className":"app no-shot","metadata":{"name":"AnyPress for HighLevelEarly access"},"tagName":"article"} -->
 <article class="wp-block-group app no-shot"><!-- wp:group {"className":"app-text"} -->
-<div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"}} -->
-<div class="wp-block-group app-logos"><!-- wp:html -->
+<div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"},"metadata":{"name":"App Logos"}} -->
+<div class="wp-block-group app-logos"><!-- wp:html {"metadata":{"name":"Picture"}} -->
 <span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt="" width="28" height="28"></span>
 <!-- /wp:html -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"Text"}} -->
 <span>+</span>
 <!-- /wp:html -->
-<!-- wp:html -->
+<!-- wp:html {"metadata":{"name":"Picture"}} -->
 <span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/highlevel-logo.svg" alt="" width="28" height="28"></span>
 <!-- /wp:html --></div>
 <!-- /wp:group -->
@@ -263,13 +263,13 @@ defined( 'ABSPATH' ) || exit;
 <!-- wp:paragraph {"className":"app-note"} -->
 <p class="app-note">Starts your flow when a site is ready, fails, is suspended and more.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"className":"ctas mt-6"} -->
-<div class="wp-block-group ctas mt-6"><!-- wp:html -->
-<a href="mailto:support@anypress.io?subject=AnyPress%20for%20HighLevel" class="btn btn-ink">Get early access →</a>
-<!-- /wp:html -->
-<!-- wp:html -->
-<a href="https://shop.anypress.io/docs/use-anypress-in-highlevel/" class="btn btn-paper">Setup guide</a>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"ctas mt-6","metadata":{"name":"Call to Action"}} -->
+<div class="wp-block-group ctas mt-6"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
+<a class="btn btn-ink" href="mailto:support@anypress.io?subject=AnyPress%20for%20HighLevel">Get early access →</a>
+<!-- /wp:anypress-io/button -->
+<!-- wp:anypress-io/button {"className":"btn btn-paper"} -->
+<a class="btn btn-paper" href="https://shop.anypress.io/docs/use-anypress-in-highlevel/">Setup guide</a>
+<!-- /wp:anypress-io/button --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group --></article>
 <!-- /wp:group --></div>

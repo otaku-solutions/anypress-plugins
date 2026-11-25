@@ -8,8 +8,10 @@ the site's own look.
 
 - **anypress.io's look** (`includes/look.php`): the site's own stylesheet, fonts and script (`assets/site/`, from
   anypress-site's build), and a page template with the site's header and footer around each page. WordPress's and the
-  theme's styles stay off these pages, so they sit exactly as on anypress.io, while each page is still core blocks
-  (groups, headings, paragraphs, lists, Custom HTML) with the site's class names, editable in the editor.
+  theme's styles stay off these pages, so they sit exactly as on anypress.io, while each page is still blocks (groups,
+  headings, paragraphs, lists, questions, buttons, Custom HTML) with the site's class names, editable in the editor.
+- **anypress.io Button** block (`anypress-io/button`): the site's button (`<a class="btn btn-ink">`), its words typed
+  on the button, its link and look (Ink, Paper, Honey) in the block's settings.
 - **AnyPress Calculator** block (`anypress-io/calculator`): the price calculator, the seller and reseller earnings
   calculator, and a course platform next to the Community plan, in anypress.io's markup (`includes/widgets.php`,
   worked by `assets/site/site.js`). Prices come from the live price list (`https://api.anypress.io/pricing`, kept for
@@ -67,6 +69,16 @@ WordPress pages carry the same markup and class names:
 5. `node pages/colors.mjs` after copying a new `site.css` into `plugin/assets/site/css/`: it points every colour the
    stylesheet uses at one of the site's colour variables and writes `plugin/colors.json`. Then `node pages/patterns.mjs`
    writes one block pattern per kind of section into `plugin/patterns/`.
+
+## Editing the pages
+
+The editor shows a page as the page looks: full width, on the site's paper, in its fonts. The page template holds the
+`<main>`, so a page is its sections one after another, each named in List View for its kind or its heading ("Home Top",
+"Questions", "Price List"). Labels, lines of text and answers are Paragraphs, questions are Details blocks and buttons
+are anypress.io Buttons. What stays code (drawings, cards with icons, tables, forms) is a Custom HTML block named for
+what it is ("Drawing", "Form", "Table"), shown in place on the page with its drawings drawn in
+(`assets/site/editor.js`, `assets/site/canvas.js`); **Edit HTML** in its toolbar opens the code. That needs the
+`unfiltered_html` capability (administrators); others see WordPress's own Custom HTML preview.
 
 ## Changing the look in WordPress
 

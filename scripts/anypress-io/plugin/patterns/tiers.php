@@ -11,12 +11,12 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<!-- wp:group {"className":"sec scroll-mt-20","anchor":"tiers","anypressAttrs":{"aria-labelledby":"h-tiers"},"tagName":"section"} -->
+<!-- wp:group {"className":"sec scroll-mt-20","anchor":"tiers","anypressAttrs":{"aria-labelledby":"h-tiers"},"metadata":{"name":"The more sites you sell, the less each…"},"tagName":"section"} -->
 <section id="tiers" class="wp-block-group sec scroll-mt-20"><!-- wp:group {"className":"in"} -->
 <div class="wp-block-group in"><!-- wp:group {"className":"sec-head"} -->
-<div class="wp-block-group sec-head"><!-- wp:html -->
-<span class="eyebrow">volume savings</span>
-<!-- /wp:html -->
+<div class="wp-block-group sec-head"><!-- wp:paragraph {"className":"eyebrow","anypressAttrs":{"tag":"span"}} -->
+<p class="eyebrow">volume savings</p>
+<!-- /wp:paragraph -->
 <!-- wp:heading {"anchor":"h-tiers"} -->
 <h2 id="h-tiers" class="wp-block-heading">The more sites you sell, the less each one costs.</h2>
 <!-- /wp:heading -->

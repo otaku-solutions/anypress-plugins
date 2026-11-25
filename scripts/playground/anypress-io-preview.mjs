@@ -425,6 +425,29 @@ try {
             return bad;
         });
         check(invalid.length === 0, `/${pagesMade[i].path}: every block is valid in the editor`, invalid.slice(0, 8).join(', '));
+        if (pagesMade[i].path === '') {
+            // The editor as an owner opens it: the page's sections one after another, each named in List View, buttons and
+            // questions as blocks, and the hand-made pieces drawn in place on the page (not in boxes of their own).
+            await editor.frame({ name: 'editor-canvas' })?.waitForFunction(() => document.querySelector('.anypress-io-in-place [data-drawing] svg'), null, { timeout: 30000 }).catch(() => {});
+            const shape = await editor.evaluate(() => {
+                const top = window.wp.data.select('core/block-editor').getBlocks();
+                const all = [];
+                const walk = (blocks) => blocks.forEach((b) => { all.push(b.name); walk(b.innerBlocks); });
+                walk(top);
+                const canvas = document.querySelector('iframe[name="editor-canvas"]')?.contentDocument;
+                return {
+                    sections: top.length,
+                    named: top.filter((b) => b.attributes.metadata?.name).length,
+                    buttons: all.filter((n) => n === 'anypress-io/button').length,
+                    questions: all.filter((n) => n === 'core/details').length,
+                    inPlace: canvas?.querySelectorAll('.anypress-io-in-place [data-drawing] svg').length ?? 0,
+                    sandboxes: canvas?.querySelectorAll('.wp-block-html iframe').length ?? 0,
+                };
+            });
+            check(shape.sections > 5 && shape.named === shape.sections, 'editor: the home page is its sections, each named in List View', JSON.stringify(shape));
+            check(shape.buttons > 0 && shape.questions > 0, 'editor: buttons and questions are blocks of their own', JSON.stringify(shape));
+            check(shape.inPlace > 0 && shape.sandboxes === 0, 'editor: drawings show in place on the page, not in boxes of their own', JSON.stringify(shape));
+        }
     }
 
     // The site's look in WordPress's own settings: its colours and fonts in Styles and the pickers, and its sections as patterns.

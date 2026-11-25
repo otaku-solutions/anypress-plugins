@@ -11,14 +11,14 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<!-- wp:group {"className":"in page-hero","tagName":"section"} -->
-<section class="wp-block-group in page-hero"><!-- wp:html -->
+<!-- wp:group {"className":"in page-hero","metadata":{"name":"Page Top"},"tagName":"section"} -->
+<section class="wp-block-group in page-hero"><!-- wp:html {"metadata":{"name":"Drawing"}} -->
 <div data-drawing="note" aria-hidden="true" class="ob draw " style="aspect-ratio:176 / 150"></div>
 <!-- /wp:html -->
-<!-- wp:group -->
-<div class="wp-block-group"><!-- wp:html -->
-<span class="eyebrow">About</span>
-<!-- /wp:html --></div>
+<!-- wp:group {"metadata":{"name":"Section"}} -->
+<div class="wp-block-group"><!-- wp:paragraph {"className":"eyebrow","anypressAttrs":{"tag":"span"}} -->
+<p class="eyebrow">About</p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:heading {"level":1} -->
 <h1 class="wp-block-heading">WordPress can do anything. We make it easy.</h1>

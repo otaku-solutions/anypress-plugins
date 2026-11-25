@@ -63,3 +63,36 @@ css = css.replace(/\{([^{}]*)\}/g, (block, body) => {
 writeFileSync(CSS, css);
 writeFileSync(resolve(HERE, '../plugin/colors.json'), `${JSON.stringify(PALETTE.map(([slug, name, color]) => ({ slug, name, color })), null, '\t')}\n`);
 console.log(`${changed} rule(s) now use the colour variables; ${PALETTE.length} colours in colors.json.`);
+
+// In the editor a Custom HTML piece sits in a box of its own (assets/site/editor.js shows it in place, in a box that
+// steps aside), so rules about a section's direct children (.prices>a) miss it there. editor.css repeats each such rule
+// with the box in between, for the editor only.
+// Every style rule with the at-rules (@media, @supports...) it sits in.
+const rules = [];
+{
+	const stack = [];
+	for (const m of css.matchAll(/([^{}]*)\{|\}/g)) {
+		if (m[0] === '}') {
+			stack.pop();
+			continue;
+		}
+		const prelude = m[1].trim();
+		const close = css.indexOf('}', m.index);
+		const next = css.indexOf('{', m.index + m[0].length);
+		if (!prelude.startsWith('@') && (next === -1 || close < next)) {
+			rules.push([prelude, css.slice(m.index + m[0].length, close), stack.filter((p) => p.startsWith('@media') || p.startsWith('@supports'))]);
+		}
+		stack.push(prelude);
+	}
+}
+const wrap = (ats, rule) => ats.reduceRight((inner, a) => `${a}{${inner}}`, rule);
+const out = [];
+const piece = /(?:a|li|div|span|figure|ul|ol|p|dl|table|form|details)\b/;
+for (const [selector, body, ats] of rules) {
+	const parts = selector.split(',').map((one) => one.trim()).filter((one) => /^[^>]*[.#][\w-]+[^>\s]*\s*>\s*/.test(one) && piece.test(one.split('>')[1].trim()) && !one.includes('*'));
+	if (parts.length) {
+		out.push(wrap(ats, `${parts.map((one) => `.editor-styles-wrapper ${one.replace(/\s*>\s*/, '>.anypress-io-in-place>')}`).join(',')}{${body}}`));
+	}
+}
+writeFileSync(resolve(HERE, '../plugin/assets/site/css/editor.css'), `${out.join('\n')}\n`);
+console.log(`editor.css: ${out.length} rule(s).`);
