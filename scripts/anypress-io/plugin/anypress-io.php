@@ -41,5 +41,7 @@ add_action(
 		register_block_type( __DIR__ . '/blocks/try' );
 		register_block_type( __DIR__ . '/blocks/changelog' );
 		register_block_type( __DIR__ . '/blocks/button' );
+		register_block_type( __DIR__ . '/blocks/drawing' );
+		register_block_type( __DIR__ . '/blocks/icon' );
 	}
 );

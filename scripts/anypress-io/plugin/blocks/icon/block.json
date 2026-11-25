@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "anypress-io/icon",
+	"version": "0.1.0",
+	"title": "anypress.io Icon",
+	"category": "media",
+	"description": "A small icon from anypress.io's set, in front of a line of text or in a card.",
+	"keywords": [
+		"icon",
+		"tick",
+		"symbol"
+	],
+	"textdomain": "anypress-io",
+	"attributes": {
+		"svg": {
+			"type": "string",
+			"source": "raw"
+		}
+	},
+	"supports": {
+		"className": false,
+		"customClassName": false,
+		"html": false
+	},
+	"editorScript": "file:./index.js"
+}

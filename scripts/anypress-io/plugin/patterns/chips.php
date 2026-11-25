@@ -27,15 +27,19 @@ defined( 'ABSPATH' ) || exit;
 <div class="wp-block-group apps"><!-- wp:group {"className":"app","tagName":"article"} -->
 <article class="wp-block-group app"><!-- wp:group {"className":"app-text"} -->
 <div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"},"metadata":{"name":"App Logos"}} -->
-<div class="wp-block-group app-logos"><!-- wp:html {"metadata":{"name":"Picture"}} -->
-<span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt="" width="28" height="28"></span>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Text"}} -->
-<span>+</span>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Picture"}} -->
-<span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/n8n-logo.svg" alt="" width="28" height="28"></span>
-<!-- /wp:html --></div>
+<div class="wp-block-group app-logos"><!-- wp:group {"className":"app-logo","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"span"}} -->
+<div class="wp-block-group app-logo"><!-- wp:image {"anypressAttrs":{"width":"28","height":"28","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt=""/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":"span"}} -->
+<p>+</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"app-logo","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"span"}} -->
+<div class="wp-block-group app-logo"><!-- wp:image {"anypressAttrs":{"width":"28","height":"28","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/n8n-logo.svg" alt=""/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group -->
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">AnyPress for n8n</h3>
@@ -83,22 +87,33 @@ defined( 'ABSPATH' ) || exit;
 <!-- /wp:anypress-io/button --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
-<!-- wp:html {"metadata":{"name":"App Screenshot"}} -->
-<figure class="appshot"><div class="appshot-bar" aria-hidden="true"><i></i><i></i><i></i><span>n8n</span></div><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/n8n-create-site.webp" alt="The AnyPress node in n8n, set to create a site from the form's business name and email" width="780" height="1311" loading="lazy"></figure>
-<!-- /wp:html --></article>
+<!-- wp:group {"className":"appshot","metadata":{"name":"App Screenshot"},"anypressAttrs":{"tag":"figure"}} -->
+<div class="wp-block-group appshot"><!-- wp:group {"className":"appshot-bar","anypressAttrs":{"aria-hidden":"true"}} -->
+<div class="wp-block-group appshot-bar"><!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p><i></i><i></i><i></i><span>n8n</span></p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"app","metadata":{"name":"AnyPress for Make"},"tagName":"article"} -->
+<!-- wp:image {"anypressAttrs":{"width":"780","height":"1311","loading":"lazy","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/n8n-create-site.webp" alt="The AnyPress node in n8n, set to create a site from the form's business name and email"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group --></article>
+<!-- /wp:group -->
+<!-- wp:group {"className":"app","tagName":"article"} -->
 <article class="wp-block-group app"><!-- wp:group {"className":"app-text"} -->
 <div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"},"metadata":{"name":"App Logos"}} -->
-<div class="wp-block-group app-logos"><!-- wp:html {"metadata":{"name":"Picture"}} -->
-<span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt="" width="28" height="28"></span>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Text"}} -->
-<span>+</span>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Picture"}} -->
-<span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/make-logo.svg" alt="" width="28" height="28"></span>
-<!-- /wp:html --></div>
+<div class="wp-block-group app-logos"><!-- wp:group {"className":"app-logo","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"span"}} -->
+<div class="wp-block-group app-logo"><!-- wp:image {"anypressAttrs":{"width":"28","height":"28","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt=""/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":"span"}} -->
+<p>+</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"app-logo","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"span"}} -->
+<div class="wp-block-group app-logo"><!-- wp:image {"anypressAttrs":{"width":"28","height":"28","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/make-logo.svg" alt=""/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group -->
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">AnyPress for Make</h3>
@@ -146,22 +161,33 @@ defined( 'ABSPATH' ) || exit;
 <!-- /wp:anypress-io/button --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
-<!-- wp:html {"metadata":{"name":"App Screenshot"}} -->
-<figure class="appshot"><div class="appshot-bar" aria-hidden="true"><i></i><i></i><i></i><span>Make</span></div><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/make-create-site.webp" alt="The AnyPress Create a Site module in Make, with the site name, reference, client email and size filled in" width="894" height="666" loading="lazy"></figure>
-<!-- /wp:html --></article>
+<!-- wp:group {"className":"appshot","metadata":{"name":"App Screenshot"},"anypressAttrs":{"tag":"figure"}} -->
+<div class="wp-block-group appshot"><!-- wp:group {"className":"appshot-bar","anypressAttrs":{"aria-hidden":"true"}} -->
+<div class="wp-block-group appshot-bar"><!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p><i></i><i></i><i></i><span>Make</span></p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"app","metadata":{"name":"AnyPress for Zapier"},"tagName":"article"} -->
+<!-- wp:image {"anypressAttrs":{"width":"894","height":"666","loading":"lazy","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/make-create-site.webp" alt="The AnyPress Create a Site module in Make, with the site name, reference, client email and size filled in"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group --></article>
+<!-- /wp:group -->
+<!-- wp:group {"className":"app","tagName":"article"} -->
 <article class="wp-block-group app"><!-- wp:group {"className":"app-text"} -->
 <div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"},"metadata":{"name":"App Logos"}} -->
-<div class="wp-block-group app-logos"><!-- wp:html {"metadata":{"name":"Picture"}} -->
-<span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt="" width="28" height="28"></span>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Text"}} -->
-<span>+</span>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Picture"}} -->
-<span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/zapier-logo.svg" alt="" width="28" height="28"></span>
-<!-- /wp:html --></div>
+<div class="wp-block-group app-logos"><!-- wp:group {"className":"app-logo","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"span"}} -->
+<div class="wp-block-group app-logo"><!-- wp:image {"anypressAttrs":{"width":"28","height":"28","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt=""/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":"span"}} -->
+<p>+</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"app-logo","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"span"}} -->
+<div class="wp-block-group app-logo"><!-- wp:image {"anypressAttrs":{"width":"28","height":"28","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/zapier-logo.svg" alt=""/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group -->
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">AnyPress for Zapier</h3>
@@ -209,22 +235,33 @@ defined( 'ABSPATH' ) || exit;
 <!-- /wp:anypress-io/button --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
-<!-- wp:html {"metadata":{"name":"App Screenshot"}} -->
-<figure class="appshot"><div class="appshot-bar" aria-hidden="true"><i></i><i></i><i></i><span>Zapier</span></div><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/zapier-create-site.webp" alt="The AnyPress Create Site action in a Zap, with the site name, reference, client email and size filled in" width="808" height="580" loading="lazy"></figure>
-<!-- /wp:html --></article>
+<!-- wp:group {"className":"appshot","metadata":{"name":"App Screenshot"},"anypressAttrs":{"tag":"figure"}} -->
+<div class="wp-block-group appshot"><!-- wp:group {"className":"appshot-bar","anypressAttrs":{"aria-hidden":"true"}} -->
+<div class="wp-block-group appshot-bar"><!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p><i></i><i></i><i></i><span>Zapier</span></p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"app no-shot","metadata":{"name":"AnyPress for HighLevelEarly access"},"tagName":"article"} -->
+<!-- wp:image {"anypressAttrs":{"width":"808","height":"580","loading":"lazy","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/zapier-create-site.webp" alt="The AnyPress Create Site action in a Zap, with the site name, reference, client email and size filled in"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group --></article>
+<!-- /wp:group -->
+<!-- wp:group {"className":"app no-shot","tagName":"article"} -->
 <article class="wp-block-group app no-shot"><!-- wp:group {"className":"app-text"} -->
 <div class="wp-block-group app-text"><!-- wp:group {"className":"app-logos","anypressAttrs":{"aria-hidden":"true"},"metadata":{"name":"App Logos"}} -->
-<div class="wp-block-group app-logos"><!-- wp:html {"metadata":{"name":"Picture"}} -->
-<span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt="" width="28" height="28"></span>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Text"}} -->
-<span>+</span>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Picture"}} -->
-<span class="app-logo"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/highlevel-logo.svg" alt="" width="28" height="28"></span>
-<!-- /wp:html --></div>
+<div class="wp-block-group app-logos"><!-- wp:group {"className":"app-logo","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"span"}} -->
+<div class="wp-block-group app-logo"><!-- wp:image {"anypressAttrs":{"width":"28","height":"28","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/logo-mark.svg" alt=""/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":"span"}} -->
+<p>+</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"app-logo","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"span"}} -->
+<div class="wp-block-group app-logo"><!-- wp:image {"anypressAttrs":{"width":"28","height":"28","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/highlevel-logo.svg" alt=""/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group -->
 <!-- wp:heading {"level":3} -->
 <h3 class="wp-block-heading">AnyPress for HighLevel<span class="soon">Early access</span></h3>

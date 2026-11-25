@@ -12,6 +12,8 @@ the site's own look.
   headings, paragraphs, lists, questions, buttons, Custom HTML) with the site's class names, editable in the editor.
 - **anypress.io Button** block (`anypress-io/button`): the site's button (`<a class="btn btn-ink">`), its words typed
   on the button, its link and look (Ink, Paper, Honey) in the block's settings.
+- **anypress.io Drawing** and **anypress.io Icon** blocks (`anypress-io/drawing`, `anypress-io/icon`): the site's
+  hand-drawn pictures (drawn in by site.js, picked from `assets/drawings/`) and its small icons.
 - **AnyPress Calculator** block (`anypress-io/calculator`): the price calculator, the seller and reseller earnings
   calculator, and a course platform next to the Community plan, in anypress.io's markup (`includes/widgets.php`,
   worked by `assets/site/site.js`). Prices come from the live price list (`https://api.anypress.io/pricing`, kept for
@@ -74,11 +76,20 @@ WordPress pages carry the same markup and class names:
 
 The editor shows a page as the page looks: full width, on the site's paper, in its fonts. The page template holds the
 `<main>`, so a page is its sections one after another, each named in List View for its kind or its heading ("Home Top",
-"Questions", "Price List"). Labels, lines of text and answers are Paragraphs, questions are Details blocks and buttons
-are anypress.io Buttons. What stays code (drawings, cards with icons, tables, forms) is a Custom HTML block named for
-what it is ("Drawing", "Form", "Table"), shown in place on the page with its drawings drawn in
-(`assets/site/editor.js`, `assets/site/canvas.js`); **Edit HTML** in its toolbar opens the code. That needs the
-`unfiltered_html` capability (administrators); others see WordPress's own Custom HTML preview.
+"Questions", "Price List"). Every piece is a block, as in a page builder:
+
+- boxes, cards and lists of icons and words are Groups, named for what they are ("Site Type Card", "Pill Link");
+  a card that is a link has its address under **Link** in the block's settings;
+- headings are Headings; lines of text and labels are Paragraphs (words holding a price show the price until clicked);
+- questions are Details blocks, pictures Image blocks, buttons **anypress.io Button** blocks;
+- drawings are **anypress.io Drawing** blocks (pick the drawing in the block's settings) and icons **anypress.io Icon**
+  blocks.
+
+Like GenerateBlocks' Container and Text blocks, a Group or Paragraph keeps the tag the piece has on anypress.io (a card is
+an `<a>`, a label a `<span>`) in `anypressAttrs.tag`, with its other attributes, so the page is the same markup as
+before (`includes/look.php`). Only the forms (which send to Fluent Forms), tables, videos and animated scenes stay
+Custom HTML, named for what they are, shown in place on the page (`assets/site/editor.js`, `assets/site/canvas.js`)
+with **Edit HTML** in their toolbar for administrators.
 
 ## Changing the look in WordPress
 

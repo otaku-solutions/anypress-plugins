@@ -45,7 +45,7 @@ for (const file of readdirSync(resolve(HERE, 'html')).sort()) {
 	const page = file.replace(/\.html$/, '');
 	for (const section of sections(readFileSync(resolve(HERE, 'html', file), 'utf8'))) {
 		// Sections that are a page's own widget (a calculator, the Try It page, What's New) stay on their page.
-		if (/wp:anypress-io\/(?!button)|\[anypress_example|data-anypress-form/.test(section)) continue;
+		if (/wp:anypress-io\/(?!button|drawing|icon)|\[anypress_example|data-anypress-form/.test(section)) continue;
 		const has = new Set(classes(section));
 		const kind = KINDS.find(([cls]) => has.has(cls));
 		if (!kind || seen.has(kind[0])) continue;

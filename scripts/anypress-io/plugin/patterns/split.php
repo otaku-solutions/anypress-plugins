@@ -23,9 +23,14 @@ defined( 'ABSPATH' ) || exit;
 <!-- /wp:group -->
 <!-- wp:group {"className":"split","metadata":{"name":"Split"}} -->
 <div class="wp-block-group split"><!-- wp:group -->
-<div class="wp-block-group"><!-- wp:html {"metadata":{"name":"Box"}} -->
-<h3><div data-drawing="nametag" aria-hidden="true" class="ob  " style="aspect-ratio:176 / 150"></div>You control</h3>
-<!-- /wp:html -->
+<div class="wp-block-group"><!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"h3"}} -->
+<div class="wp-block-group"><!-- wp:anypress-io/drawing {"name":"nametag","className":"ob","ratio":"176 / 150"} -->
+<div data-drawing="nametag" aria-hidden="true" class="ob" style="aspect-ratio:176 / 150"></div>
+<!-- /wp:anypress-io/drawing -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p>You control</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 <!-- wp:list -->
 <ul class="wp-block-list"><!-- wp:list-item -->
 <li><b>Your brand</b><span>Your name, logo and domain on the storefront and every email. AnyPress stays in the background.</span></li>
@@ -44,10 +49,15 @@ defined( 'ABSPATH' ) || exit;
 <!-- /wp:list-item --></ul>
 <!-- /wp:list --></div>
 <!-- /wp:group -->
-<!-- wp:group {"metadata":{"name":"We handle"}} -->
-<div class="wp-block-group"><!-- wp:html {"metadata":{"name":"Box"}} -->
-<h3><div data-drawing="tools" aria-hidden="true" class="ob  " style="aspect-ratio:176 / 156"></div>We handle</h3>
-<!-- /wp:html -->
+<!-- wp:group -->
+<div class="wp-block-group"><!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"h3"}} -->
+<div class="wp-block-group"><!-- wp:anypress-io/drawing {"name":"tools","className":"ob","ratio":"176 / 156"} -->
+<div data-drawing="tools" aria-hidden="true" class="ob" style="aspect-ratio:176 / 156"></div>
+<!-- /wp:anypress-io/drawing -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p>We handle</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
 <!-- wp:list -->
 <ul class="wp-block-list"><!-- wp:list-item -->
 <li><b>Building every site</b><span>Each order becomes its own WordPress with its own database, in minutes.</span></li>

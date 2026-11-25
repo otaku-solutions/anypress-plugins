@@ -1,11 +1,11 @@
 <!-- wp:group {"className":"in page-hero","metadata":{"name":"Page Top"},"tagName":"section"} -->
-<section class="wp-block-group in page-hero"><!-- wp:html {"metadata":{"name":"Pill Link"}} -->
-<a class="side-pill tech" href="/sellers"><b>Technical</b>For sellers, resellers and developers</a>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="server" aria-hidden="true" class="ob draw " style="aspect-ratio:176 / 150"></div>
-<!-- /wp:html -->
-<!-- wp:group {"metadata":{"name":"Section"}} -->
+<section class="wp-block-group in page-hero"><!-- wp:paragraph {"className":"side-pill tech","anypressAttrs":{"href":"/sellers","tag":"a"}} -->
+<p class="side-pill tech"><b>Technical</b>For sellers, resellers and developers</p>
+<!-- /wp:paragraph -->
+<!-- wp:anypress-io/drawing {"name":"server","className":"ob draw","ratio":"176 / 150"} -->
+<div data-drawing="server" aria-hidden="true" class="ob draw" style="aspect-ratio:176 / 150"></div>
+<!-- /wp:anypress-io/drawing -->
+<!-- wp:group -->
 <div class="wp-block-group"><!-- wp:paragraph {"className":"eyebrow","anypressAttrs":{"tag":"span"}} -->
 <p class="eyebrow">Open source</p>
 <!-- /wp:paragraph --></div>
@@ -16,7 +16,7 @@
 <!-- wp:paragraph {"className":"lead"} -->
 <p class="lead">The same AnyPress, on a server you choose. Do it yourself for free, or we set it up and look after it for you.</p>
 <!-- /wp:paragraph -->
-<!-- wp:group {"className":"mt-9 flex flex-wrap gap-3","metadata":{"name":"Section"}} -->
+<!-- wp:group {"className":"mt-9 flex flex-wrap gap-3"} -->
 <div class="wp-block-group mt-9 flex flex-wrap gap-3"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
 <a class="btn btn-ink" href="#ways">See the four ways</a>
 <!-- /wp:anypress-io/button -->
@@ -35,7 +35,7 @@
 <p>Two kinds of people run AnyPress on their own servers.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"mt-10 grid gap-5 md:grid-cols-2","metadata":{"name":"You sell websites to clients"}} -->
+<!-- wp:group {"className":"mt-10 grid gap-5 md:grid-cols-2"} -->
 <div class="wp-block-group mt-10 grid gap-5 md:grid-cols-2"><!-- wp:group {"className":"rounded-2xl border border-line bg-paper p-6"} -->
 <div class="wp-block-group rounded-2xl border border-line bg-paper p-6"><!-- wp:heading {"level":3,"className":"font-display text-2xl font-semibold"} -->
 <h3 class="wp-block-heading font-display text-2xl font-semibold">You sell websites to clients</h3>
@@ -55,7 +55,7 @@
 <!-- /wp:list-item --></ul>
 <!-- /wp:list --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"rounded-2xl border border-line bg-paper p-6","metadata":{"name":"Your company needs its own servers"}} -->
+<!-- wp:group {"className":"rounded-2xl border border-line bg-paper p-6"} -->
 <div class="wp-block-group rounded-2xl border border-line bg-paper p-6"><!-- wp:heading {"level":3,"className":"font-display text-2xl font-semibold"} -->
 <h3 class="wp-block-heading font-display text-2xl font-semibold">Your company needs its own servers</h3>
 <!-- /wp:heading -->
@@ -90,9 +90,116 @@
 <h2 id="h-problems" class="wp-block-heading">Your own website platform, without building one.</h2>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
-<!-- wp:html {"metadata":{"name":"List"}} -->
-<ol class="pf"><li><div class="pf-p"><span class="pf-label">the problem</span><h3>A hosting platform takes months to build</h3><p>Provisioning, billing, backups, a dashboard and a shop to sell from are each a project.</p></div><span class="pf-arrow" aria-hidden="true">→</span><div class="pf-f"><span class="pf-label">how AnyPress fixes it</span><h3>One installer does it all</h3><p>It sets up your dashboard, your shop and the site templates on a server you choose.</p></div></li><li><div class="pf-p"><span class="pf-label">the problem</span><h3>Locked into someone else's platform</h3><p>If the platform changes its prices or closes, your business goes with it.</p></div><span class="pf-arrow" aria-hidden="true">→</span><div class="pf-f"><span class="pf-label">how AnyPress fixes it</span><h3>Open source under the GPL</h3><p>Every part is public. Read it, change it and run it for as long as you like.</p></div></li><li><div class="pf-p"><span class="pf-label">the problem</span><h3>Your data on someone else's servers</h3><p>Some companies, clients and countries need to know exactly where their sites live.</p></div><span class="pf-arrow" aria-hidden="true">→</span><div class="pf-f"><span class="pf-label">how AnyPress fixes it</span><h3>Your server, your country</h3><p>Use any provider and region you like, with backups in your own storage bucket.</p></div></li><li><div class="pf-p"><span class="pf-label">the problem</span><h3>Setting it up by hand misses a step</h3><p>One forgotten DNS record or password and something quietly breaks later.</p></div><span class="pf-arrow" aria-hidden="true">→</span><div class="pf-f"><span class="pf-label">how AnyPress fixes it</span><h3>It checks its own work</h3><p>It ends with a check that tells you what still needs doing, and running it again is safe.</p></div></li></ol>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"pf","metadata":{"name":"List"},"anypressAttrs":{"tag":"ol"}} -->
+<div class="wp-block-group pf"><!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:group {"className":"pf-p"} -->
+<div class="wp-block-group pf-p"><!-- wp:paragraph {"className":"pf-label","anypressAttrs":{"tag":"span"}} -->
+<p class="pf-label">the problem</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">A hosting platform takes months to build</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Provisioning, billing, backups, a dashboard and a shop to sell from are each a project.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"className":"pf-arrow","anypressAttrs":{"aria-hidden":"true","tag":"span"}} -->
+<p class="pf-arrow">→</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"pf-f"} -->
+<div class="wp-block-group pf-f"><!-- wp:paragraph {"className":"pf-label","anypressAttrs":{"tag":"span"}} -->
+<p class="pf-label">how AnyPress fixes it</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">One installer does it all</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>It sets up your dashboard, your shop and the site templates on a server you choose.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+<!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:group {"className":"pf-p"} -->
+<div class="wp-block-group pf-p"><!-- wp:paragraph {"className":"pf-label","anypressAttrs":{"tag":"span"}} -->
+<p class="pf-label">the problem</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Locked into someone else's platform</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>If the platform changes its prices or closes, your business goes with it.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"className":"pf-arrow","anypressAttrs":{"aria-hidden":"true","tag":"span"}} -->
+<p class="pf-arrow">→</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"pf-f"} -->
+<div class="wp-block-group pf-f"><!-- wp:paragraph {"className":"pf-label","anypressAttrs":{"tag":"span"}} -->
+<p class="pf-label">how AnyPress fixes it</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Open source under the GPL</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Every part is public. Read it, change it and run it for as long as you like.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+<!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:group {"className":"pf-p"} -->
+<div class="wp-block-group pf-p"><!-- wp:paragraph {"className":"pf-label","anypressAttrs":{"tag":"span"}} -->
+<p class="pf-label">the problem</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Your data on someone else's servers</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Some companies, clients and countries need to know exactly where their sites live.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"className":"pf-arrow","anypressAttrs":{"aria-hidden":"true","tag":"span"}} -->
+<p class="pf-arrow">→</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"pf-f"} -->
+<div class="wp-block-group pf-f"><!-- wp:paragraph {"className":"pf-label","anypressAttrs":{"tag":"span"}} -->
+<p class="pf-label">how AnyPress fixes it</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Your server, your country</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Use any provider and region you like, with backups in your own storage bucket.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+<!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:group {"className":"pf-p"} -->
+<div class="wp-block-group pf-p"><!-- wp:paragraph {"className":"pf-label","anypressAttrs":{"tag":"span"}} -->
+<p class="pf-label">the problem</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Setting it up by hand misses a step</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>One forgotten DNS record or password and something quietly breaks later.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"className":"pf-arrow","anypressAttrs":{"aria-hidden":"true","tag":"span"}} -->
+<p class="pf-arrow">→</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"pf-f"} -->
+<div class="wp-block-group pf-f"><!-- wp:paragraph {"className":"pf-label","anypressAttrs":{"tag":"span"}} -->
+<p class="pf-label">how AnyPress fixes it</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">It checks its own work</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>It ends with a check that tells you what still needs doing, and running it again is safe.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group --></section>
 <!-- /wp:group -->
 <!-- wp:group {"className":"scroll-mt-24","anchor":"ways","metadata":{"name":"Four ways to get it."},"tagName":"section"} -->
@@ -105,7 +212,7 @@
 <p>The software is the same in all four. What changes is how much of the work we do for you.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4","metadata":{"name":"Do it yourself"}} -->
+<!-- wp:group {"className":"mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4"} -->
 <div class="wp-block-group mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4"><!-- wp:group {"className":"flex flex-col rounded-2xl border border-line bg-paper p-6"} -->
 <div class="wp-block-group flex flex-col rounded-2xl border border-line bg-paper p-6"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
 <h3 class="wp-block-heading font-display text-xl font-semibold">Do it yourself</h3>
@@ -134,7 +241,7 @@
 <a class="btn btn-paper mt-6 self-start" href="https://github.com/otaku-solutions/anypress-api/blob/main/install/README.md">Read the install guide</a>
 <!-- /wp:anypress-io/button --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"flex flex-col rounded-2xl border border-line bg-paper p-6","metadata":{"name":"We set it up"}} -->
+<!-- wp:group {"className":"flex flex-col rounded-2xl border border-line bg-paper p-6"} -->
 <div class="wp-block-group flex flex-col rounded-2xl border border-line bg-paper p-6"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
 <h3 class="wp-block-heading font-display text-xl font-semibold">We set it up</h3>
 <!-- /wp:heading -->
@@ -171,7 +278,7 @@
 <a class="btn btn-paper mt-6 self-start" href="mailto:support@anypress.io?subject=AnyPress%20on%20my%20own%20server%3A%20set%20it%20up">Book a setup</a>
 <!-- /wp:anypress-io/button --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"flex flex-col rounded-2xl border border-line bg-paper p-6","metadata":{"name":"We look after it"}} -->
+<!-- wp:group {"className":"flex flex-col rounded-2xl border border-line bg-paper p-6"} -->
 <div class="wp-block-group flex flex-col rounded-2xl border border-line bg-paper p-6"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
 <h3 class="wp-block-heading font-display text-xl font-semibold">We look after it</h3>
 <!-- /wp:heading -->
@@ -202,7 +309,7 @@
 <a class="btn btn-paper mt-6 self-start" href="mailto:support@anypress.io?subject=AnyPress%20on%20my%20own%20server%3A%20care">Start care</a>
 <!-- /wp:anypress-io/button --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"flex flex-col rounded-2xl border border-line bg-paper p-6","metadata":{"name":"For larger teams"}} -->
+<!-- wp:group {"className":"flex flex-col rounded-2xl border border-line bg-paper p-6"} -->
 <div class="wp-block-group flex flex-col rounded-2xl border border-line bg-paper p-6"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
 <h3 class="wp-block-heading font-display text-xl font-semibold">For larger teams</h3>
 <!-- /wp:heading -->
@@ -277,9 +384,72 @@
 <p>The same platform that runs anypress.io, on your own server.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:html {"metadata":{"name":"List"}} -->
-<ul class="mt-10 grid border-t border-line md:grid-cols-2 md:gap-x-14"><li class="border-b border-line py-7"><h3 class="font-display text-xl font-semibold">Five kinds of site</h3><p class="mt-2 leading-7 text-ink-soft">Website, bookings, online store, community and courses, or everything, each on its own WordPress and database.</p></li><li class="border-b border-line py-7"><h3 class="font-display text-xl font-semibold">The tools set up</h3><p class="mt-2 leading-7 text-ink-soft">The Fluent plugins, Rank Math and AnyPress Client switched on for each site type, with the AnyPress theme and Blocks.</p></li><li class="border-b border-line py-7"><h3 class="font-display text-xl font-semibold">Backups that are tested</h3><p class="mt-2 leading-7 text-ink-soft">Nightly backups of every site to your bucket, and a nightly test that one restores.</p></li><li class="border-b border-line py-7"><h3 class="font-display text-xl font-semibold">Domains and email</h3><p class="mt-2 leading-7 text-ink-soft">Free addresses under your domain, customers' own domains, and email from their own domain.</p></li><li class="border-b border-line py-7"><h3 class="font-display text-xl font-semibold">Your own shop</h3><p class="mt-2 leading-7 text-ink-soft">A WordPress shop on FluentCart where your customers buy sites, paid into your own Stripe.</p></li><li class="border-b border-line py-7"><h3 class="font-display text-xl font-semibold">Your own dashboard</h3><p class="mt-2 leading-7 text-ink-soft">Every site, customer and job in one place, on your own domain.</p></li><li class="border-b border-line py-7"><h3 class="font-display text-xl font-semibold">Moving sites in</h3><p class="mt-2 leading-7 text-ink-soft">The same switches that move WooCommerce, LearnDash, BuddyPress and others into the Fluent tools.</p></li><li class="border-b border-line py-7"><h3 class="font-display text-xl font-semibold">An API and connector</h3><p class="mt-2 leading-7 text-ink-soft">Make and change sites from your own code, automations or an AI assistant.</p></li></ul>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"mt-10 grid border-t border-line md:grid-cols-2 md:gap-x-14","metadata":{"name":"List"},"anypressAttrs":{"tag":"ul"}} -->
+<div class="wp-block-group mt-10 grid border-t border-line md:grid-cols-2 md:gap-x-14"><!-- wp:group {"className":"border-b border-line py-7","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-7"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
+<h3 class="wp-block-heading font-display text-xl font-semibold">Five kinds of site</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"mt-2 leading-7 text-ink-soft"} -->
+<p class="mt-2 leading-7 text-ink-soft">Website, bookings, online store, community and courses, or everything, each on its own WordPress and database.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"border-b border-line py-7","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-7"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
+<h3 class="wp-block-heading font-display text-xl font-semibold">The tools set up</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"mt-2 leading-7 text-ink-soft"} -->
+<p class="mt-2 leading-7 text-ink-soft">The Fluent plugins, Rank Math and AnyPress Client switched on for each site type, with the AnyPress theme and Blocks.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"border-b border-line py-7","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-7"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
+<h3 class="wp-block-heading font-display text-xl font-semibold">Backups that are tested</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"mt-2 leading-7 text-ink-soft"} -->
+<p class="mt-2 leading-7 text-ink-soft">Nightly backups of every site to your bucket, and a nightly test that one restores.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"border-b border-line py-7","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-7"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
+<h3 class="wp-block-heading font-display text-xl font-semibold">Domains and email</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"mt-2 leading-7 text-ink-soft"} -->
+<p class="mt-2 leading-7 text-ink-soft">Free addresses under your domain, customers' own domains, and email from their own domain.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"border-b border-line py-7","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-7"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
+<h3 class="wp-block-heading font-display text-xl font-semibold">Your own shop</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"mt-2 leading-7 text-ink-soft"} -->
+<p class="mt-2 leading-7 text-ink-soft">A WordPress shop on FluentCart where your customers buy sites, paid into your own Stripe.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"border-b border-line py-7","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-7"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
+<h3 class="wp-block-heading font-display text-xl font-semibold">Your own dashboard</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"mt-2 leading-7 text-ink-soft"} -->
+<p class="mt-2 leading-7 text-ink-soft">Every site, customer and job in one place, on your own domain.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"border-b border-line py-7","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-7"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
+<h3 class="wp-block-heading font-display text-xl font-semibold">Moving sites in</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"mt-2 leading-7 text-ink-soft"} -->
+<p class="mt-2 leading-7 text-ink-soft">The same switches that move WooCommerce, LearnDash, BuddyPress and others into the Fluent tools.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"border-b border-line py-7","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-7"><!-- wp:heading {"level":3,"className":"font-display text-xl font-semibold"} -->
+<h3 class="wp-block-heading font-display text-xl font-semibold">An API and connector</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"mt-2 leading-7 text-ink-soft"} -->
+<p class="mt-2 leading-7 text-ink-soft">Make and change sites from your own code, automations or an AI assistant.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group --></section>
 <!-- /wp:group -->
 <!-- wp:group {"className":"border-y border-line bg-paper-2","metadata":{"name":"Your data stays where you put it."},"tagName":"section"} -->
@@ -315,9 +485,41 @@
 <p>Three steps. If you'd rather not do them, we do them for you.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:html {"metadata":{"name":"List"}} -->
-<ol class="mt-10 grid gap-5 md:grid-cols-3"><li class="rounded-2xl border border-line bg-paper p-6"><span class="font-display text-3xl font-semibold text-accent">1</span><h3 class="mt-3 font-display text-xl font-semibold">Answer a few questions</h3><p class="mt-2 leading-7 text-ink-soft">Your brand's domain, the domain your customers' sites go under, your email and your storage bucket.</p></li><li class="rounded-2xl border border-line bg-paper p-6"><span class="font-display text-3xl font-semibold text-accent">2</span><h3 class="mt-3 font-display text-xl font-semibold">Run the installer</h3><p class="mt-2 leading-7 text-ink-soft">It makes a server at Hostinger, Hetzner or DigitalOcean for you, or runs on a server you already have.</p></li><li class="rounded-2xl border border-line bg-paper p-6"><span class="font-display text-3xl font-semibold text-accent">3</span><h3 class="mt-3 font-display text-xl font-semibold">Open your dashboard</h3><p class="mt-2 leading-7 text-ink-soft">Your dashboard, your shop and the site templates are ready, with a list of anything left to do.</p></li></ol>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"mt-10 grid gap-5 md:grid-cols-3","metadata":{"name":"List"},"anypressAttrs":{"tag":"ol"}} -->
+<div class="wp-block-group mt-10 grid gap-5 md:grid-cols-3"><!-- wp:group {"className":"rounded-2xl border border-line bg-paper p-6","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group rounded-2xl border border-line bg-paper p-6"><!-- wp:paragraph {"className":"font-display text-3xl font-semibold text-accent","anypressAttrs":{"tag":"span"}} -->
+<p class="font-display text-3xl font-semibold text-accent">1</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3,"className":"mt-3 font-display text-xl font-semibold"} -->
+<h3 class="wp-block-heading mt-3 font-display text-xl font-semibold">Answer a few questions</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"mt-2 leading-7 text-ink-soft"} -->
+<p class="mt-2 leading-7 text-ink-soft">Your brand's domain, the domain your customers' sites go under, your email and your storage bucket.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"rounded-2xl border border-line bg-paper p-6","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group rounded-2xl border border-line bg-paper p-6"><!-- wp:paragraph {"className":"font-display text-3xl font-semibold text-accent","anypressAttrs":{"tag":"span"}} -->
+<p class="font-display text-3xl font-semibold text-accent">2</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3,"className":"mt-3 font-display text-xl font-semibold"} -->
+<h3 class="wp-block-heading mt-3 font-display text-xl font-semibold">Run the installer</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"mt-2 leading-7 text-ink-soft"} -->
+<p class="mt-2 leading-7 text-ink-soft">It makes a server at Hostinger, Hetzner or DigitalOcean for you, or runs on a server you already have.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"rounded-2xl border border-line bg-paper p-6","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group rounded-2xl border border-line bg-paper p-6"><!-- wp:paragraph {"className":"font-display text-3xl font-semibold text-accent","anypressAttrs":{"tag":"span"}} -->
+<p class="font-display text-3xl font-semibold text-accent">3</p>
+<!-- /wp:paragraph -->
+<!-- wp:heading {"level":3,"className":"mt-3 font-display text-xl font-semibold"} -->
+<h3 class="wp-block-heading mt-3 font-display text-xl font-semibold">Open your dashboard</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"mt-2 leading-7 text-ink-soft"} -->
+<p class="mt-2 leading-7 text-ink-soft">Your dashboard, your shop and the site templates are ready, with a list of anything left to do.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group --></section>
 <!-- /wp:group -->
 <!-- wp:group {"className":"border-y border-line bg-paper-2","metadata":{"name":"The dashboard you get."},"tagName":"section"} -->
@@ -333,19 +535,33 @@
 <p>Every site you run, on your own domain. These are the same screens as app.anypress.io.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"mt-10 grid gap-8 lg:grid-cols-2","metadata":{"name":"App Screenshot"}} -->
+<!-- wp:group {"className":"mt-10 grid gap-8 lg:grid-cols-2"} -->
 <div class="wp-block-group mt-10 grid gap-8 lg:grid-cols-2"><!-- wp:group -->
-<div class="wp-block-group"><!-- wp:html {"metadata":{"name":"App Screenshot"}} -->
-<figure class="appshot"><div class="appshot-bar" aria-hidden="true"><i></i><i></i><i></i><span>Your dashboard · Stores</span></div><img src="{{assets}}/beta/dashboard-stores.webp" alt="The AnyPress dashboard's Stores list, showing sample sites with their version, domain, status, last backup and date" width="1440" height="900" loading="lazy"></figure>
-<!-- /wp:html -->
+<div class="wp-block-group"><!-- wp:group {"className":"appshot","metadata":{"name":"App Screenshot"},"anypressAttrs":{"tag":"figure"}} -->
+<div class="wp-block-group appshot"><!-- wp:group {"className":"appshot-bar","anypressAttrs":{"aria-hidden":"true"}} -->
+<div class="wp-block-group appshot-bar"><!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p><i></i><i></i><i></i><span>Your dashboard · Stores</span></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:image {"anypressAttrs":{"width":"1440","height":"900","loading":"lazy","tag":"img"}} -->
+<figure class="wp-block-image"><img src="{{assets}}/beta/dashboard-stores.webp" alt="The AnyPress dashboard's Stores list, showing sample sites with their version, domain, status, last backup and date"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
 <!-- wp:paragraph {"className":"mt-4 leading-7 text-ink-soft"} -->
 <p class="mt-4 leading-7 text-ink-soft">Every site in one list: which are ready or being built, each one's domain and last backup.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"metadata":{"name":"App Screenshot"}} -->
-<div class="wp-block-group"><!-- wp:html {"metadata":{"name":"App Screenshot"}} -->
-<figure class="appshot"><div class="appshot-bar" aria-hidden="true"><i></i><i></i><i></i><span>Your dashboard · A store</span></div><img src="{{assets}}/beta/dashboard-store.webp" alt="One site in the AnyPress dashboard: its domains with a connected custom domain, and its details" width="1440" height="900" loading="lazy"></figure>
-<!-- /wp:html -->
+<!-- wp:group -->
+<div class="wp-block-group"><!-- wp:group {"className":"appshot","metadata":{"name":"App Screenshot"},"anypressAttrs":{"tag":"figure"}} -->
+<div class="wp-block-group appshot"><!-- wp:group {"className":"appshot-bar","anypressAttrs":{"aria-hidden":"true"}} -->
+<div class="wp-block-group appshot-bar"><!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p><i></i><i></i><i></i><span>Your dashboard · A store</span></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:image {"anypressAttrs":{"width":"1440","height":"900","loading":"lazy","tag":"img"}} -->
+<figure class="wp-block-image"><img src="{{assets}}/beta/dashboard-store.webp" alt="One site in the AnyPress dashboard: its domains with a connected custom domain, and its details"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
 <!-- wp:paragraph {"className":"mt-4 leading-7 text-ink-soft"} -->
 <p class="mt-4 leading-7 text-ink-soft">One page per site: log in to WordPress, connect a domain, take or restore a backup.</p>
 <!-- /wp:paragraph --></div>
@@ -363,10 +579,124 @@
 <p>Real example sites, one for each kind. Every site you sell starts from these.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"mt-10","metadata":{"name":"Juniper Street Bakery"}} -->
-<div class="wp-block-group mt-10"><!-- wp:html {"metadata":{"name":"List"}} -->
-<ul class="flex flex-wrap justify-center gap-x-6 gap-y-10"><li class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"><a class="group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel" href="/try?type=website"><img src="{{assets}}/examples/website-card.webp" alt="The Juniper Street Bakery example site on a laptop and a phone" width="1200" height="800" loading="lazy" class="block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"></a><div class="mt-4 flex items-baseline justify-between gap-3"><h3 class="text-xl font-extrabold">Juniper Street Bakery</h3><span class="shrink-0 text-sm font-semibold text-ink-soft">Website · [anypress_price type="website" size="small" period="monthly"]/mo</span></div><p class="mt-1 text-ink-soft">A neighbourhood bakery with its menu, opening hours and cake orders.</p><div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"><a class="btn btn-ink" href="/try?type=website">Try It Yourself →</a></div></li><li class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"><a class="group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel" href="/try?type=bookings"><img src="{{assets}}/examples/bookings-card.webp" alt="The Still Water Yoga example site on a laptop and a phone" width="1200" height="800" loading="lazy" class="block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"></a><div class="mt-4 flex items-baseline justify-between gap-3"><h3 class="text-xl font-extrabold">Still Water Yoga</h3><span class="shrink-0 text-sm font-semibold text-ink-soft">Bookings · [anypress_price type="bookings" size="small" period="monthly"]/mo</span></div><p class="mt-1 text-ink-soft">A yoga studio where students pick a class and book a spot.</p><div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"><a class="btn btn-ink" href="/try?type=bookings">Try It Yourself →</a></div></li><li class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"><a class="group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel" href="/try?type=store"><img src="{{assets}}/examples/store-card.webp" alt="The Fern &amp; Clay Ceramics example site on a laptop and a phone" width="1200" height="800" loading="lazy" class="block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"></a><div class="mt-4 flex items-baseline justify-between gap-3"><h3 class="text-xl font-extrabold">Fern &amp; Clay Ceramics</h3><span class="shrink-0 text-sm font-semibold text-ink-soft">Store · [anypress_price type="online-store" size="small" period="monthly"]/mo</span></div><p class="mt-1 text-ink-soft">A pottery studio selling handmade mugs, bowls and vases.</p><div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"><a class="btn btn-ink" href="/try?type=store">Try It Yourself →</a></div></li><li class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"><a class="group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel" href="/try?type=community"><img src="{{assets}}/examples/courses-card.webp" alt="The Brightside Guitar School example site on a laptop and a phone" width="1200" height="800" loading="lazy" class="block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"></a><div class="mt-4 flex items-baseline justify-between gap-3"><h3 class="text-xl font-extrabold">Brightside Guitar School</h3><span class="shrink-0 text-sm font-semibold text-ink-soft">Community · [anypress_price type="community" size="small" period="monthly"]/mo</span></div><p class="mt-1 text-ink-soft">Online guitar courses with a members' practice room.</p><div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"><a class="btn btn-ink" href="/try?type=community">Try It Yourself →</a></div></li><li class="w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"><a class="group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel" href="/try?type=everything"><img src="{{assets}}/examples/everything-card.webp" alt="The Riverbend Business Alliance example site on a laptop and a phone" width="1200" height="800" loading="lazy" class="block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"></a><div class="mt-4 flex items-baseline justify-between gap-3"><h3 class="text-xl font-extrabold">Riverbend Business Alliance</h3><span class="shrink-0 text-sm font-semibold text-ink-soft">Everything · [anypress_price type="everything" size="small" period="monthly"]/mo</span></div><p class="mt-1 text-ink-soft">A local business group with memberships, events and a members' forum.</p><div class="mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"><a class="btn btn-ink" href="/try?type=everything">Try It Yourself →</a></div></li></ul>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"mt-10"} -->
+<div class="wp-block-group mt-10"><!-- wp:group {"className":"flex flex-wrap justify-center gap-x-6 gap-y-10","metadata":{"name":"List"},"anypressAttrs":{"tag":"ul"}} -->
+<div class="wp-block-group flex flex-wrap justify-center gap-x-6 gap-y-10"><!-- wp:group {"className":"w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"><!-- wp:group {"className":"group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel","anypressAttrs":{"href":"/try?type=website","tag":"a"},"metadata":{"name":"Picture"}} -->
+<div class="wp-block-group group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel"><!-- wp:image {"className":"block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none","anypressAttrs":{"width":"1200","height":"800","loading":"lazy","tag":"img"}} -->
+<figure class="wp-block-image block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"><img src="{{assets}}/examples/website-card.webp" alt="The Juniper Street Bakery example site on a laptop and a phone"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"mt-4 flex items-baseline justify-between gap-3"} -->
+<div class="wp-block-group mt-4 flex items-baseline justify-between gap-3"><!-- wp:heading {"level":3,"className":"text-xl font-extrabold"} -->
+<h3 class="wp-block-heading text-xl font-extrabold">Juniper Street Bakery</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"shrink-0 text-sm font-semibold text-ink-soft","anypressAttrs":{"tag":"span"}} -->
+<p class="shrink-0 text-sm font-semibold text-ink-soft">Website · [anypress_price type="website" size="small" period="monthly"]/mo</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"className":"mt-1 text-ink-soft"} -->
+<p class="mt-1 text-ink-soft">A neighbourhood bakery with its menu, opening hours and cake orders.</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"} -->
+<div class="wp-block-group mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
+<a class="btn btn-ink" href="/try?type=website">Try It Yourself →</a>
+<!-- /wp:anypress-io/button --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"><!-- wp:group {"className":"group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel","anypressAttrs":{"href":"/try?type=bookings","tag":"a"},"metadata":{"name":"Picture"}} -->
+<div class="wp-block-group group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel"><!-- wp:image {"className":"block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none","anypressAttrs":{"width":"1200","height":"800","loading":"lazy","tag":"img"}} -->
+<figure class="wp-block-image block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"><img src="{{assets}}/examples/bookings-card.webp" alt="The Still Water Yoga example site on a laptop and a phone"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"mt-4 flex items-baseline justify-between gap-3"} -->
+<div class="wp-block-group mt-4 flex items-baseline justify-between gap-3"><!-- wp:heading {"level":3,"className":"text-xl font-extrabold"} -->
+<h3 class="wp-block-heading text-xl font-extrabold">Still Water Yoga</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"shrink-0 text-sm font-semibold text-ink-soft","anypressAttrs":{"tag":"span"}} -->
+<p class="shrink-0 text-sm font-semibold text-ink-soft">Bookings · [anypress_price type="bookings" size="small" period="monthly"]/mo</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"className":"mt-1 text-ink-soft"} -->
+<p class="mt-1 text-ink-soft">A yoga studio where students pick a class and book a spot.</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"} -->
+<div class="wp-block-group mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
+<a class="btn btn-ink" href="/try?type=bookings">Try It Yourself →</a>
+<!-- /wp:anypress-io/button --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"><!-- wp:group {"className":"group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel","anypressAttrs":{"href":"/try?type=store","tag":"a"},"metadata":{"name":"Picture"}} -->
+<div class="wp-block-group group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel"><!-- wp:image {"className":"block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none","anypressAttrs":{"width":"1200","height":"800","loading":"lazy","tag":"img"}} -->
+<figure class="wp-block-image block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"><img src="{{assets}}/examples/store-card.webp" alt="The Fern &amp; Clay Ceramics example site on a laptop and a phone"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"mt-4 flex items-baseline justify-between gap-3"} -->
+<div class="wp-block-group mt-4 flex items-baseline justify-between gap-3"><!-- wp:heading {"level":3,"className":"text-xl font-extrabold"} -->
+<h3 class="wp-block-heading text-xl font-extrabold">Fern &amp; Clay Ceramics</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"shrink-0 text-sm font-semibold text-ink-soft","anypressAttrs":{"tag":"span"}} -->
+<p class="shrink-0 text-sm font-semibold text-ink-soft">Store · [anypress_price type="online-store" size="small" period="monthly"]/mo</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"className":"mt-1 text-ink-soft"} -->
+<p class="mt-1 text-ink-soft">A pottery studio selling handmade mugs, bowls and vases.</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"} -->
+<div class="wp-block-group mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
+<a class="btn btn-ink" href="/try?type=store">Try It Yourself →</a>
+<!-- /wp:anypress-io/button --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"><!-- wp:group {"className":"group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel","anypressAttrs":{"href":"/try?type=community","tag":"a"},"metadata":{"name":"Picture"}} -->
+<div class="wp-block-group group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel"><!-- wp:image {"className":"block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none","anypressAttrs":{"width":"1200","height":"800","loading":"lazy","tag":"img"}} -->
+<figure class="wp-block-image block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"><img src="{{assets}}/examples/courses-card.webp" alt="The Brightside Guitar School example site on a laptop and a phone"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"mt-4 flex items-baseline justify-between gap-3"} -->
+<div class="wp-block-group mt-4 flex items-baseline justify-between gap-3"><!-- wp:heading {"level":3,"className":"text-xl font-extrabold"} -->
+<h3 class="wp-block-heading text-xl font-extrabold">Brightside Guitar School</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"shrink-0 text-sm font-semibold text-ink-soft","anypressAttrs":{"tag":"span"}} -->
+<p class="shrink-0 text-sm font-semibold text-ink-soft">Community · [anypress_price type="community" size="small" period="monthly"]/mo</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"className":"mt-1 text-ink-soft"} -->
+<p class="mt-1 text-ink-soft">Online guitar courses with a members' practice room.</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"} -->
+<div class="wp-block-group mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
+<a class="btn btn-ink" href="/try?type=community">Try It Yourself →</a>
+<!-- /wp:anypress-io/button --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group w-full sm:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)]"><!-- wp:group {"className":"group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel","anypressAttrs":{"href":"/try?type=everything","tag":"a"},"metadata":{"name":"Picture"}} -->
+<div class="wp-block-group group block overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel"><!-- wp:image {"className":"block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none","anypressAttrs":{"width":"1200","height":"800","loading":"lazy","tag":"img"}} -->
+<figure class="wp-block-image block aspect-[3/2] h-auto w-full transition-transform duration-500 group-hover:scale-[1.03] motion-reduce:transition-none"><img src="{{assets}}/examples/everything-card.webp" alt="The Riverbend Business Alliance example site on a laptop and a phone"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"mt-4 flex items-baseline justify-between gap-3"} -->
+<div class="wp-block-group mt-4 flex items-baseline justify-between gap-3"><!-- wp:heading {"level":3,"className":"text-xl font-extrabold"} -->
+<h3 class="wp-block-heading text-xl font-extrabold">Riverbend Business Alliance</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph {"className":"shrink-0 text-sm font-semibold text-ink-soft","anypressAttrs":{"tag":"span"}} -->
+<p class="shrink-0 text-sm font-semibold text-ink-soft">Everything · [anypress_price type="everything" size="small" period="monthly"]/mo</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:paragraph {"className":"mt-1 text-ink-soft"} -->
+<p class="mt-1 text-ink-soft">A local business group with memberships, events and a members' forum.</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"} -->
+<div class="wp-block-group mt-4 flex flex-wrap items-center gap-x-5 gap-y-3"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
+<a class="btn btn-ink" href="/try?type=everything">Try It Yourself →</a>
+<!-- /wp:anypress-io/button --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group --></section>
 <!-- /wp:group -->
@@ -383,19 +713,50 @@
 <p>The technical details in one place. The install guide has every step and setting.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"mt-10 grid gap-12 lg:grid-cols-2","metadata":{"name":"What you need"}} -->
+<!-- wp:group {"className":"mt-10 grid gap-12 lg:grid-cols-2"} -->
 <div class="wp-block-group mt-10 grid gap-12 lg:grid-cols-2"><!-- wp:group -->
 <div class="wp-block-group"><!-- wp:heading {"level":3,"className":"font-display text-2xl font-semibold"} -->
 <h3 class="wp-block-heading font-display text-2xl font-semibold">What you need</h3>
 <!-- /wp:heading -->
-<!-- wp:html {"metadata":{"name":"List"}} -->
-<ul class="mt-4 border-t border-line"><li class="border-b border-line py-5"><p class="font-semibold text-ink">A server</p><p class="mt-1 leading-7 text-ink-soft">Ubuntu 24.04 with 4 GB of memory or more. Hostinger, Hetzner, DigitalOcean or any provider.</p></li><li class="border-b border-line py-5"><p class="font-semibold text-ink">Two domains</p><p class="mt-1 leading-7 text-ink-soft">One for your brand (your dashboard lives on it) and one your customers' sites are named under.</p></li><li class="border-b border-line py-5"><p class="font-semibold text-ink">A storage bucket</p><p class="mt-1 leading-7 text-ink-soft">Cloudflare R2 or any S3-compatible storage, for site templates and backups.</p></li><li class="border-b border-line py-5"><p class="font-semibold text-ink">Optional</p><p class="mt-1 leading-7 text-ink-soft">A Cloudflare token to set the DNS records for you, toSend for email, and Stripe for selling.</p></li></ul>
-<!-- /wp:html -->
+<!-- wp:group {"className":"mt-4 border-t border-line","metadata":{"name":"List"},"anypressAttrs":{"tag":"ul"}} -->
+<div class="wp-block-group mt-4 border-t border-line"><!-- wp:group {"className":"border-b border-line py-5","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-5"><!-- wp:paragraph {"className":"font-semibold text-ink"} -->
+<p class="font-semibold text-ink">A server</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph {"className":"mt-1 leading-7 text-ink-soft"} -->
+<p class="mt-1 leading-7 text-ink-soft">Ubuntu 24.04 with 4 GB of memory or more. Hostinger, Hetzner, DigitalOcean or any provider.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"border-b border-line py-5","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-5"><!-- wp:paragraph {"className":"font-semibold text-ink"} -->
+<p class="font-semibold text-ink">Two domains</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph {"className":"mt-1 leading-7 text-ink-soft"} -->
+<p class="mt-1 leading-7 text-ink-soft">One for your brand (your dashboard lives on it) and one your customers' sites are named under.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"border-b border-line py-5","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-5"><!-- wp:paragraph {"className":"font-semibold text-ink"} -->
+<p class="font-semibold text-ink">A storage bucket</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph {"className":"mt-1 leading-7 text-ink-soft"} -->
+<p class="mt-1 leading-7 text-ink-soft">Cloudflare R2 or any S3-compatible storage, for site templates and backups.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"border-b border-line py-5","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group border-b border-line py-5"><!-- wp:paragraph {"className":"font-semibold text-ink"} -->
+<p class="font-semibold text-ink">Optional</p>
+<!-- /wp:paragraph -->
+<!-- wp:paragraph {"className":"mt-1 leading-7 text-ink-soft"} -->
+<p class="mt-1 leading-7 text-ink-soft">A Cloudflare token to set the DNS records for you, toSend for email, and Stripe for selling.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
 <!-- wp:paragraph {"className":"mt-5 leading-7 text-ink-soft"} -->
 <p class="mt-5 leading-7 text-ink-soft">A server with 4 to 8 GB of memory costs about $20 to $50 a month at most providers.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"metadata":{"name":"What the installer does"}} -->
+<!-- wp:group -->
 <div class="wp-block-group"><!-- wp:heading {"level":3,"className":"font-display text-2xl font-semibold"} -->
 <h3 class="wp-block-heading font-display text-2xl font-semibold">What the installer does</h3>
 <!-- /wp:heading -->
@@ -424,7 +785,7 @@
 <!-- /wp:list --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"mt-10 flex flex-wrap gap-3","metadata":{"name":"Section"}} -->
+<!-- wp:group {"className":"mt-10 flex flex-wrap gap-3"} -->
 <div class="wp-block-group mt-10 flex flex-wrap gap-3"><!-- wp:anypress-io/button {"className":"btn btn-ink"} -->
 <a class="btn btn-ink" href="https://github.com/otaku-solutions/anypress-api/blob/main/install/README.md">Read the install guide</a>
 <!-- /wp:anypress-io/button -->
@@ -441,7 +802,7 @@
 <h2 class="wp-block-heading">Questions.</h2>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"mt-10","metadata":{"name":"Questions"}} -->
+<!-- wp:group {"className":"mt-10"} -->
 <div class="wp-block-group mt-10"><!-- wp:group {"className":"faq","metadata":{"name":"Questions"}} -->
 <div class="wp-block-group faq"><!-- wp:details -->
 <details class="wp-block-details"><summary>What do I do after it finishes?</summary><!-- wp:paragraph {"className":"answer","anypressAttrs":{"tag":"div"}} -->
@@ -515,15 +876,15 @@
 <a class="btn btn-paper" href="/contact">Talk to us</a>
 <!-- /wp:anypress-io/button --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"row","metadata":{"name":"Section"}} -->
-<div class="wp-block-group row"><!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="store" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 190"></div>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="everything" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 190"></div>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="bookings" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 185"></div>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"row"} -->
+<div class="wp-block-group row"><!-- wp:anypress-io/drawing {"name":"store","className":"ob draw","ratio":"240 / 190"} -->
+<div data-drawing="store" aria-hidden="true" class="ob draw" style="aspect-ratio:240 / 190"></div>
+<!-- /wp:anypress-io/drawing -->
+<!-- wp:anypress-io/drawing {"name":"everything","className":"ob draw","ratio":"240 / 190"} -->
+<div data-drawing="everything" aria-hidden="true" class="ob draw" style="aspect-ratio:240 / 190"></div>
+<!-- /wp:anypress-io/drawing -->
+<!-- wp:anypress-io/drawing {"name":"bookings","className":"ob draw","ratio":"240 / 185"} -->
+<div data-drawing="bookings" aria-hidden="true" class="ob draw" style="aspect-ratio:240 / 185"></div>
+<!-- /wp:anypress-io/drawing --></div>
 <!-- /wp:group --></section>
 <!-- /wp:group -->

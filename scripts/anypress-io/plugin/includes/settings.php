@@ -58,6 +58,15 @@ add_filter(
 						'fontFamilies' => array_map( static fn( $f ) => array_intersect_key( $f, array_flip( array( 'slug', 'name', 'fontFamily' ) ) ), anypress_io_fonts() ),
 					),
 				),
+				// Links look as the site's stylesheet says (the editor shows WordPress's own link style otherwise).
+				'styles'   => array(
+					'elements' => array(
+						'link' => array(
+							'color'      => array( 'text' => 'inherit' ),
+							'typography' => array( 'textDecoration' => 'inherit' ),
+						),
+					),
+				),
 			)
 		);
 	}

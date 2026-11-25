@@ -24,24 +24,21 @@ defined( 'ABSPATH' ) || exit;
 <p>Riverbend Business Alliance is a made-up business. A local business group with memberships, events and a members' forum.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"relative mx-auto max-w-[880px] -rotate-[0.6deg] pr-10 pb-8 sm:pr-14","metadata":{"name":"Screenshot"}} -->
+<!-- wp:group {"className":"relative mx-auto max-w-[880px] -rotate-[0.6deg] pr-10 pb-8 sm:pr-14"} -->
 <div class="wp-block-group relative mx-auto max-w-[880px] -rotate-[0.6deg] pr-10 pb-8 sm:pr-14"><!-- wp:group {"className":"shot-scroll overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel shadow-[10px_10px_0_var(\u002d\u002dhoney)] "} -->
 <div class="wp-block-group shot-scroll overflow-hidden rounded-[14px] border-[1.5px] border-ink bg-panel shadow-[10px_10px_0_var(--honey)] "><!-- wp:group {"className":"flex items-center gap-3 border-b-[1.5px] border-ink bg-paper-2 px-3 py-2"} -->
-<div class="wp-block-group flex items-center gap-3 border-b-[1.5px] border-ink bg-paper-2 px-3 py-2"><!-- wp:html {"metadata":{"name":"Text"}} -->
-<span class="flex gap-1.5" aria-hidden="true"><span class="h-2.5 w-2.5 rounded-full border-[1.5px] border-ink"></span><span class="h-2.5 w-2.5 rounded-full border-[1.5px] border-ink"></span><span class="h-2.5 w-2.5 rounded-full border-[1.5px] border-ink"></span></span>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Text"}} -->
-<span class="flex-1 truncate rounded-md border border-line bg-panel px-3 py-0.5 text-center text-xs text-ink-soft">anypress.io/try</span>
-<!-- /wp:html --></div>
+<div class="wp-block-group flex items-center gap-3 border-b-[1.5px] border-ink bg-paper-2 px-3 py-2"><!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p><span class="flex gap-1.5" aria-hidden="true"><span class="h-2.5 w-2.5 rounded-full border-[1.5px] border-ink"></span><span class="h-2.5 w-2.5 rounded-full border-[1.5px] border-ink"></span><span class="h-2.5 w-2.5 rounded-full border-[1.5px] border-ink"></span></span><span class="flex-1 truncate rounded-md border border-line bg-panel px-3 py-0.5 text-center text-xs text-ink-soft">anypress.io/try</span></p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:html {"metadata":{"name":"Box"}} -->
-<div role="img" aria-label="The Riverbend Business Alliance example site on a computer" class="shot aspect-[16/10] w-full" style="background-image:url(<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/examples/everything-desk.webp)"></div>
-<!-- /wp:html --></div>
+<!-- wp:paragraph {"className":"shot aspect-[16/10] w-full","anypressAttrs":{"role":"img","aria-label":"The Riverbend Business Alliance example site on a computer","style":"background-image:url(<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/examples/everything-desk.webp)","tag":"div"}} -->
+<p class="shot aspect-[16/10] w-full"></p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"rounded-[2rem] border-[1.5px] border-ink bg-ink p-1.5 shadow-[6px_6px_0_var(\u002d\u002drose)] absolute right-0 bottom-0 w-[22%] max-w-[150px]","metadata":{"name":"Section"}} -->
-<div class="wp-block-group rounded-[2rem] border-[1.5px] border-ink bg-ink p-1.5 shadow-[6px_6px_0_var(--rose)] absolute right-0 bottom-0 w-[22%] max-w-[150px]"><!-- wp:html {"metadata":{"name":"Picture"}} -->
-<img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/examples/everything-phone.webp" alt="The Riverbend Business Alliance example site on a phone" width="390" height="845" loading="lazy" class="block h-auto w-full rounded-[1.6rem]">
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"rounded-[2rem] border-[1.5px] border-ink bg-ink p-1.5 shadow-[6px_6px_0_var(\u002d\u002drose)] absolute right-0 bottom-0 w-[22%] max-w-[150px]"} -->
+<div class="wp-block-group rounded-[2rem] border-[1.5px] border-ink bg-ink p-1.5 shadow-[6px_6px_0_var(--rose)] absolute right-0 bottom-0 w-[22%] max-w-[150px]"><!-- wp:image {"className":"block h-auto w-full rounded-[1.6rem]","anypressAttrs":{"width":"390","height":"845","loading":"lazy","tag":"img"}} -->
+<figure class="wp-block-image block h-auto w-full rounded-[1.6rem]"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/examples/everything-phone.webp" alt="The Riverbend Business Alliance example site on a phone"/></figure>
+<!-- /wp:image --></div>
 <!-- /wp:group --></div>
 <!-- /wp:group -->
 <!-- wp:group {"className":"ctas","metadata":{"name":"Call to Action"}} -->

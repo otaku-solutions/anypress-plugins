@@ -25,21 +25,9 @@ defined( 'ABSPATH' ) || exit;
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:group {"className":"prices","metadata":{"name":"Price List"}} -->
-<div class="wp-block-group prices"><!-- wp:html {"metadata":{"name":"Link"}} -->
-<a href="/sites/website"><b>Website</b><strong>[anypress_price type="website" size="small" period="monthly"]</strong><small>/ month</small></a>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Link"}} -->
-<a href="/sites/bookings"><b>Bookings</b><strong>[anypress_price type="bookings" size="small" period="monthly"]</strong><small>/ month</small></a>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Link"}} -->
-<a href="/sites/store"><b>Store</b><strong>[anypress_price type="online-store" size="small" period="monthly"]</strong><small>/ month</small></a>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Link"}} -->
-<a href="/sites/community"><b>Community</b><strong>[anypress_price type="community" size="small" period="monthly"]</strong><small>/ month</small></a>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Link"}} -->
-<a href="/sites/everything"><b>Everything</b><strong>[anypress_price type="everything" size="small" period="monthly"]</strong><small>/ month</small></a>
-<!-- /wp:html --></div>
+<div class="wp-block-group prices"><!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p><a href="/sites/website"><b>Website</b><strong>[anypress_price type="website" size="small" period="monthly"]</strong><small>/ month</small></a><a href="/sites/bookings"><b>Bookings</b><strong>[anypress_price type="bookings" size="small" period="monthly"]</strong><small>/ month</small></a><a href="/sites/store"><b>Store</b><strong>[anypress_price type="online-store" size="small" period="monthly"]</strong><small>/ month</small></a><a href="/sites/community"><b>Community</b><strong>[anypress_price type="community" size="small" period="monthly"]</strong><small>/ month</small></a><a href="/sites/everything"><b>Everything</b><strong>[anypress_price type="everything" size="small" period="monthly"]</strong><small>/ month</small></a></p>
+<!-- /wp:paragraph --></div>
 <!-- /wp:group -->
 <!-- wp:list {"className":"price-notes"} -->
 <ul class="wp-block-list price-notes"><!-- wp:list-item -->
@@ -55,7 +43,7 @@ defined( 'ABSPATH' ) || exit;
 <!-- wp:heading {"level":3,"className":"mt-16 text-center text-[26px] font-extrabold"} -->
 <h3 class="wp-block-heading mt-16 text-center text-[26px] font-extrabold">Next to other platforms <span class="hand block text-[22px] sm:ml-1.5 sm:inline">same kind of site, smallest plan</span></h3>
 <!-- /wp:heading -->
-<!-- wp:group {"className":"mt-6","metadata":{"name":"Price Comparison"}} -->
+<!-- wp:group {"className":"mt-6"} -->
 <div class="wp-block-group mt-6"><!-- wp:group {"className":"compare","metadata":{"name":"Comparison Table"}} -->
 <div class="wp-block-group compare"><!-- wp:group {"className":"tablewrap","anypressAttrs":{"tabindex":"0","role":"region","aria-label":"AnyPress prices next to other platforms"}} -->
 <div class="wp-block-group tablewrap"><!-- wp:html {"metadata":{"name":"Table"}} -->

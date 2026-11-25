@@ -57,11 +57,13 @@ foreach ( array( 'frontpage_template_hierarchy', 'page_template_hierarchy' ) as 
 	);
 }
 
-// Attributes core blocks can't hold, kept in anypressAttrs and put back on the block's outer tag.
+// Attributes core blocks can't hold, kept in anypressAttrs and put back on the block's outer tag. Its `tag` is the tag
+// the piece has on anypress.io, kept on the page while the editor shows a block: a label is a <span> Paragraph, a card is
+// an <a> Group, a list of icons and words a <ul> Group of <li> Groups, a picture an Image without its box.
 add_filter(
 	'register_block_type_args',
 	static function ( array $args, string $name ): array {
-		if ( in_array( $name, array( 'core/group', 'core/heading', 'core/paragraph', 'core/list', 'core/list-item', 'core/details' ), true ) ) {
+		if ( in_array( $name, array( 'core/group', 'core/heading', 'core/paragraph', 'core/list', 'core/list-item', 'core/details', 'core/image' ), true ) ) {
 			$args['attributes']['anypressAttrs'] = array( 'type' => 'object' );
 		}
 		return $args;
@@ -69,6 +71,40 @@ add_filter(
 	10,
 	2
 );
+
+/** The tags a block can keep on the page: anypress.io's inline and box tags, and none (words on their own). */
+function anypress_io_kept_tags(): array {
+	return array( '', 'span', 'b', 'strong', 'small', 'em', 'i', 'label', 'time', 'a', 'u', 's', 'mark', 'code', 'kbd', 'sup', 'sub', 'abbr', 'cite', 'q', 'div', 'p', 'ul', 'ol', 'li', 'dl', 'dt', 'dd', 'figure', 'figcaption', 'nav', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'button', 'blockquote', 'details', 'summary', 'img' );
+}
+
+/** A block's markup with its outer tag back as anypress.io has it. */
+function anypress_io_retag( string $content, string $block_name, string $tag ): string {
+	if ( 'core/image' === $block_name && 'img' === $tag ) {
+		// The picture without the Image block's box, the box's classes on the picture.
+		if ( preg_match( '#^\s*<figure class="([^"]*)"[^>]*>\s*(<img\b[^>]*>)\s*</figure>\s*$#s', $content, $m ) ) {
+			$img = new WP_HTML_Tag_Processor( $m[2] );
+			$img->next_tag();
+			$class = trim( (string) preg_replace( '/(^|\s)wp-block-image(\s|$)/', ' ', html_entity_decode( $m[1] ) ) );
+			if ( '' !== $class ) {
+				$img->set_attribute( 'class', $class );
+			}
+			return $img->get_updated_html();
+		}
+		return $content;
+	}
+	$from = array(
+		'core/paragraph' => 'p',
+		'core/group'     => '[a-z0-9]+',
+	)[ $block_name ] ?? null;
+	if ( null === $from || ! in_array( $tag, anypress_io_kept_tags(), true ) || ( '' === $tag && 'core/paragraph' !== $block_name ) ) {
+		return $content;
+	}
+	if ( ! preg_match( '#^(\s*)<(' . $from . ')\b([^>]*)>(.*)</\2>(\s*)$#s', $content, $m ) ) {
+		return $content;
+	}
+	return '' === $tag ? $m[1] . $m[4] . $m[5] : $m[1] . '<' . $tag . $m[3] . '>' . $m[4] . '</' . $tag . '>' . $m[5];
+}
+
 add_filter(
 	'render_block',
 	static function ( string $content, array $block ): string {
@@ -76,17 +112,21 @@ add_filter(
 		if ( ! is_array( $attrs ) || '' === $content ) {
 			return $content;
 		}
-		// A line of text that is a <span> or <div> on anypress.io (a label over a heading) is a Paragraph in the editor and
-		// keeps its own tag on the page, so the site's rules for it still apply.
-		$tag = $attrs['tag'] ?? '';
-		if ( 'core/paragraph' === $block['blockName'] && in_array( $tag, array( 'span', 'div' ), true ) ) {
-			$content = (string) preg_replace( array( '/^(\s*)<p\b/', '#</p>(\s*)$#' ), array( '$1<' . $tag, '</' . $tag . '>$1' ), $content );
+		$tag = $attrs['tag'] ?? null;
+		if ( is_string( $tag ) ) {
+			$content = anypress_io_retag( $content, (string) $block['blockName'], $tag );
+			if ( '' === $tag ) {
+				return $content;
+			}
 		}
 		$tags = new WP_HTML_Tag_Processor( $content );
 		if ( $tags->next_tag() ) {
 			foreach ( $attrs as $name => $value ) {
-				if ( preg_match( '/^(aria-[a-z]+|role|data-[a-z0-9-]+|style|hidden|open|lang|dir|tabindex|title)$/', (string) $name ) ) {
-					$tags->set_attribute( (string) $name, is_bool( $value ) ? $value : (string) $value );
+				$name = (string) $name;
+				if ( 'href' === $name ) {
+					$tags->set_attribute( 'href', esc_url( (string) $value ) );
+				} elseif ( preg_match( '/^(aria-[a-z]+|role|data-[a-z0-9-]+|style|hidden|open|lang|dir|tabindex|title|target|rel|type|width|height|loading|decoding|scope|colspan|rowspan|datetime)$/', $name ) ) {
+					$tags->set_attribute( $name, is_bool( $value ) ? $value : (string) $value );
 				}
 			}
 		}
@@ -214,6 +254,10 @@ add_action(
 				// A label is a <span> on the page and a Paragraph here, where a section's rules for its paragraphs would win.
 				. '.editor-styles-wrapper p.eyebrow{font-family:var(--font-caveat);font-size:1.4rem;font-weight:700;line-height:1;color:var(--rose)}'
 				. '.editor-styles-wrapper .sell p.eyebrow{color:var(--honey)}'
+				// Words that sit in a line on the page (a <span>, a <b>, words on their own) sit in a line here too, unless the
+				// site's own rules say otherwise; an icon sits in its line as on the page.
+				. ':where(.editor-styles-wrapper p:is([data-anypress-tag=""],[data-anypress-tag=span],[data-anypress-tag=b],[data-anypress-tag=strong],[data-anypress-tag=small],[data-anypress-tag=em],[data-anypress-tag=i],[data-anypress-tag=a],[data-anypress-tag=label],[data-anypress-tag=time])){display:inline}'
+				. '.editor-styles-wrapper .anypress-io-icon{display:contents}'
 				// The editor's own link colour and underline stay off the buttons.
 				. '.editor-styles-wrapper a.btn{text-decoration:none}.editor-styles-wrapper a.btn-ink{color:var(--paper)}.editor-styles-wrapper a.btn-paper,.editor-styles-wrapper a.btn-honey{color:var(--ink)}'
 			);
@@ -227,7 +271,18 @@ add_action(
 	'enqueue_block_editor_assets',
 	static function () {
 		wp_enqueue_script( 'anypress-io-attrs', anypress_io_asset( 'site/editor.js' ), array( 'wp-hooks', 'wp-element', 'wp-block-editor', 'wp-components', 'wp-compose', 'wp-i18n', 'wp-api-fetch', 'wp-data' ), ANYPRESS_IO_VERSION, true );
-		wp_add_inline_script( 'anypress-io-attrs', 'window.anypressIoEditor=' . wp_json_encode( array( 'inline' => current_user_can( 'unfiltered_html' ) ) ) . ';', 'before' );
+		$drawings = array_map( static fn( string $file ): string => basename( $file, '.svg' ), (array) glob( dirname( __DIR__ ) . '/assets/drawings/*.svg' ) );
+		wp_add_inline_script(
+			'anypress-io-attrs',
+			'window.anypressIoEditor=' . wp_json_encode(
+				array(
+					'inline'   => current_user_can( 'unfiltered_html' ),
+					'assets'   => untrailingslashit( anypress_io_asset( '' ) ),
+					'drawings' => $drawings,
+				)
+			) . ';',
+			'before'
+		);
 	}
 );
 
@@ -243,12 +298,14 @@ add_action(
 				'methods'             => 'POST',
 				'permission_callback' => static fn() => current_user_can( 'unfiltered_html' ),
 				'args'                => array(
-					'content' => array(
-						'type'     => 'string',
+					'contents' => array(
+						'type'     => 'array',
+						'items'    => array( 'type' => 'string' ),
+						'maxItems' => 500,
 						'required' => true,
 					),
 				),
-				'callback'            => static fn( WP_REST_Request $request ) => array( 'html' => do_shortcode( (string) $request['content'] ) ),
+				'callback'            => static fn( WP_REST_Request $request ) => array( 'html' => array_map( static fn( $content ) => do_shortcode( (string) $content ), (array) $request['contents'] ) ),
 			)
 		);
 	}

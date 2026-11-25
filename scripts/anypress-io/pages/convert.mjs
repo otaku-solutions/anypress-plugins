@@ -5,12 +5,13 @@
 //
 //   node convert.mjs [http://localhost:3311]
 //
-// Each element becomes the block that saves the same markup: sections and boxes become Groups, headings Headings,
-// paragraphs, labels and lines of text Paragraphs, plain lists Lists, questions Details and buttons the AnyPress Site
-// plugin's Button; anything else (drawings, cards, pictures, tables, forms) stays as it is in a Custom HTML block,
-// named for what it is. Each section is named in List View for its kind (kinds.mjs) or its heading. The page's <main>
-// is the page template's own, so the page is its sections, one after another. Prices come back as the AnyPress Site
-// plugin's price shortcodes, found by the test prices.
+// Each element becomes a block that saves the same markup: sections, boxes and cards Groups, headings Headings, lines
+// of text and labels Paragraphs, plain lists Lists, questions Details, pictures Images, buttons, drawings and icons the
+// AnyPress Site plugin's Button, Drawing and Icon. A Group or Paragraph keeps the piece's own tag (a card's <a>, a
+// label's <span>) for the page in anypressAttrs.tag. Only forms, tables, videos and scenes stay Custom HTML, named for
+// what they are. Each section is named in List View for its kind (kinds.mjs) or its heading. The page's <main> is the
+// page template's own, so the page is its sections, one after another. Prices come back as the AnyPress Site plugin's
+// price shortcodes, found by the test prices.
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { dirname, resolve } from 'node:path';
@@ -30,7 +31,11 @@ function toBlocks([rootSelector, partsOnly, kinds]) {
 	const GROUP = new Set(['DIV', 'SECTION', 'HEADER', 'FOOTER', 'ARTICLE', 'ASIDE', 'MAIN']);
 	const INLINE = new Set(['A', 'SPAN', 'STRONG', 'EM', 'B', 'I', 'BR', 'CODE', 'SMALL', 'SUP', 'SUB', 'S', 'MARK', 'KBD', 'U', 'ABBR', 'TIME', 'WBR']);
 	// Parts the site's scripts fill in or that the plugin's own blocks stand in for, kept whole.
-	const WHOLE = '[data-drawing],[data-vignette],.video-tile,.logo-swap,[data-anypress-block]';
+	const WHOLE = '[data-vignette],.video-tile,.logo-swap,[data-anypress-block]';
+	// What stays code: forms (site.js sends them to Fluent Forms), tables, and the rest no block holds.
+	const CODE = 'form,table,pre,select,textarea,input,iframe,video,audio,canvas,object,embed,hr,br,wbr';
+	// Tags a Paragraph or Group keeps on the page (includes/look.php), each shown as a block in the editor.
+	const TEXT = new Set(['SPAN', 'B', 'STRONG', 'SMALL', 'EM', 'I', 'LABEL', 'TIME', 'A', 'U', 'S', 'MARK', 'CODE', 'KBD', 'SUP', 'SUB', 'ABBR', 'CITE', 'Q', 'DIV', 'SUMMARY']);
 	const json = (o) => JSON.stringify(o).replace(/--/g, '\\u002d\\u002d').replace(/</g, '\\u003c').replace(/>/g, '\\u003e').replace(/&/g, '\\u0026');
 	const comment = (name, attrs) => `wp:${name}${Object.keys(attrs).length ? ` ${json(attrs)}` : ''}`;
 	const inlineOnly = (el) => [...el.querySelectorAll('*')].every((n) => INLINE.has(n.tagName));
@@ -61,7 +66,7 @@ function toBlocks([rootSelector, partsOnly, kinds]) {
 	const PIECES = [
 		['[data-drawing]', 'Drawing'], ['[data-vignette]', 'Animated Scene'], ['.video-tile', 'Video'], ['.logo-swap', 'Logo'],
 		['form', 'Form'], ['table,:has(> table)', 'Table'], ['.appshot', 'App Screenshot'], ['figure,img,picture,:has(> img)', 'Picture'],
-		['a.side-pill', 'Pill Link'], ['a.type', 'Site Type Card'], ['a.badge', 'Badge'], ['a', 'Link'], ['ul,ol', 'List'], ['details', 'Question'],
+		['a.side-pill', 'Pill Link'], ['a.type', 'Site Type Card'], ['a.badge', 'Badge'], ['a', 'Link'], ['ul,ol', 'List'], ['details:has(> summary[class])', 'Dropdown'], ['details', 'Question'],
 		['svg', 'Icon'], ['span', 'Text'],
 	];
 	const kindOf = (el) => kinds.find(([cls]) => el.classList.contains(cls))?.[1];
@@ -96,28 +101,55 @@ function toBlocks([rootSelector, partsOnly, kinds]) {
 			const made = el.matches(selector) ? make(el) : null;
 			if (made) return made;
 		}
-		if (el.matches(WHOLE)) return html(el);
-		if (GROUP.has(tag) && el.children.length && !hasText(el)) {
-			const attrs = meta(common(el, {}), top ? sectionName(el) : kindOf(el));
-			if (tag !== 'DIV') attrs.tagName = tag.toLowerCase();
-			const t = tag.toLowerCase();
-			return `<!-- ${comment('group', attrs)} -->\n${open(t, el, 'wp-block-group')}${[...el.children].map(block).filter(Boolean).join('\n')}</${t}>\n<!-- /wp:group -->`;
+		if (el.matches(WHOLE) || el.matches(CODE)) return html(el);
+		// A drawing: the AnyPress Site plugin's Drawing block, which saves the same empty box site.js draws into.
+		if (el.matches('[data-drawing]') && !el.children.length && !el.textContent.trim()) {
+			const attrs = { name: el.getAttribute('data-drawing') };
+			const cls = (el.getAttribute('class') ?? '').trim().replace(/\s+/g, ' ');
+			if (cls) attrs.className = cls;
+			const ratio = /aspect-ratio:\s*([^;]+)/.exec(el.getAttribute('style') ?? '')?.[1].trim();
+			if (ratio) attrs.ratio = ratio;
+			const known = new Set(['data-drawing', 'class', 'style', 'aria-hidden']);
+			if ([...el.attributes].some((a) => !known.has(a.name)) || (el.getAttribute('style') ?? '').replace(/aspect-ratio:[^;]+;?/, '').trim()) return html(el);
+			return `<!-- ${comment('anypress-io/drawing', attrs)} -->\n<div data-drawing="${attrs.name}" aria-hidden="true"${cls ? ` class="${cls}"` : ''}${ratio ? ` style="aspect-ratio:${ratio}"` : ''}></div>\n<!-- /wp:anypress-io/drawing -->`;
+		}
+		// An icon: the Icon block, which keeps the drawing's code as it is.
+		if (tag === 'svg' || tag === 'SVG') return `<!-- wp:anypress-io/icon -->\n${outer(el)}\n<!-- /wp:anypress-io/icon -->`;
+		// A picture: an Image block, its own box left off on the page (includes/look.php) and its classes on the picture.
+		if (tag === 'IMG' && el.getAttribute('src')) {
+			const attrs = common(el, {});
+			const extra = { ...attrs.anypressAttrs };
+			delete extra.src;
+			delete extra.alt;
+			attrs.anypressAttrs = { ...extra, tag: 'img' };
+			const esc = (v) => v.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+			return `<!-- ${comment('image', attrs)} -->\n<figure class="wp-block-image${attrs.className ? ` ${attrs.className}` : ''}"><img src="${esc(el.getAttribute('src'))}" alt="${esc(el.getAttribute('alt') ?? '')}"/></figure>\n<!-- /wp:image -->`;
 		}
 		if (/^H[1-6]$/.test(tag) && inlineOnly(el)) {
 			const level = Number(tag[1]);
 			const attrs = common(el, level === 2 ? {} : { level });
 			return `<!-- ${comment('heading', attrs)} -->\n${open(tag.toLowerCase(), el, 'wp-block-heading')}${inner(el)}</${tag.toLowerCase()}>\n<!-- /wp:heading -->`;
 		}
-		// A line of text in a box of its own or a label (the handwritten eyebrow over a heading) is a Paragraph too, with the
-		// same classes; it keeps its own tag on the page (includes/look.php), as the site's rules expect.
-		if ((tag === 'P' || (tag === 'DIV' && hasText(el)) || (tag === 'SPAN' && el.matches('.eyebrow,.hand,.label'))) && inlineOnly(el)) {
+		// The site's buttons: the AnyPress Site plugin's Button, which saves the same link.
+		if (tag === 'A' && el.classList.contains('btn') && inlineOnly(el) && !el.querySelector('a') && !el.id) {
+			const attrs = common(el, {});
+			if (attrs.anypressAttrs) {
+				delete attrs.anypressAttrs.href;
+				if (!Object.keys(attrs.anypressAttrs).length) delete attrs.anypressAttrs;
+			}
+			const href = el.getAttribute('href');
+			return `<!-- ${comment('anypress-io/button', attrs)} -->\n<a class="${el.getAttribute('class')}"${href !== null ? ` href="${href.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}"` : ''}>${inner(el)}</a>\n<!-- /wp:anypress-io/button -->`;
+		}
+		// A line of text, a label or a link with words only: a Paragraph with the same classes, which keeps its own tag on
+		// the page (includes/look.php), as the site's rules expect.
+		if ((tag === 'P' || TEXT.has(tag)) && inlineOnly(el) && !el.querySelector('a.btn') && (!GROUP.has(tag) || hasText(el) || !el.children.length)) {
 			const attrs = common(el, {});
 			if (tag !== 'P') attrs.anypressAttrs = { ...attrs.anypressAttrs, tag: tag.toLowerCase() };
 			return `<!-- ${comment('paragraph', attrs)} -->\n${open('p', el, '')}${inner(el)}</p>\n<!-- /wp:paragraph -->`;
 		}
 		// A question and its answer: a Details block, the question as its summary and the answer as blocks in it.
 		const summary = el.firstElementChild;
-		if (tag === 'DETAILS' && summary?.tagName === 'SUMMARY' && inlineOnly(summary) && el.children.length > 1 && !hasText(el)) {
+		if (tag === 'DETAILS' && summary?.tagName === 'SUMMARY' && inlineOnly(summary) && !summary.attributes.length && el.children.length > 1 && !hasText(el)) {
 			const attrs = common(el, el.open ? { showContent: true } : {});
 			if (attrs.anypressAttrs) {
 				delete attrs.anypressAttrs.open;
@@ -126,23 +158,40 @@ function toBlocks([rootSelector, partsOnly, kinds]) {
 			const answer = [...el.children].slice(1).map((c) => block(c)).filter(Boolean).join('\n');
 			return `<!-- ${comment('details', attrs)} -->\n${open('details', el, 'wp-block-details').replace(/>$/, el.open ? ' open>' : '>')}<summary>${inner(summary)}</summary>${answer}</details>\n<!-- /wp:details -->`;
 		}
-		// The site's buttons: the AnyPress Site plugin's Button, which saves the same link.
-		if (tag === 'A' && el.classList.contains('btn') && inlineOnly(el) && !el.querySelector('a')) {
-			const attrs = common(el, {});
-			if (attrs.anypressAttrs) {
-				delete attrs.anypressAttrs.href;
-				if (!Object.keys(attrs.anypressAttrs).length) delete attrs.anypressAttrs;
-			}
-			const href = el.getAttribute('href');
-			if (attrs.anchor) return html(el);
-			return `<!-- ${comment('anypress-io/button', attrs)} -->\n<a class="${el.getAttribute('class')}"${href !== null ? ` href="${href.replace(/&/g, '&amp;').replace(/"/g, '&quot;')}"` : ''}>${inner(el)}</a>\n<!-- /wp:anypress-io/button -->`;
-		}
 		if ((tag === 'UL' || tag === 'OL') && el.children.length && !hasText(el) && [...el.children].every((li) => li.tagName === 'LI' && inlineOnly(li))) {
 			const attrs = common(el, tag === 'OL' ? { ordered: true } : {});
 			const items = [...el.children].map((li) => `<!-- ${comment('list-item', common(li, {}))} -->\n${open('li', li, '')}${inner(li)}</li>\n<!-- /wp:list-item -->`);
 			return `<!-- ${comment('list', attrs)} -->\n${open(tag.toLowerCase(), el, 'wp-block-list')}${items.join('\n')}</${tag.toLowerCase()}>\n<!-- /wp:list -->`;
 		}
-		return html(el);
+		// Anything else holding other things (a card, a pill link, a list of icons and words, a box drawn by its style) is a
+		// Group of blocks, named for what it is, keeping its own tag on the page. Words between the pieces are Paragraphs
+		// that keep no tag of their own on the page.
+		const attrs = meta(common(el, {}), top ? sectionName(el) : kindOf(el) ?? (GROUP.has(tag) ? undefined : nameOf(el)));
+		const t = tag.toLowerCase();
+		if (GROUP.has(tag)) {
+			if (tag !== 'DIV') attrs.tagName = t;
+		} else {
+			attrs.anypressAttrs = { ...attrs.anypressAttrs, tag: t };
+		}
+		const kids = [];
+		let run = [];
+		const flush = () => {
+			const htmlRun = run.map((n) => (n.nodeType === 3 ? n.textContent.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') : n.outerHTML)).join('');
+			const lone = run.filter((n) => n.nodeType === 1);
+			if (lone.length === 1 && run.every((n) => n === lone[0] || !n.textContent.trim())) kids.push(block(lone[0]));
+			else if (htmlRun.trim()) kids.push(`<!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->\n<p>${htmlRun}</p>\n<!-- /wp:paragraph -->`);
+			run = [];
+		};
+		for (const n of el.childNodes) {
+			if (n.nodeType === 3 || (n.nodeType === 1 && INLINE.has(n.tagName) && inlineOnly(n) && !(n.tagName === 'A' && n.classList.contains('btn')))) run.push(n);
+			else if (n.nodeType === 1) {
+				flush();
+				kids.push(block(n));
+			}
+		}
+		flush();
+		const base = open(GROUP.has(tag) ? t : 'div', el, 'wp-block-group');
+		return `<!-- ${comment('group', attrs)} -->\n${base}${kids.filter(Boolean).join('\n')}</${GROUP.has(tag) ? t : 'div'}>\n<!-- /wp:group -->`;
 	}
 
 	// Forms keep anypress.io's markup; site.js sends them to the Fluent Forms form with the same fields.

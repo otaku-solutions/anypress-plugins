@@ -12,10 +12,10 @@
 defined( 'ABSPATH' ) || exit;
 ?>
 <!-- wp:group {"className":"in page-hero","metadata":{"name":"Page Top"},"tagName":"section"} -->
-<section class="wp-block-group in page-hero"><!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="note" aria-hidden="true" class="ob draw " style="aspect-ratio:176 / 150"></div>
-<!-- /wp:html -->
-<!-- wp:group {"metadata":{"name":"Section"}} -->
+<section class="wp-block-group in page-hero"><!-- wp:anypress-io/drawing {"name":"note","className":"ob draw","ratio":"176 / 150"} -->
+<div data-drawing="note" aria-hidden="true" class="ob draw" style="aspect-ratio:176 / 150"></div>
+<!-- /wp:anypress-io/drawing -->
+<!-- wp:group -->
 <div class="wp-block-group"><!-- wp:paragraph {"className":"eyebrow","anypressAttrs":{"tag":"span"}} -->
 <p class="eyebrow">About</p>
 <!-- /wp:paragraph --></div>

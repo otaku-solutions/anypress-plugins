@@ -428,7 +428,7 @@ try {
         if (pagesMade[i].path === '') {
             // The editor as an owner opens it: the page's sections one after another, each named in List View, buttons and
             // questions as blocks, and the hand-made pieces drawn in place on the page (not in boxes of their own).
-            await editor.frame({ name: 'editor-canvas' })?.waitForFunction(() => document.querySelector('.anypress-io-in-place [data-drawing] svg'), null, { timeout: 30000 }).catch(() => {});
+            await editor.frame({ name: 'editor-canvas' })?.waitForFunction(() => document.querySelector('[data-type="anypress-io/drawing"] svg'), null, { timeout: 30000 }).catch(() => {});
             const shape = await editor.evaluate(() => {
                 const top = window.wp.data.select('core/block-editor').getBlocks();
                 const all = [];
@@ -439,14 +439,18 @@ try {
                     sections: top.length,
                     named: top.filter((b) => b.attributes.metadata?.name).length,
                     buttons: all.filter((n) => n === 'anypress-io/button').length,
+                    drawings: all.filter((n) => n === 'anypress-io/drawing').length,
+                    code: all.filter((n) => n === 'core/html').length,
+                    blocks: all.length,
                     questions: all.filter((n) => n === 'core/details').length,
-                    inPlace: canvas?.querySelectorAll('.anypress-io-in-place [data-drawing] svg').length ?? 0,
+                    drawn: canvas?.querySelectorAll('[data-type="anypress-io/drawing"] svg').length ?? 0,
                     sandboxes: canvas?.querySelectorAll('.wp-block-html iframe').length ?? 0,
                 };
             });
             check(shape.sections > 5 && shape.named === shape.sections, 'editor: the home page is its sections, each named in List View', JSON.stringify(shape));
             check(shape.buttons > 0 && shape.questions > 0, 'editor: buttons and questions are blocks of their own', JSON.stringify(shape));
-            check(shape.inPlace > 0 && shape.sandboxes === 0, 'editor: drawings show in place on the page, not in boxes of their own', JSON.stringify(shape));
+            check(shape.drawings > 0 && shape.drawn > 0 && shape.sandboxes === 0, 'editor: drawings are Drawing blocks, drawn in on the page', JSON.stringify(shape));
+            check(shape.code <= 3, 'editor: next to nothing on the home page is code (Custom HTML)', JSON.stringify(shape));
         }
     }
 

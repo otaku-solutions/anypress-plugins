@@ -13,11 +13,8 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <!-- wp:group {"className":"in hero hero-fix","anypressAttrs":{"aria-labelledby":"h-hero"},"metadata":{"name":"Home Top"},"tagName":"section"} -->
 <section class="wp-block-group in hero hero-fix"><!-- wp:group {"className":"hero-fix-text"} -->
-<div class="wp-block-group hero-fix-text"><!-- wp:html {"metadata":{"name":"Badge"}} -->
-<a class="badge" href="/move"><b>New</b> Bring your current WordPress site with you →</a>
-<!-- /wp:html -->
-<!-- wp:paragraph {"className":"eyebrow","anypressAttrs":{"tag":"span"}} -->
-<p class="eyebrow">a website that runs your business, set up for you</p>
+<div class="wp-block-group hero-fix-text"><!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p><a class="badge" href="/move"><b>New</b> Bring your current WordPress site with you →</a><span class="eyebrow">a website that runs your business, set up for you</span></p>
 <!-- /wp:paragraph -->
 <!-- wp:heading {"level":1,"anchor":"h-hero"} -->
 <h1 id="h-hero" class="wp-block-heading">Get found, get booked and get paid. <mark>We set it all up</mark>.</h1>
@@ -33,9 +30,40 @@ defined( 'ABSPATH' ) || exit;
 <a class="btn btn-paper" href="/pricing">See prices</a>
 <!-- /wp:anypress-io/button --></div>
 <!-- /wp:group -->
-<!-- wp:html {"metadata":{"name":"List"}} -->
-<ul class="checks"><li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class=""><path d="M2.5 9.8c1.6 1.2 3 2.7 4.2 4.6C8.6 9.7 11.6 5.5 15.8 2.8"></path></svg>From [anypress_price type="website" size="small" period="monthly"] a month, everything included</li><li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class=""><path d="M2.5 9.8c1.6 1.2 3 2.7 4.2 4.6C8.6 9.7 11.6 5.5 15.8 2.8"></path></svg>No cut of your sales</li><li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class=""><path d="M2.5 9.8c1.6 1.2 3 2.7 4.2 4.6C8.6 9.7 11.6 5.5 15.8 2.8"></path></svg>7 days free to start</li><li><svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class=""><path d="M2.5 9.8c1.6 1.2 3 2.7 4.2 4.6C8.6 9.7 11.6 5.5 15.8 2.8"></path></svg>30-day money-back</li></ul>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"checks","metadata":{"name":"Ticks"},"anypressAttrs":{"tag":"ul"}} -->
+<div class="wp-block-group checks"><!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:anypress-io/icon -->
+<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class=""><path d="M2.5 9.8c1.6 1.2 3 2.7 4.2 4.6C8.6 9.7 11.6 5.5 15.8 2.8"></path></svg>
+<!-- /wp:anypress-io/icon -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p>From [anypress_price type="website" size="small" period="monthly"] a month, everything included</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:anypress-io/icon -->
+<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class=""><path d="M2.5 9.8c1.6 1.2 3 2.7 4.2 4.6C8.6 9.7 11.6 5.5 15.8 2.8"></path></svg>
+<!-- /wp:anypress-io/icon -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p>No cut of your sales</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:anypress-io/icon -->
+<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class=""><path d="M2.5 9.8c1.6 1.2 3 2.7 4.2 4.6C8.6 9.7 11.6 5.5 15.8 2.8"></path></svg>
+<!-- /wp:anypress-io/icon -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p>7 days free to start</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:anypress-io/icon -->
+<svg viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class=""><path d="M2.5 9.8c1.6 1.2 3 2.7 4.2 4.6C8.6 9.7 11.6 5.5 15.8 2.8"></path></svg>
+<!-- /wp:anypress-io/icon -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p>30-day money-back</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group -->
 <!-- wp:group {"className":"desk","anypressAttrs":{"aria-label":"Everything a website usually takes, done for you"},"metadata":{"name":"Desk"}} -->
 <div class="wp-block-group desk"><!-- wp:list {"className":"notes"} -->
@@ -58,13 +86,13 @@ defined( 'ABSPATH' ) || exit;
 <li><span>Keep it secure</span><i aria-hidden="true"></i></li>
 <!-- /wp:list-item --></ul>
 <!-- /wp:list -->
-<!-- wp:html {"metadata":{"name":"Text"}} -->
-<span class="desk-arrow" aria-hidden="true">→</span>
-<!-- /wp:html -->
-<!-- wp:group {"className":"desk-done","metadata":{"name":"Section"}} -->
-<div class="wp-block-group desk-done"><!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="website" aria-hidden="true" class="ob  " style="aspect-ratio:240 / 175"></div>
-<!-- /wp:html -->
+<!-- wp:paragraph {"className":"desk-arrow","anypressAttrs":{"aria-hidden":"true","tag":"span"}} -->
+<p class="desk-arrow">→</p>
+<!-- /wp:paragraph -->
+<!-- wp:group {"className":"desk-done"} -->
+<div class="wp-block-group desk-done"><!-- wp:anypress-io/drawing {"name":"website","className":"ob","ratio":"240 / 175"} -->
+<div data-drawing="website" aria-hidden="true" class="ob" style="aspect-ratio:240 / 175"></div>
+<!-- /wp:anypress-io/drawing -->
 <!-- wp:paragraph {"className":"hand","anypressAttrs":{"tag":"span"}} -->
 <p class="hand">we do all of this for you</p>
 <!-- /wp:paragraph --></div>

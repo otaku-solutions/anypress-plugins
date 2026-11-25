@@ -29,7 +29,26 @@ defined( 'ABSPATH' ) || exit;
 <a class="btn btn-paper" href="/contact">Talk to us</a>
 <!-- /wp:anypress-io/button --></div>
 <!-- /wp:group -->
-<!-- wp:html {"metadata":{"name":"List"}} -->
-<ul class="logo-row" aria-label="Works with"><li class="logo-tile"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/n8n-logo.svg" alt="n8n" width="56" height="56"></li><li class="logo-tile"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/make-logo.svg" alt="Make" width="56" height="56"></li><li class="logo-tile"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/zapier-logo.svg" alt="Zapier" width="56" height="56"></li><li class="logo-tile"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/highlevel-logo.svg" alt="HighLevel" width="56" height="56"></li></ul>
-<!-- /wp:html --></section>
+<!-- wp:group {"className":"logo-row","anypressAttrs":{"aria-label":"Works with","tag":"ul"},"metadata":{"name":"Logo Row"}} -->
+<div class="wp-block-group logo-row"><!-- wp:group {"className":"logo-tile","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group logo-tile"><!-- wp:image {"anypressAttrs":{"width":"56","height":"56","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/n8n-logo.svg" alt="n8n"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"logo-tile","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group logo-tile"><!-- wp:image {"anypressAttrs":{"width":"56","height":"56","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/make-logo.svg" alt="Make"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"logo-tile","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group logo-tile"><!-- wp:image {"anypressAttrs":{"width":"56","height":"56","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/zapier-logo.svg" alt="Zapier"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"logo-tile","metadata":{"name":"Picture"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group logo-tile"><!-- wp:image {"anypressAttrs":{"width":"56","height":"56","tag":"img"}} -->
+<figure class="wp-block-image"><img src="<?php echo esc_url( untrailingslashit( anypress_io_asset( '' ) ) ); ?>/apps/highlevel-logo.svg" alt="HighLevel"/></figure>
+<!-- /wp:image --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></section>
 <!-- /wp:group -->

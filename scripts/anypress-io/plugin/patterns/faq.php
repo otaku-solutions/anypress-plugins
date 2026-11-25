@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 <h2 class="wp-block-heading">The fine print.</h2>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"mt-10","metadata":{"name":"Questions"}} -->
+<!-- wp:group {"className":"mt-10"} -->
 <div class="wp-block-group mt-10"><!-- wp:group {"className":"faq","metadata":{"name":"Questions"}} -->
 <div class="wp-block-group faq"><!-- wp:details -->
 <details class="wp-block-details"><summary>What counts as a sale?</summary><!-- wp:paragraph {"className":"answer","anypressAttrs":{"tag":"div"}} -->

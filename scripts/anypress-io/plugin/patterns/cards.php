@@ -20,7 +20,38 @@ defined( 'ABSPATH' ) || exit;
 <h2 id="h-safe" class="wp-block-heading">It can only do what you can.</h2>
 <!-- /wp:heading --></div>
 <!-- /wp:group -->
-<!-- wp:html {"metadata":{"name":"List"}} -->
-<ul class="cards safe"><li><h3>It acts as you</h3><p>With your role on the team. If you can only look, so can the app.</p></li><li><h3>Only what you ticked</h3><p>Sites, backups, domains, email, versions and pages are each switched on separately.</p></li><li><h3>It asks first</h3><p>Before anything that deletes or restores, the app checks with you.</p></li><li><h3>Every change is logged</h3><p>Under your name. Page edits can be undone from the page's revisions.</p></li></ul>
-<!-- /wp:html --></section>
+<!-- wp:group {"className":"cards safe","metadata":{"name":"Cards"},"anypressAttrs":{"tag":"ul"}} -->
+<div class="wp-block-group cards safe"><!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">It acts as you</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>With your role on the team. If you can only look, so can the app.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Only what you ticked</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Sites, backups, domains, email, versions and pages are each switched on separately.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">It asks first</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Before anything that deletes or restores, the app checks with you.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group"><!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">Every change is logged</h3>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>Under your name. Page edits can be undone from the page's revisions.</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></section>
 <!-- /wp:group -->

@@ -29,15 +29,15 @@ defined( 'ABSPATH' ) || exit;
 <a class="btn btn-paper" href="/contact">Talk to us</a>
 <!-- /wp:anypress-io/button --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"row","metadata":{"name":"Section"}} -->
-<div class="wp-block-group row"><!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="store" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 190"></div>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="everything" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 190"></div>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="bookings" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 185"></div>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"row"} -->
+<div class="wp-block-group row"><!-- wp:anypress-io/drawing {"name":"store","className":"ob draw","ratio":"240 / 190"} -->
+<div data-drawing="store" aria-hidden="true" class="ob draw" style="aspect-ratio:240 / 190"></div>
+<!-- /wp:anypress-io/drawing -->
+<!-- wp:anypress-io/drawing {"name":"everything","className":"ob draw","ratio":"240 / 190"} -->
+<div data-drawing="everything" aria-hidden="true" class="ob draw" style="aspect-ratio:240 / 190"></div>
+<!-- /wp:anypress-io/drawing -->
+<!-- wp:anypress-io/drawing {"name":"bookings","className":"ob draw","ratio":"240 / 185"} -->
+<div data-drawing="bookings" aria-hidden="true" class="ob draw" style="aspect-ratio:240 / 185"></div>
+<!-- /wp:anypress-io/drawing --></div>
 <!-- /wp:group --></section>
 <!-- /wp:group -->

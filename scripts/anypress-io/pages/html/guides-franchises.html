@@ -1,11 +1,11 @@
 <!-- wp:group {"className":"in page-hero","metadata":{"name":"Page Top"},"tagName":"section"} -->
-<section class="wp-block-group in page-hero"><!-- wp:html {"metadata":{"name":"Pill Link"}} -->
-<a class="side-pill " href="/pricing"><b>For you</b>Getting a website for your business</a>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="scroll" aria-hidden="true" class="ob draw " style="aspect-ratio:176 / 150"></div>
-<!-- /wp:html -->
-<!-- wp:group {"metadata":{"name":"Section"}} -->
+<section class="wp-block-group in page-hero"><!-- wp:paragraph {"className":"side-pill ","anypressAttrs":{"href":"/pricing","tag":"a"}} -->
+<p class="side-pill "><b>For you</b>Getting a website for your business</p>
+<!-- /wp:paragraph -->
+<!-- wp:anypress-io/drawing {"name":"scroll","className":"ob draw","ratio":"176 / 150"} -->
+<div data-drawing="scroll" aria-hidden="true" class="ob draw" style="aspect-ratio:176 / 150"></div>
+<!-- /wp:anypress-io/drawing -->
+<!-- wp:group -->
 <div class="wp-block-group"><!-- wp:paragraph {"className":"eyebrow","anypressAttrs":{"tag":"span"}} -->
 <p class="eyebrow">free guide</p>
 <!-- /wp:paragraph --></div>
@@ -35,7 +35,7 @@
 <!-- /wp:list-item --></ol>
 <!-- /wp:list --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"border-b border-line py-8 first:pt-0","metadata":{"name":"What it costs"}} -->
+<!-- wp:group {"className":"border-b border-line py-8 first:pt-0"} -->
 <div class="wp-block-group border-b border-line py-8 first:pt-0"><!-- wp:heading {"className":"font-display text-2xl font-semibold"} -->
 <h2 class="wp-block-heading font-display text-2xl font-semibold">What it costs</h2>
 <!-- /wp:heading -->
@@ -43,13 +43,28 @@
 <p class="mt-4 text-lg leading-8 text-ink-soft">Ten Bookings sites at [anypress_price type="bookings" size="small" period="monthly"] each is [anypress_price type="bookings" size="small" period="yearly"] a month at full price. At ten sites the volume discount is [anypress_number of="volumeAt" sites="10"]%, so it comes to $8493.1 a month for all ten.</p>
 <!-- /wp:paragraph --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"border-b border-line py-8 first:pt-0","metadata":{"name":"Who pays"}} -->
+<!-- wp:group {"className":"border-b border-line py-8 first:pt-0"} -->
 <div class="wp-block-group border-b border-line py-8 first:pt-0"><!-- wp:heading {"className":"font-display text-2xl font-semibold"} -->
 <h2 class="wp-block-heading font-display text-2xl font-semibold">Who pays</h2>
 <!-- /wp:heading -->
-<!-- wp:html {"metadata":{"name":"List"}} -->
-<ul class="mt-5 space-y-3 text-lg leading-8"><li class="flex items-start gap-2.5"><svg viewBox="0 0 20 20" class="mt-1.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5l3.5 3.5 7.5-8"></path></svg>Head office pays for every site and charges locations through the franchise fee, or</li><li class="flex items-start gap-2.5"><svg viewBox="0 0 20 20" class="mt-1.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5l3.5 3.5 7.5-8"></path></svg>Each location buys its own site from head office's shop</li></ul>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"mt-5 space-y-3 text-lg leading-8","metadata":{"name":"List"},"anypressAttrs":{"tag":"ul"}} -->
+<div class="wp-block-group mt-5 space-y-3 text-lg leading-8"><!-- wp:group {"className":"flex items-start gap-2.5","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group flex items-start gap-2.5"><!-- wp:anypress-io/icon -->
+<svg viewBox="0 0 20 20" class="mt-1.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5l3.5 3.5 7.5-8"></path></svg>
+<!-- /wp:anypress-io/icon -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p>Head office pays for every site and charges locations through the franchise fee, or</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+<!-- wp:group {"className":"flex items-start gap-2.5","metadata":{"name":"Box"},"anypressAttrs":{"tag":"li"}} -->
+<div class="wp-block-group flex items-start gap-2.5"><!-- wp:anypress-io/icon -->
+<svg viewBox="0 0 20 20" class="mt-1.5 h-5 w-5 shrink-0 text-accent" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 10.5l3.5 3.5 7.5-8"></path></svg>
+<!-- /wp:anypress-io/icon -->
+<!-- wp:paragraph {"anypressAttrs":{"tag":""}} -->
+<p>Each location buys its own site from head office's shop</p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group -->
 <!-- wp:paragraph {"className":"mt-10 text-lg"} -->
 <p class="mt-10 text-lg"><a class="font-semibold underline" href="/who/franchises">How AnyPress works for franchises &amp; multi-location brands</a></p>
@@ -87,15 +102,15 @@
 <a class="btn btn-paper" href="/contact">Talk to us</a>
 <!-- /wp:anypress-io/button --></div>
 <!-- /wp:group -->
-<!-- wp:group {"className":"row","metadata":{"name":"Section"}} -->
-<div class="wp-block-group row"><!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="store" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 190"></div>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="everything" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 190"></div>
-<!-- /wp:html -->
-<!-- wp:html {"metadata":{"name":"Drawing"}} -->
-<div data-drawing="bookings" aria-hidden="true" class="ob draw " style="aspect-ratio:240 / 185"></div>
-<!-- /wp:html --></div>
+<!-- wp:group {"className":"row"} -->
+<div class="wp-block-group row"><!-- wp:anypress-io/drawing {"name":"store","className":"ob draw","ratio":"240 / 190"} -->
+<div data-drawing="store" aria-hidden="true" class="ob draw" style="aspect-ratio:240 / 190"></div>
+<!-- /wp:anypress-io/drawing -->
+<!-- wp:anypress-io/drawing {"name":"everything","className":"ob draw","ratio":"240 / 190"} -->
+<div data-drawing="everything" aria-hidden="true" class="ob draw" style="aspect-ratio:240 / 190"></div>
+<!-- /wp:anypress-io/drawing -->
+<!-- wp:anypress-io/drawing {"name":"bookings","className":"ob draw","ratio":"240 / 185"} -->
+<div data-drawing="bookings" aria-hidden="true" class="ob draw" style="aspect-ratio:240 / 185"></div>
+<!-- /wp:anypress-io/drawing --></div>
 <!-- /wp:group --></section>
 <!-- /wp:group -->
