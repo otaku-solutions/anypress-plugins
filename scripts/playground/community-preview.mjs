@@ -11,7 +11,7 @@
 // Needs packages/anypress-client/vendor (composer install), an anypress-api checkout next to this repository (its
 // store template's roles.json and FluentEvent zip; or ANYPRESS_API_DIR), and network access to downloads.wordpress.org.
 
-import { existsSync, mkdirSync, readFileSync } from 'node:fs';
+import { existsSync, mkdirSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { createRequire } from 'node:module';
 import { fileURLToPath } from 'node:url';
@@ -57,10 +57,10 @@ const blueprint = {
         { step: 'installPlugin', pluginData: literal(BLOCKS, 'anypress-blocks.zip'), options: { activate: true } },
         { step: 'mkdir', path: '/wordpress/wp-content/plugins/anypress-client-data' },
         { step: 'writeFile', path: '/wordpress/wp-content/plugins/anypress-client-data/roles.json', data: readFileSync(resolve(API, 'templates/anypress-store/roles.json'), 'utf8') },
-        { step: 'writeFile', path: '/wordpress/wp-content/mu-plugins/0-anypress-store-env.php', data: "<?php putenv('ANYPRESS_IS_TENANT=true'); define('ANYPRESS_TENANT_ROLES', 'community');\n" },
+        { step: 'writeFile', path: '/wordpress/wp-content/mu-plugins/0-anypress-store-env.php', data: "<?php putenv('ANYPRESS_IS_TENANT=true'); define('ANYPRESS_TENANT_ROLES', 'community'); define('DISALLOW_FILE_MODS', true);\n" },
         { step: 'activatePlugin', pluginPath: 'anypress-client/anypress-client.php' },
         { step: 'writeFile', path: '/tmp/community-setup.php', data: readFileSync(SETUP, 'utf8') },
-        ...['logo.png', 'logo-dark.png'].map((file) => ({ step: 'writeFile', path: `/tmp/${file}`, data: readFileSync(resolve(dirname(SETUP), file)) })),
+        ...readdirSync(dirname(SETUP)).filter((file) => /\.(png|html)$/.test(file)).map((file) => ({ step: 'writeFile', path: `/tmp/${file}`, data: file.endsWith('.html') ? readFileSync(resolve(dirname(SETUP), file), 'utf8') : new Uint8Array(readFileSync(resolve(dirname(SETUP), file))) })),
         // As the store template sets them (anypress-api templates/anypress-store/presets.php and build.sh): the Events
         // page and tabs on, and no Hello World, Sample Page or Privacy Policy.
         { step: 'runPHP', code: "<?php require '/wordpress/wp-load.php'; \\FluentCommunity\\App\\Functions\\Utility::updateOption('_fluent_event_settings', array_merge(\\FluentCommunity\\Modules\\Integrations\\Integrations::getFluentEventSettings(), ['enable_fluent_event' => 'yes'])); foreach ([1, 2, 3] as $id) { wp_delete_post($id, true); }" },
@@ -113,6 +113,7 @@ try {
     `);
     check(!/^(Group|Space|Page|Course|Event):/m.test(again), 'a second run adds nothing');
 
+    await fetch(`${SITE}/`).catch(() => {});
     const counts = JSON.parse(await php(`
         echo wp_json_encode([
             'spaces' => \\FluentCommunity\\App\\Models\\Space::query()->count(),
@@ -124,6 +125,11 @@ try {
             'events' => class_exists('FluentEvent\\\\App\\\\Models\\\\Event') ? \\FluentEvent\\App\\Models\\Event::query()->count() : -1,
             'home' => get_option('anypress_community_home'),
             'guidelines' => (bool) get_page_by_path('community-guidelines'),
+            'join' => (bool) get_page_by_path('join'),
+            'keptOff' => array_values(array_filter(['fluent-crm/fluent-crm.php', 'fluent-cart/fluent-cart.php', 'fluent-cart-customer-rights/fluent-cart-customer-rights.php'], 'is_plugin_active')),
+            'community' => is_plugin_active('fluent-community/fluent-community.php'),
+            'colours' => (apply_filters('fluent_community/color_schmea_config', ['light_schema' => 'default'], 'view')['light_schema'] ?? ''),
+            'highlevel' => (string) (\\FluentCommunity\\App\\Models\\Space::query()->where('slug', 'highlevel-sites')->first()->logo ?? ''),
         ]);
     `));
     console.log(`     ${JSON.stringify(counts)}`);
@@ -132,6 +138,10 @@ try {
     check(counts.courses === 1 && counts.lessons === 6, 'the AnyPress Basics course with 6 lessons');
     check(counts.events === 3, 'three webinars in FluentEvent');
     check(counts.home === 'yes' && counts.guidelines, 'the community on the home page, and the guidelines page');
+    check(counts.join, 'the /join page for visitors');
+    check(counts.keptOff.length === 0 && counts.community, "one CRM and one checkout: the community site type's FluentCRM and FluentCart stay off here, FluentCommunity stays on", counts.keptOff.join());
+    check(counts.colours === 'anypress_site_colours', 'the community wears the site\'s own colours');
+    check(counts.highlevel.includes('highlevel'), 'HighLevel Sites shows the HighLevel logo');
 
     const cookie = JSON.parse(await php(`
         $u = get_user_by('login', 'maya'); $e = time() + 7200;
@@ -146,7 +156,7 @@ try {
     const { chromium, devices } = createRequire(import.meta.url)('playwright');
     mkdirSync(SHOTS, { recursive: true });
     const browser = await chromium.launch();
-    const pages = [['home', '/'], ['space', '/space/moving-in/home'], ['course', '/course/anypress-basics/lessons'], ['events', '/events'], ['spaces', '/discover/spaces'], ['guidelines', '/community-guidelines/']];
+    const pages = [['home', '/'], ['space', '/space/moving-in/home'], ['course', '/course/anypress-basics/lessons'], ['events', '/events'], ['spaces', '/discover/spaces'], ['guidelines', '/community-guidelines/'], ['join', '/join/']];
     for (const [who, withCookie] of [['visitor', false], ['member', true]]) {
         for (const [size, options] of [['desktop', { viewport: { width: 1440, height: 900 } }], ['phone', devices['iPhone 13']]]) {
             const context = await browser.newContext(options);
@@ -163,7 +173,7 @@ try {
                     check(false, `${path} opens for a ${who} (${res instanceof Error ? res.message : res?.status()})`);
                 }
                 await page.waitForTimeout(1500);
-                await page.screenshot({ path: resolve(SHOTS, `${who}-${size}-${name}.png`), fullPage: false });
+                await page.screenshot({ path: resolve(SHOTS, `${who}-${size}-${name}.png`), fullPage: name === 'join' });
             }
             await context.close();
         }

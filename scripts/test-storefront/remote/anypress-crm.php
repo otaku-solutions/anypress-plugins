@@ -85,6 +85,8 @@ final class AnyPress_CRM
         add_action('fluent_cart/user/after_register', [self::class, 'note_checkout_account'], 10, 1);
         add_filter('wp_send_new_user_notification_to_user', [self::class, 'skip_login_details'], 20, 2);
         add_filter('anypress_tenant_ready_email_body', [self::class, 'add_set_password_link'], 20, 3);
+        // Sites that sign people in with their shop account (the community) see who sells.
+        add_filter('anypress_host_account_groups', [self::class, 'account_groups'], 10, 2);
 
         add_action('fluent_affiliate/affiliate_created', [self::class, 'on_affiliate_created'], 20, 1);
         add_action('fluent_affiliate/affiliate_status_to_active', [self::class, 'on_affiliate_active'], 20, 1);
@@ -240,6 +242,22 @@ final class AnyPress_CRM
     }
 
     // ---- Contacts --------------------------------------------------------------------------------------------
+
+    /** "seller" and "reseller" for accounts whose contact has the "Seller: Active" or "Reseller: Active" tag. */
+    public static function account_groups($groups, $user)
+    {
+        $contact = function_exists('FluentCrmApi') && !empty($user->user_email) ? FluentCrmApi('contacts')->getContact($user->user_email) : null;
+        if (!$contact) {
+            return $groups;
+        }
+        foreach (['Seller', 'Reseller'] as $offering) {
+            $tag_id = self::existing_tag_id($offering, 'Active');
+            if ($tag_id && $contact->hasAnyTagId([$tag_id])) {
+                $groups[] = strtolower($offering);
+            }
+        }
+        return $groups;
+    }
 
     private static function contact_by_email($email, $data = [])
     {

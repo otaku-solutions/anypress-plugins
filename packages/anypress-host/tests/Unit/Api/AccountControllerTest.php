@@ -59,6 +59,7 @@ class AccountControllerTest extends TestCase
         parent::setUp();
         Functions\when('__')->returnArg();
         Functions\when('sanitize_text_field')->returnArg();
+        Functions\when('sanitize_key')->alias(fn ($key) => preg_replace('/[^a-z0-9_\-]/', '', strtolower((string) $key)));
         Functions\when('wp_salt')->justReturn('auth-salt');
         Functions\when('sanitize_title_with_dashes')->alias(fn ($value) => trim(preg_replace('/[^a-z0-9]+/', '-', strtolower((string) $value)), '-'));
         Functions\when('remove_accents')->returnArg();
@@ -217,7 +218,22 @@ class AccountControllerTest extends TestCase
     {
         Functions\when('wp_get_current_user')->justReturn((object) ['ID' => self::OWNER_ID, 'user_email' => 'pat@example.com', 'display_name' => 'Pat']);
 
-        $this->assertSame(['id' => self::OWNER_ID, 'email' => 'pat@example.com', 'name' => 'Pat'], $this->call('GET', '/me')->get_data());
+        $this->assertSame(['id' => self::OWNER_ID, 'email' => 'pat@example.com', 'name' => 'Pat', 'groups' => ['customer']], $this->call('GET', '/me')->get_data());
+    }
+
+    public function test_an_account_without_a_website_is_not_a_customer(): void
+    {
+        Functions\when('wp_get_current_user')->justReturn((object) ['ID' => 4242, 'user_email' => 'sam@example.com', 'display_name' => 'Sam']);
+
+        $this->assertSame([], $this->call('GET', '/me')->get_data()['groups']);
+    }
+
+    public function test_me_lists_the_groups_the_shop_gives_the_account(): void
+    {
+        Functions\when('wp_get_current_user')->justReturn((object) ['ID' => self::OWNER_ID, 'user_email' => 'pat@example.com', 'display_name' => 'Pat']);
+        Filters\expectApplied('anypress_host_account_groups')->once()->andReturn(['Seller', 'seller', '', 'reseller']);
+
+        $this->assertSame(['seller', 'reseller'], $this->call('GET', '/me')->get_data()['groups']);
     }
 
     public function test_lists_the_dns_records_for_a_custom_address(): void

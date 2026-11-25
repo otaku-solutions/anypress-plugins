@@ -12,6 +12,7 @@
     "export": "node export.mjs",
     "shop": "node shop-preview.mjs",
     "community": "node community-preview.mjs",
+    "shop-sign-in": "node shop-sign-in.mjs",
     "forms": "node forms.mjs",
     "shop-switch": "node shop-switch.mjs",
     "crm-switch": "node crm-switch.mjs",
@@ -26,7 +27,6 @@
     "trial": "node trial.mjs",
     "admin-audit": "node admin-audit.mjs",
     "support": "node support.mjs",
-    "back-office": "node back-office.mjs",
     "products": "node products.mjs",
     "courses": "node courses.mjs",
     "calendly": "node calendly.mjs",
@@ -45,6 +45,7 @@
     "crm-import": "node crm-import.mjs",
     "skool": "node skool.mjs",
     "prospects": "node prospects.mjs",
+    "back-office": "node back-office.mjs",
     "staging-api": "node staging-api.mjs"
   },
   "dependencies": {

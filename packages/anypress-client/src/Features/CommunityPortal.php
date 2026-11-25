@@ -12,14 +12,20 @@ namespace AnyPressClient\Features;
  *   by role, but only from WordPress's login page. FluentCommunity's own sign-in sends everyone to the community feed.
  *   When a member signs in there with no particular page asked for, the same FluentAuth rules decide where they land.
  *
+ * - The site's own colours: FluentCommunity's portal is grey and blue until an owner with Pro picks a colour scheme.
+ *   The site's colour palette (Appearance > Editor > Styles) becomes a "Site Colours" scheme, used while no other is
+ *   chosen, so the community matches the rest of the site and follows it when the owner restyles it.
+ *
  * Runs on every request (admin-ajax and REST too), since FluentCommunity builds its links and answers its sign-in form
- * there. The work is one autoloaded option read, plus a filter that only runs when someone signs in.
+ * there. The work is one autoloaded option read, plus filters that only run when someone signs in or the community's
+ * colours are drawn (from the palette WordPress already keeps in memory).
  */
 class CommunityPortal
 {
     public const OPTION = 'anypress_community_home';
     public const CONSTANT = 'FLUENT_COMMUNITY_PORTAL_SLUG';
     private const HELPER = 'FluentCommunity\App\Services\Helper';
+    public const SCHEME = 'anypress_site_colours';
 
     public function __construct()
     {
@@ -28,6 +34,8 @@ class CommunityPortal
         }
 
         add_filter('fluent_community/auth/after_login_redirect_url', [$this, 'landing_page'], 20, 2);
+        add_filter('fluent-community/color_schemas', [self::class, 'add_scheme']);
+        add_filter('fluent_community/color_schmea_config', [self::class, 'use_scheme'], 5);
         add_action('admin_init', [$this, 'add_setting']);
         add_action('update_option_' . self::OPTION, [self::class, 'rebuild_links'], 10, 0);
         add_action('add_option_' . self::OPTION, [self::class, 'rebuild_links'], 10, 0);
@@ -71,6 +79,94 @@ class CommunityPortal
         }
 
         return wp_validate_redirect($ruled, $feed);
+    }
+
+    /**
+     * The site's palette as FluentCommunity colours, or null when the theme lacks the slugs it needs (the AnyPress
+     * theme's: base, main, primary and the rest) or a colour isn't a plain one.
+     *
+     * @return array<string, array<string, string>>|null
+     */
+    public static function site_colours(?array $palette = null): ?array
+    {
+        if ($palette === null) {
+            $palette = function_exists('wp_get_global_settings') ? (array) wp_get_global_settings(['color', 'palette', 'theme']) : [];
+        }
+
+        $colour = [];
+        foreach ($palette as $entry) {
+            $value = is_array($entry) ? trim((string) ($entry['color'] ?? '')) : '';
+            if (isset($entry['slug']) && preg_match('/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i', $value)) {
+                $colour[(string) $entry['slug']] = $value;
+            }
+        }
+
+        foreach (['base', 'main', 'secondary', 'tertiary', 'primary', 'primary-accent', 'border-light', 'main-accent'] as $slug) {
+            if (!isset($colour[$slug])) {
+                return null;
+            }
+        }
+
+        $menu = [
+            'primary_bg' => $colour['base'],
+            'primary_border' => $colour['border-light'],
+            'menu_text' => $colour['secondary'],
+            'menu_text_active' => $colour['main'],
+            'active_bg' => $colour['primary-accent'],
+            'menu_text_hover' => $colour['main'],
+            'menu_bg_hover' => $colour['tertiary'],
+        ];
+
+        return [
+            'body' => [
+                'primary_bg' => $colour['base'],
+                'secondary_bg' => $colour['tertiary'],
+                'secondary_content_bg' => $colour['tertiary'],
+                'active_bg' => $colour['primary-accent'],
+                'light_bg' => $colour['border-light'],
+                'deep_bg' => $colour['main'],
+                'menu_text' => $colour['secondary'],
+                'primary_text' => $colour['main'],
+                'secondary_text' => $colour['secondary'],
+                'text_off' => $colour['secondary'],
+                'primary_button' => $colour['primary'],
+                'primary_button_text' => $colour['base'],
+                'primary_border' => $colour['border-light'],
+                'secondary_border' => $colour['main-accent'],
+                'highlight_bg' => $colour['primary-accent'],
+                'text_link' => $colour['primary'],
+            ],
+            'fcom_top_menu' => $menu,
+            'spaces' => $menu,
+        ];
+    }
+
+    /** Adds "Site Colours" to FluentCommunity's light colour schemes. */
+    public static function add_scheme($schemas)
+    {
+        $selectors = is_array($schemas) ? self::site_colours() : null;
+        if ($selectors === null) {
+            return $schemas;
+        }
+
+        $schemas['lightSkins'][self::SCHEME] = ['title' => __('Site Colours', 'anypress-client'), 'selectors' => $selectors];
+
+        return $schemas;
+    }
+
+    /**
+     * Uses "Site Colours" while the light scheme is FluentCommunity's default. Runs before FluentCommunity Pro reads
+     * the owner's saved choice, so a scheme chosen there still wins.
+     */
+    public static function use_scheme($config)
+    {
+        if (!is_array($config) || ($config['light_schema'] ?? 'default') !== 'default' || !empty($config['cached_css']) || self::site_colours() === null) {
+            return $config;
+        }
+
+        $config['light_schema'] = self::SCHEME;
+
+        return $config;
     }
 
     /** The "Community" choice under Settings > Reading, on sites with FluentCommunity. */

@@ -61,4 +61,39 @@ class CommunityPortalTest extends TestCase
         $this->assertSame('no', CommunityPortal::sanitize('1'));
         $this->assertSame('no', CommunityPortal::sanitize(null));
     }
+
+    private function palette(): array
+    {
+        $slugs = ['base' => '#ffffff', 'main' => '#15171c', 'secondary' => '#4b505c', 'tertiary' => '#f4f5f7', 'primary' => '#2747b8', 'primary-accent' => '#e3e9fb', 'border-light' => '#e1e4ea', 'main-accent' => '#d9dce3'];
+
+        return array_map(fn ($slug, $colour) => ['slug' => $slug, 'color' => $colour, 'name' => $slug], array_keys($slugs), $slugs);
+    }
+
+    public function testTurnsTheSitePaletteIntoCommunityColours(): void
+    {
+        $colours = CommunityPortal::site_colours($this->palette());
+
+        $this->assertSame('#2747b8', $colours['body']['primary_button']);
+        $this->assertSame('#ffffff', $colours['body']['primary_button_text']);
+        $this->assertSame('#15171c', $colours['body']['primary_text']);
+        $this->assertSame('#e3e9fb', $colours['spaces']['active_bg']);
+    }
+
+    public function testLeavesThemesWithoutThosePaletteSlugsAlone(): void
+    {
+        $palette = array_filter($this->palette(), fn ($entry) => $entry['slug'] !== 'primary');
+        $this->assertNull(CommunityPortal::site_colours($palette));
+
+        $odd = $this->palette();
+        $odd[0]['color'] = 'var(--wp--custom--white)';
+        $this->assertNull(CommunityPortal::site_colours($odd));
+    }
+
+    public function testUsesSiteColoursOnlyWhileTheDefaultSchemeIsOn(): void
+    {
+        Functions\when('wp_get_global_settings')->justReturn($this->palette());
+
+        $this->assertSame(CommunityPortal::SCHEME, CommunityPortal::use_scheme(['light_schema' => 'default'])['light_schema']);
+        $this->assertSame('sunset_sands', CommunityPortal::use_scheme(['light_schema' => 'sunset_sands'])['light_schema']);
+    }
 }
