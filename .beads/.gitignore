@@ -80,3 +80,10 @@ bd.db
 # They would override fork protection in .git/info/exclude.
 # Config files (metadata.json, config.yaml) are tracked by git by default
 # since no pattern above ignores them.
+
+# Local-only files bd and its tooling write (not part of bd init's template)
+dolt-backup*.json
+.~issues.jsonl.*
+.auto-import-issues.jsonl
+cc-task-map.json
+interactions.jsonl.lock
