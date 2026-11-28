@@ -37,7 +37,7 @@ const BLOCKS = resolve(ROOT, 'scripts/playground/preview-zips/anypress-blocks.zi
 // WordPress's MCP Adapter, as the store template ships it: installed, off until the owner turns it on.
 const MCP_ADAPTER = 'https://downloads.wordpress.org/plugin/mcp-adapter.0.7.2.zip';
 // AutomatorWP, on every site type: its abilities (create an automation, run actions) are tools of the site's MCP server too.
-const AUTOMATORWP = 'https://downloads.wordpress.org/plugin/automatorwp.6.1.2.zip';
+const AUTOMATORWP = 'https://downloads.wordpress.org/plugin/automatorwp.6.1.3.zip';
 const STARTER_PAGES_URL =
     'https://raw.githubusercontent.com/otaku-solutions/anypress-api/main/templates/anypress-store/mu-plugins/anypress-patterns.php';
 // A throwaway key for this test site only; real stores get theirs from the API as ANYPRESS_SITE_KEY.
